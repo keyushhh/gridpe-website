@@ -58,6 +58,9 @@ html{
      canvas colour is right for a rubber-band overscroll - kill the bounce
      instead of letting the body ground flash under the footer */
   overscroll-behavior-y:none;
+  /* iOS Safari ignores overscroll-behavior, so the canvas has to match the
+     footer instead. body's --ground covers the light sections above. */
+  background:var(--ink);
 }
 body{
   margin:0;
@@ -73,6 +76,23 @@ img{max-width:100%; display:block}
 a{color:inherit; text-decoration:none}
 button,input{font:inherit; color:inherit}
 ::selection{background:var(--ink); color:var(--cream)}
+
+/* skip-to-content — visible only on focus ------------------- */
+.skip-link{
+  position:absolute; left:16px; top:-100%; z-index:9999;
+  padding:12px 22px; border-radius:999px;
+  background:var(--ink); color:var(--lime);
+  font-size:14px; font-weight:600; letter-spacing:-.01em;
+  text-decoration:none;
+  transition:top .3s var(--ease);
+}
+.skip-link:focus{top:16px; outline:2px solid var(--lime); outline-offset:2px}
+
+/* focus-visible baseline: every interactive element ---------- */
+a:focus-visible{outline:2px solid var(--hot); outline-offset:3px; border-radius:4px}
+button:focus-visible{outline:2px solid var(--hot); outline-offset:3px}
+input:focus-visible{outline:2px solid var(--hot); outline-offset:2px}
+
 
 .display,.h2,.hero__title,.cta__title,.band__text{
   font-family:Archivo,"Arial Narrow",system-ui,sans-serif;
@@ -172,6 +192,8 @@ button,input{font:inherit; color:inherit}
 }
 .nav__links a:hover{color:#000}
 .nav__links a:hover::after{transform:scaleX(1)}
+.nav__links a:focus-visible{outline:2px solid var(--hot); outline-offset:3px; border-radius:999px}
+.nav__links a:focus-visible::after{transform:none}
 
 .nav__cta{
   position:relative; isolation:isolate;
@@ -240,6 +262,7 @@ button,input{font:inherit; color:inherit}
 .drawer.is-open a:nth-child(4){transition-delay:.28s}
 .drawer.is-open a:nth-child(5){transition-delay:.34s}
 .drawer__cta{color:var(--hot); transition-delay:.40s !important}
+.drawer a:focus-visible{outline:2px solid var(--hot); outline-offset:6px; border-radius:8px}
 
 /* =====================================================================
    HERO
@@ -895,6 +918,7 @@ button,input{font:inherit; color:inherit}
   transition:background .3s, color .3s, transform .3s var(--ease);
 }
 .rnd:hover{background:var(--ink); color:#fff; transform:scale(1.06)}
+.rnd:focus-visible{outline:2px solid var(--hot); outline-offset:3px}
 
 .field__rail{
   display:flex; gap:18px; overflow-x:auto; scroll-snap-type:x mandatory;
@@ -1090,6 +1114,7 @@ button,input{font:inherit; color:inherit}
 .coverage__list li:first-child i{color:var(--green)}
 .coverage__note{margin:26px 0 0; font-size:14.5px; line-height:1.6; color:rgba(255,255,255,.7); max-width:42ch}
 .coverage__note a{color:var(--lime); text-decoration:underline; text-underline-offset:3px}
+.coverage a:focus-visible,.coverage button:focus-visible{outline-color:var(--lime)}
 .coverage__map{
   position:relative; aspect-ratio:1/1; border-radius:var(--r-lg);
   background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.1);
@@ -1175,6 +1200,8 @@ button,input{font:inherit; color:inherit}
   transition:transform .35s var(--ease), background .3s;
 }
 .cta__form button:hover{transform:scale(1.03); background:var(--lime)}
+.cta__form button:focus-visible{outline:2px solid var(--lime); outline-offset:3px}
+.cta__form input:focus-visible{outline:2px solid var(--lime); outline-offset:1px}
 .cta__msg{
   margin:18px 0 0; min-height:20px;
   font-family:"Fragment Mono",monospace; font-size:12px; letter-spacing:.06em;
@@ -1215,6 +1242,7 @@ button,input{font:inherit; color:inherit}
 }
 .foot__grid a{font-size:14px; color:rgba(255,255,255,.78); width:fit-content; transition:color .25s, transform .35s var(--ease)}
 .foot__grid a:hover{color:#fff; transform:translateX(4px)}
+.foot a:focus-visible,.foot button:focus-visible{outline-color:var(--lime)}
 
 .foot__bar{
   max-width:var(--maxw); margin:0 auto; padding:22px 0;

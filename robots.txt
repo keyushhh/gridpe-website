@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://grid.pe/sitemap.xml
+Sitemap: https://gridpe.app/sitemap.xml

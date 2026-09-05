@@ -12,15 +12,19 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Grid.Pe">
 <meta property="og:locale" content="en_IN">
-<meta property="og:image" content="https://grid.pe/assets/og-image.png">
+<meta property="og:image" content="https://gridpe.app/assets/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Manrope:wght@300..800&family=Fragment+Mono&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=1788620297">
-<link rel="icon" href="assets/favicon/favicon.ico" sizes="any">
-<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
-<link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-icon-180x180.png">
+<!-- Every path on this page is root-relative on purpose. Apache serves this
+     file for a bad URL without changing the address bar, so on /a/b/c a
+     relative "styles.css" would resolve to /a/b/styles.css and the page would
+     render unstyled. Keep the leading slash on anything added here. -->
+<link rel="stylesheet" href="/styles.css?v=1788620297">
+<link rel="icon" href="/assets/favicon/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32x32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-icon-180x180.png">
 
 <style>
 /* =====================================================================
@@ -530,10 +534,10 @@ button.k{
 <main class="nf">
 
   <div class="nf__top">
-    <a href="index.html" aria-label="Grid.Pe home">
-      <img class="nf__logo" src="assets/logo-full.png" alt="Grid.Pe" width="1747" height="564">
+    <a href="/index.html" aria-label="Grid.Pe home">
+      <img class="nf__logo" src="/assets/logo-full.png" alt="Grid.Pe" width="1747" height="564">
     </a>
-    <a class="nf__home" href="index.html">
+    <a class="nf__home" href="/index.html">
       <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
       Back to grid.pe
     </a>
@@ -546,7 +550,7 @@ button.k{
     <p class="nf__title">No cash at this address.</p>
     <p class="nf__sub">The page you asked for isn&rsquo;t here &mdash; wrong link, or we moved it.</p>
     <div class="nf__act">
-      <a class="btn btn--go" href="index.html">Back to grid.pe</a>
+      <a class="btn btn--go" href="/index.html">Back to grid.pe</a>
     </div>
   </div>
 
@@ -696,6 +700,11 @@ button.k{
     ]}
   ];
 
+  const PART_BY_ROW = ['melody', 'melody', 'melody', 'harmony', 'bass', 'bass'];
+  // the bottom row sat an octave lower, which put its root at 55Hz - inaudible
+  // mush on a laptop speaker, so the bass line stays where it can be heard
+  const OCT_BY_ROW   = [1, 1, 0, 0, 0, 0];
+
   const $ = (id) => document.getElementById(id);
   const kb = $('kb');
   const rowsEl = $('kbRows');
@@ -751,8 +760,10 @@ button.k{
       el.style.setProperty('--w', w);
       // phase the ambient sweep by position so the bloom crosses on a diagonal
       el.style.setProperty('--d', (-(x * 0.075 + r * 0.11)).toFixed(3) + 's');
-      // pitch reads off the board's geography: right climbs the scale, up climbs registers
-      el.dataset.deg = Math.round(x * 0.6) + (5 - r) * 2;
+      // which line this cap plays: the number and top rows carry the tune,
+      // the home row answers it, the bottom row holds the root down
+      el.dataset.part = PART_BY_ROW[r] || 'harmony';
+      el.dataset.oct = OCT_BY_ROW[r] || 0;
       if (def.v) el.dataset.voice = def.v;
       el.innerHTML = '<span class="sheen"></span>' +
         (def.i ? '<i>' + def.i + '</i>' : '') +
@@ -909,6 +920,34 @@ button.k{
       src.start(t); src.stop(t + 0.08);
       return g;
     }
+  };
+
+  /* Composed lines, in scale degrees, rather than a pitch per key.
+
+     Mapping pitch to a key's position sounds like what it is: a random walk.
+     Playing the next note of a written phrase instead means any input - an
+     email address, a fistful of keys - comes out as an actual line. The row
+     you hit picks which part you are playing, so the three rows harmonise
+     with each other instead of competing. */
+  const PHRASES = {
+    melody:  [10, 12, 13, 12, 14, 13, 12, 10, 9, 10, 12, 10, 13, 12, 10, 9],
+    harmony: [5, 7, 8, 7, 9, 8, 7, 5, 4, 5, 7, 5, 8, 7, 5, 4],
+    bass:    [0, 0, 3, 0, 2, 2, 0, 2, -1, -1, 2, -1, 3, 3, 0, 0]
+  };
+  const cursor = { melody: 0, harmony: 0, bass: 0 };
+  let lastNoteAt = 0;
+
+  /* A pause means a new musical thought, so the lines rewind to the top and
+     the next burst starts from the head of the phrase rather than wherever
+     the last one happened to stop. */
+  const nextDeg = (part, oct) => {
+    const now = performance.now();
+    if (now - lastNoteAt > 1600) { cursor.melody = 0; cursor.harmony = 0; cursor.bass = 0; }
+    lastNoteAt = now;
+    const line = PHRASES[part] || PHRASES.harmony;
+    const deg = line[cursor[part] % line.length];
+    cursor[part]++;
+    return deg + (oct || 0) * 5;                 // five degrees is one octave
   };
 
   const note = (deg, voice) => {
@@ -1332,7 +1371,7 @@ button.k{
       readout('', 'Nothing to delete.\n<span class="dim">You already deleted the page.</span>');
     },
 
-    home() { location.href = 'index.html'; },
+    home() { location.href = '/index.html'; },
     enter() {
       if (MODE === 'email') return sendEmail();
       if (MODE === 'find') return runFind();
@@ -1432,7 +1471,7 @@ button.k{
     el.classList.add('is-down');
     clack(true);
     // functional caps get the switch click only; the musical ones sing
-    if (!el.dataset.act) note(+el.dataset.deg, el.dataset.voice);
+    if (!el.dataset.act) note(nextDeg(el.dataset.part, +el.dataset.oct), el.dataset.voice);
   };
 
   const release = (el) => {

@@ -1,0 +1,129 @@
+# ======================================================================
+# GridPe Website - Production .htaccess for Hostinger (LiteSpeed / Apache)
+# ======================================================================
+
+# ----------------------------------------------------------------------
+# 1. CANONICAL REDIRECTS (HTTPS & NO-WWW) & ACCESS RESTRICTIONS
+# ----------------------------------------------------------------------
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Block requests into hidden directories (.git/, .svn/, etc.) except .well-known
+  RewriteCond %{REQUEST_URI} (^|/)\.(?!well-known) [NC]
+  RewriteRule ^ - [F,L]
+
+  # Redirect www.grid.pe -> https://grid.pe (single-hop canonicalization)
+  RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+  RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
+
+  # Force HTTPS (compatible with direct SSL and Hostinger/LiteSpeed/Cloudflare proxy SSL)
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https [NC]
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+</IfModule>
+
+# ----------------------------------------------------------------------
+# 2. CUSTOM ERROR DOCUMENTS
+# ----------------------------------------------------------------------
+ErrorDocument 404 /404.html
+
+# ----------------------------------------------------------------------
+# 3. MIME TYPES & CHARACTER ENCODINGS
+# ----------------------------------------------------------------------
+<IfModule mod_mime.c>
+  AddType image/webp .webp
+  AddType image/svg+xml .svg .svgz
+  AddType application/json .json .geo.json
+  AddType application/manifest+json .webmanifest
+  AddType font/woff2 .woff2
+  AddType font/woff .woff
+  AddType image/x-icon .ico
+  AddType text/plain .txt
+  AddType text/xml .xml
+
+  AddCharset utf-8 .html .css .js .json .xml .txt
+</IfModule>
+
+# ----------------------------------------------------------------------
+# 4. SECURITY HEADERS (HSTS & CSP INTENTIONALLY OMITTED AT LAUNCH)
+# ----------------------------------------------------------------------
+<IfModule mod_headers.c>
+  # Prevent clickjacking within frames
+  Header always set X-Frame-Options "SAMEORIGIN"
+
+  # Prevent MIME-type sniffing
+  Header always set X-Content-Type-Options "nosniff"
+
+  # Control referrer data
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+
+  # Restrict unneeded browser hardware capabilities
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+
+  # Cross-site scripting filter for legacy browsers
+  Header always set X-XSS-Protection "1; mode=block"
+</IfModule>
+
+# ----------------------------------------------------------------------
+# 5. CACHE CONTROL & EXPIRATION
+# ----------------------------------------------------------------------
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault "access plus 1 month"
+
+  # HTML documents (always revalidate immediately)
+  ExpiresByType text/html "access plus 0 seconds"
+
+  # CSS & JavaScript
+  ExpiresByType text/css "access plus 1 week"
+  ExpiresByType application/javascript "access plus 1 week"
+  ExpiresByType text/javascript "access plus 1 week"
+
+  # Images and static media
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType image/x-icon "access plus 1 year"
+  ExpiresByType font/woff2 "access plus 1 year"
+</IfModule>
+
+# Strict cache revalidation for HTML so deployments take effect immediately
+<FilesMatch "\.(html)$">
+  <IfModule mod_headers.c>
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
+  </IfModule>
+</FilesMatch>
+
+# ----------------------------------------------------------------------
+# 6. ACCESS PROTECTION & DEVELOPMENT ARTIFACT BLOCKING
+# ----------------------------------------------------------------------
+# Disable directory indexes (prevents browsing folder contents)
+Options -Indexes
+
+# Block access to hidden files (.env, .htaccess, etc.) except .well-known
+<IfModule mod_authz_core.c>
+  <FilesMatch "^\.(?!well-known)">
+    Require all denied
+  </FilesMatch>
+</IfModule>
+<IfModule !mod_authz_core.c>
+  <FilesMatch "^\.(?!well-known)">
+    Order allow,deny
+    Deny from all
+  </FilesMatch>
+</IfModule>
+
+# Defense-in-depth: Block accidental development & backup artifacts
+<FilesMatch "(?i:\.(md|zip|tar|gz|sql|bak|log|mjs|sh)|composer\..*|package.*\.json)$">
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+  </IfModule>
+</FilesMatch>

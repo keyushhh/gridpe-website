@@ -941,9 +941,12 @@
      hands the visitor to email so the lead survives either way. */
   const form = $('#waitForm'), msg = $('#waitMsg');
   const FALLBACK_TO = 'hello@grid.pe';
+  let submitting = false;
 
   form?.addEventListener('submit', async e => {
     e.preventDefault();
+    if (submitting) return;
+    submitting = true;
     const email = form.email.value.trim();
     const btn = form.querySelector('button');
 
@@ -951,6 +954,7 @@
       msg.classList.add('err');
       msg.textContent = 'That email does not look right';
       form.email.focus();
+      submitting = false;
       return;
     }
     msg.classList.remove('err');
@@ -1006,6 +1010,7 @@
       msg.innerHTML = 'That did not go through. Email us at '
         + '<a href="mailto:' + FALLBACK_TO + '">' + FALLBACK_TO + '</a> and we will add you.';
     } finally {
+      submitting = false;
       btn.disabled = false;
       btn.querySelector('span').textContent = wasLabel;
     }

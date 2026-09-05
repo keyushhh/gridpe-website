@@ -72,25 +72,42 @@ PENTA.forEach((a, i) => PENTA.slice(i + 1).forEach((b) => {
 }));
 // degree 5 must land exactly one octave above degree 0
 assert.ok(Math.abs(degToFreq(5) / degToFreq(0) - 2) < 1e-9, 'octave is not 2:1');
-// strictly ascending, so rightwards on the board always climbs
-for (let d = 1; d <= 20; d++) {
-  assert.ok(degToFreq(d) > degToFreq(d - 1), `degree ${d} does not ascend`);
-}
 
-// every cap's pitch must be a real number inside a sane audible range
-const board = [...html.matchAll(/dataset\.deg = ([^;]+);/g)];
-assert.equal(board.length, 1, 'pitch is assigned in more than one place');
-const degs = [];
-ROWS.forEach((row, r) => {
-  let x = 0;
-  row.keys.forEach((k) => {
-    if (!k.knob) degs.push(Math.round(x * 0.6) + (5 - r) * 2);
-    x += k.knob ? 1 : (k.w || 1);
+// --- the phrases -------------------------------------------------------
+// Pitch comes from written lines now, not key position, so the lines
+// themselves are what has to be musical.
+const PHRASES = eval('(' + html.match(/const PHRASES = (\{[\s\S]*?\n  \};)/)[1].replace(/;$/, '') + ')');
+const parts = Object.keys(PHRASES);
+assert.deepEqual(parts.sort(), ['bass', 'harmony', 'melody'], 'unexpected phrase set');
+
+let lo = Infinity, hi = -Infinity;
+for (const [name, line] of Object.entries(PHRASES)) {
+  assert.ok(line.length >= 8, `${name} is too short to read as a phrase`);
+  line.forEach((d, i) => {
+    assert.ok(Number.isInteger(d), `${name}[${i}] is not a scale degree`);
+    // a leap wider than an octave inside a line reads as a mistake, not a tune
+    if (i) assert.ok(Math.abs(d - line[i - 1]) <= 5,
+      `${name} leaps ${Math.abs(d - line[i - 1])} degrees at ${i}`);
+  });
+  // the lines have to sit apart, or the three rows just double each other
+  const avg = line.reduce((a, b) => a + b, 0) / line.length;
+  PHRASES[name].avg = avg;
+}
+assert.ok(PHRASES.melody.avg > PHRASES.harmony.avg, 'melody does not sit above harmony');
+assert.ok(PHRASES.harmony.avg > PHRASES.bass.avg, 'harmony does not sit above bass');
+
+// every note any row can produce must land in an audible, musical range
+const OCT = eval(html.match(/const OCT_BY_ROW\s+= (\[[^\]]*\])/)[1]);
+const PART = eval(html.match(/const PART_BY_ROW = (\[[^\]]*\])/)[1]);
+PART.forEach((part, r) => {
+  if (!PHRASES[part]) return;
+  PHRASES[part].forEach((d) => {
+    const f = degToFreq(d + (OCT[r] || 0) * 5);
+    lo = Math.min(lo, f); hi = Math.max(hi, f);
   });
 });
-const lo = degToFreq(Math.min(...degs)), hi = degToFreq(Math.max(...degs));
-assert.ok(lo > 80 && hi < 5000, `pitch range ${lo.toFixed(0)}-${hi.toFixed(0)}Hz is unmusical`);
+assert.ok(lo > 60 && hi < 5000, `range ${lo.toFixed(0)}-${hi.toFixed(0)}Hz is unmusical`);
 
 console.log(`OK - ${ROWS.length} rows, ${caps} caps + knob, every row 16u`);
 console.log(`OK - ${acts.length} cap actions, all with handlers and labels`);
-console.log(`OK - pentatonic ${lo.toFixed(0)}Hz..${hi.toFixed(0)}Hz across ${Math.max(...degs) - Math.min(...degs)} degrees`);
+console.log(`OK - ${parts.length} phrases, pentatonic, ${lo.toFixed(0)}Hz..${hi.toFixed(0)}Hz`);
