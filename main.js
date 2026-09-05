@@ -940,7 +940,7 @@
      With no endpoint configured it does NOT pretend to have saved anything - it
      hands the visitor to email so the lead survives either way. */
   const form = $('#waitForm'), msg = $('#waitMsg');
-  const FALLBACK_TO = 'hello@grid.pe';
+  const FALLBACK_TO = 'gridpe.app@gmail.com';
   let submitting = false;
 
   form?.addEventListener('submit', async e => {
