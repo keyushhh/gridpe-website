@@ -21,7 +21,7 @@
      file for a bad URL without changing the address bar, so on /a/b/c a
      relative "styles.css" would resolve to /a/b/styles.css and the page would
      render unstyled. Keep the leading slash on anything added here. -->
-<link rel="stylesheet" href="/styles.css?v=1788620297">
+<link rel="stylesheet" href="/styles.css?v=1788620800">
 <link rel="icon" href="/assets/favicon/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32x32.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-icon-180x180.png">
@@ -534,10 +534,10 @@ button.k{
 <main class="nf">
 
   <div class="nf__top">
-    <a href="/index.html" aria-label="Grid.Pe home">
+    <a href="/" aria-label="Grid.Pe home">
       <img class="nf__logo" src="/assets/logo-full.png" alt="Grid.Pe" width="1747" height="564">
     </a>
-    <a class="nf__home" href="/index.html">
+    <a class="nf__home" href="/">
       <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
       Back to grid.pe
     </a>
@@ -550,7 +550,7 @@ button.k{
     <p class="nf__title">No cash at this address.</p>
     <p class="nf__sub">The page you asked for isn&rsquo;t here &mdash; wrong link, or we moved it.</p>
     <div class="nf__act">
-      <a class="btn btn--go" href="/index.html">Back to grid.pe</a>
+      <a class="btn btn--go" href="/">Back to grid.pe</a>
     </div>
   </div>
 
@@ -1371,7 +1371,7 @@ button.k{
       readout('', 'Nothing to delete.\n<span class="dim">You already deleted the page.</span>');
     },
 
-    home() { location.href = '/index.html'; },
+    home() { location.href = '/'; },
     enter() {
       if (MODE === 'email') return sendEmail();
       if (MODE === 'find') return runFind();

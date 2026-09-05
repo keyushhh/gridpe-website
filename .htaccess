@@ -13,7 +13,11 @@
   RewriteCond %{REQUEST_URI} (^|/)\.(?!well-known) [NC]
   RewriteRule ^ - [F,L]
 
-  # Redirect www.grid.pe -> https://grid.pe (single-hop canonicalization)
+  # Redirect /index.html -> / (clean URL canonicalization)
+  RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /.*index\.html\ HTTP/ [NC]
+  RewriteRule ^(.*)index\.html$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+  # Redirect www.domain -> https://domain (single-hop canonicalization)
   RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
   RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
 
