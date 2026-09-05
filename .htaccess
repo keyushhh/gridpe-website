@@ -13,9 +13,9 @@
   RewriteCond %{REQUEST_URI} (^|/)\.(?!well-known) [NC]
   RewriteRule ^ - [F,L]
 
-  # Redirect /index.html -> / (clean URL canonicalization)
-  RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /.*index\.html\ HTTP/ [NC]
-  RewriteRule ^(.*)index\.html$ https://%{HTTP_HOST}/$1 [R=301,L]
+  # Canonical homepage URL: / instead of /index.html
+  RewriteCond %{THE_REQUEST} \s/+index\.html(?:[\s?]|$) [NC]
+  RewriteRule ^index\.html$ / [R=301,L]
 
   # Redirect www.domain -> https://domain (single-hop canonicalization)
   RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
