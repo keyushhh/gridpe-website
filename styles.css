@@ -781,10 +781,13 @@ input:focus-visible{outline:2px solid var(--hot); outline-offset:2px}
 .ffg-li::before,.ffg-li::after{
   content:""; position:absolute; inset:0; overflow:hidden;
   backface-visibility:hidden;
-  background-image:var(--bg-img);
   background-position:center center; background-size:contain; background-repeat:no-repeat;
   transform:rotate(var(--imgrot));
 }
+/* The url is held back until main.js adds .is-armed, ~600px before the belt
+   scrolls in - otherwise these four faces (71 KB) download during first paint
+   for something that lives most of a page down. */
+.ffg.is-armed .ffg-li::before,.ffg.is-armed .ffg-li::after{background-image:var(--bg-img)}
 .ffg-li::after{transform:rotateX(180deg) rotate(var(--imgrot))}
 
 @keyframes ffgTurn{
@@ -978,7 +981,7 @@ input:focus-visible{outline:2px solid var(--hot); outline-offset:2px}
 .quote--dark figcaption{border-top-color:rgba(212,255,61,.22)}
 .quote figcaption span{
   font-family:"Fragment Mono",monospace; font-size:11px; letter-spacing:.1em;
-  text-transform:uppercase; opacity:.55;
+  text-transform:uppercase; opacity:.74;
 }
 
 
@@ -1290,7 +1293,6 @@ input:focus-visible{outline:2px solid var(--hot); outline-offset:2px}
 .fly__side--l{transform:scaleX(-1); transform-origin:left center}
 .fly__up,.fly__lo{
   position:absolute; left:0; display:block;
-  background-image:url("assets/notes/500.webp");
   background-repeat:no-repeat;
   transform-origin:left center;
   transform:rotateY(16deg);          /* fixed origami tilt - wings do not flap */
@@ -1313,9 +1315,11 @@ input:focus-visible{outline:2px solid var(--hot); outline-offset:2px}
 .fly__body{
   position:absolute; left:50%; top:26%; width:9px; height:46px;
   margin-left:-4.5px; border-radius:5px/7px;
-  background:url("assets/notes/500.webp") 6% 50%/auto 460% no-repeat;
+  background:6% 50%/auto 460% no-repeat;
   box-shadow:inset 0 0 0 1px rgba(0,0,0,.35), 0 3px 6px rgba(0,0,0,.4);
 }
+body.fly-armed :is(.fly__up,.fly__lo,.fly__body){background-image:url("assets/notes/500.webp")}
+
 /* the butterfly IS the cursor over the map - pointer stays on things you click */
 body.is-fly{cursor:none}
 body.is-fly a,body.is-fly button,body.is-fly input,body.is-fly summary{cursor:pointer}

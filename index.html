@@ -93,9 +93,18 @@
   ]
 }
 </script>
+<link rel="preload" as="image" href="assets/homepage-mockup-640.webp"
+      imagesrcset="assets/homepage-mockup-384.webp 384w, assets/homepage-mockup-640.webp 640w, assets/homepage-mockup-960.webp 960w, assets/homepage-mockup.webp 1514w"
+      imagesizes="(max-width:820px) 76vw, 320px" fetchpriority="high">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Instrument+Serif:ital@0;1&family=Manrope:wght@300..800&family=Fragment+Mono&family=Permanent+Marker&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..100,500..700&amp;family=Instrument+Serif:ital@0;1&amp;family=Manrope:wght@400..700&amp;family=Fragment+Mono&amp;display=swap" media="print" onload="this.media='all'">
+<!-- Caveat + Permanent Marker only ever render two fixed strings on this page
+     (the signature and the three pile labels), so they are subset to those
+     glyphs: 102 KB -> ~6 KB. CHANGE EITHER STRING AND YOU MUST UPDATE &text=
+     below, or the new characters silently fall back to the CSS stack. -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Permanent+Marker&amp;family=Caveat:wght@500;600&amp;display=swap&amp;text=%20%26BCKRSTYacdehijnprstuwy" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..100,500..700&amp;family=Instrument+Serif:ital@0;1&amp;family=Manrope:wght@400..700&amp;family=Fragment+Mono&amp;display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Permanent+Marker&amp;family=Caveat:wght@500;600&amp;display=swap&amp;text=%20%26BCKRSTYacdehijnprstuwy"></noscript>
 <link rel="stylesheet" href="styles.css?v=1788620800">
 <link rel="icon" href="assets/favicon/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
@@ -118,7 +127,7 @@
 <header class="nav" id="nav">
   <div class="nav__pill">
     <a class="nav__logo" href="#top" aria-label="Grid.Pe home">
-      <img class="logo" src="assets/logo-full.png" alt="Grid.Pe" width="1747" height="564">
+      <img class="logo" src="assets/logo-full-320.webp" alt="Grid.Pe" width="320" height="104" decoding="async">
     </a>
 
     <nav class="nav__links" aria-label="Primary">
@@ -128,7 +137,7 @@
       <a href="#coverage">Coverage</a>
     </nav>
 
-    <a class="nav__cta" href="#waitlist">
+    <a class="nav__cta" href="#waitlist" aria-label="Join the waitlist">
       <span class="nav__cta-ring" aria-hidden="true"></span>
       <span class="nav__cta-tile" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none"><path d="M13 2 4.5 13.5H11l-1 8.5 8.5-11.5H12l1-8.5Z" fill="currentColor"/></svg>
@@ -148,7 +157,7 @@
   Order what you need. A KYC-verified rider brings real notes to your door.
 </p>
 
-<div class="drawer" id="drawer" aria-hidden="true">
+<div class="drawer" id="drawer" aria-hidden="true" inert>
   <a href="#how-it-works">How it works</a>
   <a href="#what-it-costs">What it costs</a>
   <a href="#trust">Trust</a>
@@ -187,9 +196,12 @@
 
   <div class="hero__stage" id="heroStage">
     <img class="hero__device"
-         src="assets/homepage-mockup.webp"
+         src="assets/homepage-mockup-640.webp"
+         srcset="assets/homepage-mockup-384.webp 384w, assets/homepage-mockup-640.webp 640w, assets/homepage-mockup-960.webp 960w, assets/homepage-mockup.webp 1514w"
+         sizes="(max-width:820px) 76vw, 320px"
+         fetchpriority="high" decoding="async"
          alt="Grid.Pe app home screen for ordering doorstep cash delivery, showing the amount keypad and delivery limit"
-         width="1514" height="3112">
+         width="640" height="1316">
   </div>
 
   <p class="hero__foot" data-reveal>
@@ -210,7 +222,7 @@
       <span class="strap__word">Cash at your door</span>
       <span class="strap__glyph">&#8377;</span>
       <span class="strap__word strap__word--out">No ATM hunts</span>
-      <img class="strap__mark" src="assets/logo-full.png" alt="" width="1747" height="564" loading="lazy" decoding="async">
+      <img class="strap__mark" src="assets/logo-full-320.webp" alt="Grid.Pe" width="320" height="104" loading="lazy" decoding="async">
       <span class="strap__word">Order cash</span>
       <span class="strap__serif">notes, not screens</span>
       <span class="strap__arrow">&#8594;</span>
@@ -262,7 +274,7 @@
     <span class="eyebrow" data-reveal>How it works</span>
     <h2 class="h2" data-reveal-lines>
       <span class="line"><span>How cash moves</span></span>
-      <span class="line line--logo"><span>on <img class="logo-in" src="assets/logo-full.png" alt="Grid.Pe" width="1747" height="564"></span></span>
+      <span class="line line--logo"><span>on <img class="logo-in" src="assets/logo-full-760.webp" alt="Grid.Pe" width="760" height="246" loading="lazy" decoding="async"></span></span>
     </h2>
   </div>
 
@@ -446,7 +458,7 @@
 <section class="enables" id="features" data-tag="Cash first. Everything else points at notes in your hand.">
   <p class="enables__kicker" data-reveal>Cash first.<br>The receipts, the rates, the checks: all of it points at notes in your hand.</p>
   <h2 class="h2 enables__h2" data-reveal-lines>
-    <span class="line line--logo"><span>What <img class="logo-in" src="assets/logo-full.png" alt="Grid.Pe" width="1747" height="564"> enables</span></span>
+    <span class="line line--logo"><span>What <img class="logo-in" src="assets/logo-full-760.webp" alt="Grid.Pe" width="760" height="246" loading="lazy" decoding="async"> enables</span></span>
   </h2>
 
   <!-- The pinboard, now just frames and taped-on labels: the scattered notes
@@ -643,7 +655,7 @@
 <section class="coverage" id="coverage" data-tag="Live pilot in Bengaluru. Guwahati next.">
   <div class="coverage__copy">
     <h2 class="h2" data-reveal-lines>
-      <span class="line line--logo"><span><img class="logo-in" src="assets/logo-full.png" alt="Grid.Pe" width="1747" height="564"></span></span>
+      <span class="line line--logo"><span><img class="logo-in" src="assets/logo-full-760.webp" alt="Grid.Pe" width="760" height="246" loading="lazy" decoding="async"></span></span>
       <span class="line"><span>built in India,</span></span>
       <span class="line"><span>delivered street by street</span></span>
     </h2>
@@ -695,7 +707,7 @@
 
   <div class="foot__grid">
     <div class="foot__brand">
-      <img class="logo logo--onDark" src="assets/logo-full.png" alt="Grid.Pe" width="1747" height="564" loading="lazy">
+      <img class="logo logo--onDark" src="assets/logo-full-320.webp" alt="Grid.Pe" width="320" height="104" loading="lazy" decoding="async">
       <p>Real notes, to your door.</p>
     </div>
     <nav>
@@ -729,7 +741,7 @@
   </div>
 
   <div class="foot__wordmark" aria-hidden="true">
-    <img src="assets/logo-full.png" alt="" width="1747" height="564" loading="lazy">
+    <img src="assets/logo-full-760.webp" alt="Grid.Pe" width="760" height="246" loading="lazy" decoding="async">
   </div>
 </footer>
 
@@ -741,6 +753,6 @@
 </div>
 
 <canvas id="confetti" aria-hidden="true"></canvas>
-<script src="main.js?v=1788620663"></script>
+<script src="main.js?v=1788620663" defer></script>
 </body>
 </html>

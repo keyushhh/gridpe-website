@@ -92,6 +92,25 @@
     $$('.hero [data-reveal],.hero [data-reveal-lines]').forEach(el => el.classList.add('is-in'));
   });
 
+  /* ---------- arm decorative art on approach ----------------------- */
+  /* The note belt (71 KB) and the butterfly cursor (19 KB) are pure decoration
+     that lives far below the fold, but a CSS background downloads the moment
+     the element exists. Their urls sit behind these classes instead, armed
+     ~600px out so the art is ready before it can be seen and never competes
+     with the hero for bandwidth. */
+  const arm = (sel, apply) => {
+    const el = $(sel);
+    if (!el) return;
+    const o = new IntersectionObserver(es => {
+      if (!es.some(e => e.isIntersecting)) return;
+      o.disconnect();
+      apply(el);
+    }, { rootMargin: '600px 0px' });
+    o.observe(el);
+  };
+  arm('.ffg',      el => el.classList.add('is-armed'));
+  arm('#coverage', () => document.body.classList.add('fly-armed'));
+
   /* ---------- keypad stagger index --------------------------------- */
   $$('.work__art--order .pad span').forEach((s, i) => s.style.setProperty('--i', i));
 
@@ -145,6 +164,7 @@
   const setDrawer = open => {
     drawer.classList.toggle('is-open', open);
     drawer.setAttribute('aria-hidden', String(!open));
+    drawer.inert = !open;
     burger.setAttribute('aria-expanded', String(open));
     document.body.style.overflow = open ? 'hidden' : '';
   };
@@ -323,21 +343,27 @@
     const EMIT_PX = 52;    // cursor travel between drops -> how tight the ribbon is
     const LIFE    = 950;   // ms a card holds before it starts fading
 
-    const pool = Array.from({ length: POOL }, (_, i) => {
-      const [note, w] = NOTES[i % NOTES.length];
-      const el = document.createElement('div');
-      el.className = 'sticker';
-      el.style.width = w + 'px';
-      el.innerHTML = `<img src="assets/notes/${note}.webp" alt="" draggable="false">`;
-      trail.appendChild(el);
-      return el;
-    });
+    /* The six note images are ~80 KB and only ever appear once the cursor is
+       already sweeping the hero, so the pool is built on the first move rather
+       than during the initial render. */
+    let pool = null;
+    const buildPool = () => {
+      pool = Array.from({ length: POOL }, (_, i) => {
+        const [note, w] = NOTES[i % NOTES.length];
+        const el = document.createElement('div');
+        el.className = 'sticker';
+        el.style.width = w + 'px';
+        el.innerHTML = `<img src="assets/notes/${note}.webp" alt="" draggable="false">`;
+        trail.appendChild(el);
+        return el;
+      });
 
-    // a straight 6-cycle would read as an obvious repeat, so fix one shuffle
-    for (let i = pool.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [pool[i], pool[j]] = [pool[j], pool[i]];
-    }
+      // a straight 6-cycle would read as an obvious repeat, so fix one shuffle
+      for (let i = pool.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [pool[i], pool[j]] = [pool[j], pool[i]];
+      }
+    };
 
     let idx = 0, z = 1, lx = null, ly = null, travel = 0, flip = 1;
 
@@ -378,6 +404,7 @@
 
     hero.addEventListener('pointermove', e => {
       if (e.pointerType !== 'mouse') return;
+      if (!pool) buildPool();
       const r = trail.getBoundingClientRect();
       const x = e.clientX - r.left, y = e.clientY - r.top;
 
@@ -635,6 +662,7 @@
       CITIES.forEach(([name, lon, lat, status, live]) => {
         const el = document.createElement('span');
         el.className = 'mk' + (live ? ' mk--live' : '');
+        el.setAttribute('role', 'button');
         new maplibregl.Marker({ element: el })
           .setLngLat([lon, lat])
           .setPopup(new maplibregl.Popup({ offset: 14, closeButton: false })
@@ -666,7 +694,7 @@
         start();
       };
       addEventListener('scroll', startOnce, { passive: true });
-      setTimeout(startOnce, 4000);
+      addEventListener('load', () => setTimeout(startOnce, 4000), { once: true });
     }
   }
 
