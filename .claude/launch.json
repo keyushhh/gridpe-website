@@ -1,0 +1,2 @@
+{ "version":"0.0.1","configurations":[{"name":"gridpe-check","runtimeExecutable":"python3",
+  "runtimeArgs":["/private/tmp/claude-501/-Users-biradhwaj-Desktop-repo-s-gridpe-repo-s-gridpe-website/62d72ad9-9aaa-4291-930a-063aa185c6db/scratchpad/serve.py"],"port":8777}]}

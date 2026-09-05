@@ -1,0 +1,1655 @@
+<!doctype html>
+<html lang="en-IN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Page not found | Grid.Pe</title>
+<meta name="description" content="This address has nothing at it. Head back to grid.pe.">
+<meta name="robots" content="noindex,follow">
+<meta name="theme-color" content="#f2f2f2">
+<meta property="og:title" content="Page not found | Grid.Pe">
+<meta property="og:description" content="This address has nothing at it. Head back to grid.pe.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Grid.Pe">
+<meta property="og:locale" content="en_IN">
+<meta property="og:image" content="https://grid.pe/assets/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Manrope:wght@300..800&family=Fragment+Mono&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=1788620297">
+<link rel="icon" href="assets/favicon/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-icon-180x180.png">
+
+<style>
+/* =====================================================================
+   404 - the keyboard
+   Kept in this file rather than styles.css: nothing else on the site uses
+   it, and every other page would otherwise pay to download it.
+   ===================================================================== */
+/* the page runs paper end to end, so a short mobile layout shows no seam
+   where .nf stops and the body ground begins */
+body{background:var(--paper)}
+/* Sized to exactly one viewport: the board is meant to be found without
+   scrolling, so the page never grows past the fold and the plate simply
+   bleeds off the bottom edge instead. */
+.nf{
+  background:var(--paper); height:100svh; min-height:560px;
+  padding:clamp(16px,3vw,34px) var(--shell) clamp(12px,1.8vw,26px);
+  display:flex; flex-direction:column; gap:clamp(12px,2vw,24px);
+  overflow:hidden;
+}
+.nf__top{display:flex; align-items:center; justify-content:space-between; gap:20px}
+.nf__logo{height:clamp(24px,2.4vw,32px); width:auto; display:block}
+.nf__home{
+  display:inline-flex; align-items:center; gap:8px;
+  font-family:"Fragment Mono",monospace; font-size:11px; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--mute);
+  border-bottom:1px solid transparent; padding-bottom:2px;
+  transition:color .28s var(--ease), border-color .28s var(--ease);
+}
+.nf__home:hover{color:var(--ink); border-color:var(--ink)}
+.nf__home:focus-visible{outline:2px solid var(--ink); outline-offset:4px}
+
+.nf__head{max-width:42ch; margin-inline:auto; text-align:center}
+.nf__code{
+  font-family:Archivo,"Arial Narrow",system-ui,sans-serif;
+  font-variation-settings:"wdth" 76,"wght" 500;
+  font-weight:500;
+  font-size:clamp(52px,8.4vw,116px); line-height:.82;
+  letter-spacing:-.03em; margin:0 0 clamp(8px,1.2vw,14px);
+  display:flex; justify-content:center; gap:.02em;
+}
+/* each digit answers its own key on the board below */
+.nf__code b{font-weight:inherit; transition:color .5s var(--ease)}
+.nf__code b.lit{color:var(--indigo)}
+
+.nf__title{
+  font-size:clamp(18px,1.9vw,24px); font-weight:600; letter-spacing:-.02em;
+  line-height:1.24; margin:0 0 8px;
+}
+.nf__sub{
+  margin:0 auto clamp(14px,1.8vw,20px); color:var(--mute);
+  font-size:15px; max-width:40ch;
+}
+.nf__act{
+  display:flex; align-items:center; justify-content:center;
+  gap:clamp(14px,2vw,22px); flex-wrap:wrap;
+}
+
+/* ---------------------------------------------------------------- stage */
+/* The board is laid out flat and tipped back in 3D, so a press can travel
+   along Z the way a switch does instead of faking depth with a shadow. */
+.nf__stage{
+  flex:1 1 auto; min-height:0;
+  display:flex; flex-direction:column; align-items:center; justify-content:flex-end;
+  gap:12px;
+  margin-bottom:0;
+}
+
+/* ------------------------------------------------------- display panel */
+/* Reads as a readout on the keyboard rather than another line of page copy.
+   Collapsed until the first keystroke, so the page stays clean and nothing
+   sits under the CTA until someone actually starts typing. */
+.scr{
+  display:flex; align-items:center; gap:10px;
+  padding:9px 9px 9px 16px; border-radius:999px;
+  background:var(--white);
+  border:1px solid var(--hair);
+  box-shadow:0 10px 26px -18px rgba(20,20,40,.5);
+  opacity:0; transform:translateY(8px) scale(.97); pointer-events:none;
+  transition:opacity .4s var(--ease), transform .4s var(--ease);
+  max-width:100%;
+}
+.scr.is-on{opacity:1; transform:none; pointer-events:auto}
+.scr__label{
+  font-family:"Fragment Mono",monospace; font-size:10px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--mute); flex:none;
+}
+.scr__in{
+  border:0; background:transparent; outline:0; min-width:0; width:26ch;
+  font-family:"Fragment Mono",monospace; font-size:13.5px; color:var(--ink);
+}
+.scr__in::placeholder{color:var(--mute); opacity:.6}
+.scr__hp{position:absolute; left:-9999px; width:1px; height:1px; opacity:0}
+.scr__go{
+  flex:none; border:0; cursor:pointer;
+  height:34px; padding:0 18px; border-radius:999px;
+  background:var(--ink); color:#fff;
+  font-size:13px; font-weight:600; letter-spacing:.01em;
+  transition:transform .3s var(--ease), opacity .3s var(--ease);
+}
+.scr__go:hover{transform:translateY(-1px)}
+.scr__go:disabled{opacity:.5; cursor:default; transform:none}
+.scr__go:focus-visible,.scr__in:focus-visible{outline:2px solid var(--indigo); outline-offset:3px}
+.scr__msg{
+  margin:0; min-height:1.2em; text-align:center;
+  font-family:"Fragment Mono",monospace; font-size:11px; letter-spacing:.06em;
+  color:var(--mute); opacity:0; transition:opacity .3s var(--ease);
+}
+.scr__msg.is-on{opacity:1}
+.scr__msg.err{color:#c0392b}
+/* the perspective has to live on the board's direct parent, or the tip-back
+   flattens into a plain skew */
+.nf__scroll{
+  width:100%; display:flex; justify-content:center; align-items:flex-end;
+  perspective:1500px; perspective-origin:50% 30%;
+}
+
+.kb{
+  /* Sized off viewport height as well as width so the whole board always
+     lands inside the fold: on a short screen the height term wins and it
+     shrinks, on a wide one the width term keeps it from outgrowing the page. */
+  --u:clamp(26px, min(4.6vw, 6.1svh), 72px);
+  --gap:calc(var(--u) * .105);
+  --rise:calc(var(--u) * .17);       /* keycap height off the plate */
+  --cap:#fcfcfd;
+  --cap-2:#ececed;
+  --cap-edge:#cfcfd4;
+  --cap-side:#d9d9de;
+  position:relative;
+  transform-style:preserve-3d;
+  transform:rotateX(24deg) scale(1.02);
+  transform-origin:50% 100%;
+  /* the side padding is wide enough to seat the LED strips in the bezel */
+  padding:calc(var(--u) * .3) calc(var(--u) * .52) calc(var(--u) * .34);
+  border-radius:calc(var(--u) * .3);
+  background:linear-gradient(#f4f4f6 0%, #e6e6ea 42%, #d5d5db 100%);
+  box-shadow:
+    inset 0 1px 0 #fff,
+    inset 0 -1px 0 rgba(0,0,0,.09),
+    0 1px 0 #cfcfd5,
+    0 3px 0 #c4c4cb,
+    0 4px 0 #b8b8c0,
+    0 30px 60px -26px rgba(20,20,40,.42),
+    0 70px 90px -60px rgba(90,91,243,.35);
+}
+/* the plate's own grain, same trick the rest of the site uses */
+.kb::after{
+  content:""; position:absolute; inset:0; border-radius:inherit; pointer-events:none;
+  background:var(--noise); background-size:180px; opacity:.05; mix-blend-mode:multiply;
+}
+
+.kb__rows{display:flex; flex-direction:column; gap:var(--gap); transform-style:preserve-3d}
+.kb__row{display:flex; gap:var(--gap); transform-style:preserve-3d}
+.kb__row--fn{align-items:center}
+
+/* ---------------------------------------------------------------- keycap */
+.k{
+  --w:1;
+  --d:0s;
+  width:calc(var(--u) * var(--w) + (var(--w) - 1) * var(--gap));
+  height:var(--u);
+  flex:none; position:relative;
+  border-radius:calc(var(--u) * .18);
+  background:linear-gradient(180deg, var(--cap) 0%, var(--cap-2) 100%);
+  transform-style:preserve-3d;
+  transform:translateZ(var(--rise));
+  box-shadow:
+    inset 0 1px 0 #fff,
+    inset 0 -1.5px 0 rgba(0,0,0,.055),
+    0 0 0 .5px rgba(0,0,0,.055),
+    0 1px 0 var(--cap-edge),
+    0 2px 0 var(--cap-side),
+    0 3px 0 #cdcdd3,
+    0 6px 10px -4px rgba(20,20,40,.3);
+  /* the spring back overshoots a touch; the press itself does not */
+  transition:transform .34s cubic-bezier(.18,1.44,.4,1), box-shadow .34s var(--ease);
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:calc(var(--u) * .04);
+  user-select:none; -webkit-user-select:none; -webkit-tap-highlight-color:transparent;
+  cursor:pointer;
+}
+.k.is-down{
+  transform:translateZ(calc(var(--rise) * .12)) translateY(calc(var(--u) * .055));
+  transition-duration:.042s; transition-timing-function:cubic-bezier(.35,0,.7,1);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.7),
+    inset 0 2px 5px rgba(20,20,40,.14),
+    0 0 0 .5px rgba(0,0,0,.07),
+    0 1px 0 var(--cap-edge),
+    0 1px 3px -1px rgba(20,20,40,.28);
+}
+
+/* legends */
+.k b,.k i{
+  font-style:normal; font-family:"Fragment Mono",monospace;
+  line-height:1; letter-spacing:.01em; pointer-events:none;
+  transition:color .45s var(--ease);
+}
+.k b{font-size:calc(var(--u) * .27); color:var(--ink)}
+.k i{font-size:calc(var(--u) * .19); color:var(--mute)}
+.k--sm b{font-size:calc(var(--u) * .22)}
+.k--wide b{font-size:calc(var(--u) * .175); letter-spacing:.09em}
+.k--macro b{font-size:calc(var(--u) * .145); letter-spacing:.06em; color:var(--mute)}
+.k--fn b{font-size:calc(var(--u) * .19)}
+.k--fn i{font-size:calc(var(--u) * .145); letter-spacing:.05em; color:var(--indigo); opacity:.85}
+/* two-tier legends put the shifted glyph above the base one */
+.k--stack{gap:calc(var(--u) * .07)}
+.k--stack i{order:-1}
+
+/* Hyper - the one coloured cap, brand indigo in place of Raycast's orange */
+.k--hyper{
+  background:linear-gradient(180deg,#6f70f7 0%, var(--indigo) 55%, var(--indigo-d) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.5),
+    inset 0 -1.5px 0 rgba(0,0,0,.18),
+    0 1px 0 #3a3bbe,
+    0 2px 0 #3333a8,
+    0 3px 0 #2c2c93,
+    0 7px 14px -4px rgba(61,62,207,.55);
+}
+.k--hyper b{color:#fff; font-size:calc(var(--u) * .34)}
+.k--hyper.is-down{
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.4),
+    inset 0 2px 6px rgba(0,0,0,.25),
+    0 1px 0 #3a3bbe,
+    0 1px 3px -1px rgba(61,62,207,.5);
+}
+
+/* The escape cap on the real board is a perforated LED window. Painted into
+   the cap's own background rather than a pseudo-element, so the legend still
+   sits on top of it and it does not ride the animated sheen layer. */
+.k--dots{
+  background-image:
+    radial-gradient(circle, rgba(107,107,107,.4) 34%, transparent 36%),
+    linear-gradient(180deg, var(--cap) 0%, var(--cap-2) 100%);
+  background-size:calc(var(--u) * .1) calc(var(--u) * .1), 100% 100%;
+  background-position:center, center;
+}
+
+/* ------------------------------------------------- backlight under a cap */
+/* Fires once on release. It sits behind the cap so the glow reads as light
+   escaping the switch housing, not as a tint on the plastic. */
+.k::before{
+  content:""; position:absolute; inset:-14% -10%;
+  border-radius:calc(var(--u) * .28);
+  background:radial-gradient(60% 70% at 50% 60%, rgba(90,91,243,.85), rgba(90,91,243,0) 72%);
+  transform:translateZ(calc(var(--rise) * -1.1));
+  opacity:0; pointer-events:none;
+}
+.k.is-lit::before{animation:kglow .62s var(--ease) forwards}
+@keyframes kglow{
+  0%{opacity:.95; filter:blur(1px)}
+  100%{opacity:0; filter:blur(6px)}
+}
+.k.is-lit b{color:var(--indigo-d)}
+.k--hyper.is-lit b{color:#fff}
+
+/* -------------------------------------------------------- ambient sweep */
+/* One slow bloom crossing the field, phase-offset per key by --d. Pure CSS,
+   so an idle board costs nothing per frame in JS. */
+.k .sheen{
+  position:absolute; inset:0; border-radius:inherit; pointer-events:none;
+  background:linear-gradient(150deg, rgba(90,91,243,.17), rgba(2,187,255,.1) 55%, transparent);
+  opacity:0;
+  animation:sweep 5.4s var(--ease-io) infinite;
+  animation-delay:var(--d);
+}
+@keyframes sweep{
+  0%,72%,100%{opacity:0}
+  8%{opacity:.9}
+  26%{opacity:0}
+}
+
+/* ----------------------------------------------------------- LED strips */
+/* Seated in the bezel gutter, absolutely, rather than as flex children of the
+   function row - as row children they widened that row past the 16u the other
+   five rows share, and the column grid stopped lining up. */
+.bar{
+  position:absolute; top:calc(var(--u) * .3);
+  width:calc(var(--u) * .28); height:calc(var(--u) * 1.05);
+  border-radius:calc(var(--u) * .1);
+  background:#e2e2e7; box-shadow:inset 0 1px 3px rgba(0,0,0,.14);
+  display:flex; flex-direction:column; align-items:center; justify-content:space-evenly;
+  padding:calc(var(--u) * .1) 0;
+}
+.bar--l{left:calc(var(--u) * .13)}
+.bar--r{right:calc(var(--u) * .13)}
+.bar span{
+  width:calc(var(--u) * .075); height:calc(var(--u) * .075); border-radius:50%;
+  background:var(--indigo); opacity:.15;
+  animation:led 2.6s var(--ease-io) infinite; animation-delay:var(--d,0s);
+}
+@keyframes led{
+  0%,100%{opacity:.14; box-shadow:none}
+  45%{opacity:1; box-shadow:0 0 6px rgba(90,91,243,.9)}
+}
+/* Once the volume has been touched the strips stop idling and become the
+   level meter, filling from the bottom. */
+.bar--meter span{
+  animation:none; opacity:.13; box-shadow:none;
+  transition:opacity .16s var(--ease), box-shadow .16s var(--ease);
+}
+.bar--meter span.on{opacity:1; box-shadow:0 0 6px rgba(90,91,243,.9)}
+
+/* ---------------------------------------------------------- rotary knob */
+.knob{
+  width:var(--u); height:var(--u); flex:none; position:relative;
+  border-radius:50%; transform:translateZ(calc(var(--rise) * 1.3));
+  background:
+    radial-gradient(60% 60% at 34% 26%, #fff, rgba(255,255,255,0) 60%),
+    conic-gradient(from 0deg, #d6d6dc, #f6f6f8 12%, #cfcfd6 26%, #f2f2f5 42%, #c9c9d1 58%, #f6f6f8 74%, #d2d2d9 88%, #d6d6dc);
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.7),
+    0 2px 0 #c2c2ca, 0 4px 0 #b4b4bd,
+    0 8px 14px -5px rgba(20,20,40,.4);
+  cursor:grab; touch-action:none;
+}
+.knob:active{cursor:grabbing}
+.knob__spin{
+  position:absolute; inset:0; border-radius:50%;
+  transform:rotate(var(--rot,0deg));
+  transition:transform .5s var(--ease);
+}
+.knob__spin::before{
+  content:""; position:absolute; inset:18%; border-radius:50%;
+  background:linear-gradient(180deg,#6f70f7,var(--indigo-d));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.45);
+}
+/* the index line, so the rotation is legible */
+.knob__spin::after{
+  content:""; position:absolute; left:50%; top:24%;
+  width:calc(var(--u) * .055); height:26%; margin-left:calc(var(--u) * -.0275);
+  border-radius:99px; background:#fff; opacity:.92;
+}
+
+/* ---------------------------------------------------------- responsive */
+@media (max-width:1180px){
+  .nf__scroll{
+    overflow-x:auto; overflow-y:hidden; justify-content:flex-start;
+    padding:0 var(--shell) 44px; margin:0 calc(var(--shell) * -1);
+    -webkit-overflow-scrolling:touch; scrollbar-width:none;
+  }
+  .nf__scroll::-webkit-scrollbar{display:none}
+  .kb{flex:none; --u:46px}
+}
+@media (max-width:720px){
+  /* no stretch: the board follows the copy instead of floating in dead space */
+  .nf{height:auto; min-height:0; padding-bottom:clamp(30px,6vw,60px)}
+  .nf__stage{flex:0 0 auto; margin-bottom:0}
+  .kb{--u:36px; transform:rotateX(20deg)}
+  /* 38ch of copy runs edge to edge on a phone; pull it in so the measure
+     still reads as a centred block rather than filling the screen */
+  .nf__head{max-width:30ch}
+  .nf__sub{font-size:15px}
+}
+/* the button below already says this, and the mono label overflows the row */
+@media (max-width:560px){
+  .nf__home{display:none}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .k{transition-duration:.01s}
+  .k .sheen,.bar span{animation:none}
+  .k.is-lit::before{animation-duration:.01s}
+  .kb{transform:rotateX(14deg)}
+  .knob__spin{transition:none}
+}
+
+/* =====================================================================
+   The machine — readout, veil, flash
+   Additions only. Nothing above this line changes: the 404 page keeps its
+   existing hierarchy, type, spacing and palette, and everything here stays
+   out of the way until a key is pressed.
+   ===================================================================== */
+
+/* A fixed slot reserves the readout's space once, so a five-line response
+   never reflows the board. The panel is anchored to the slot's bottom and
+   grows upward into the whitespace above it. */
+.nf__slot{
+  position:relative; width:100%;
+  height:clamp(96px,12.5svh,132px); flex:none;
+  display:flex; justify-content:center;
+}
+.scr{
+  position:absolute; bottom:0; left:50%; transform:translate(-50%,6px);
+  display:flex; flex-direction:column; align-items:center; gap:7px;
+  min-width:min(300px,86vw); max-width:min(560px,92vw);
+  padding:10px 18px 11px; border-radius:14px;
+  background:var(--white);
+  border:1px solid var(--hair);
+  box-shadow:0 14px 34px -22px rgba(20,20,40,.55);
+  opacity:0; pointer-events:none;
+  transition:opacity .26s var(--ease), transform .26s var(--ease);
+}
+.scr.is-on{opacity:1; transform:translate(-50%,0); pointer-events:auto}
+
+.nf__sub,.nf__act{transition:opacity .26s var(--ease)}
+.nf.is-live .nf__sub,.nf.is-live .nf__act{opacity:.07; pointer-events:none}
+
+.scr__tag{
+  font-family:"Fragment Mono",monospace; font-size:9.5px; letter-spacing:.18em;
+  text-transform:uppercase; color:var(--mute);
+}
+.scr__tag:empty{display:none}
+.scr__body{
+  font-family:"Fragment Mono",monospace; font-size:12px; line-height:1.5;
+  color:var(--ink); text-align:center; white-space:pre-line;
+}
+.scr__body:empty{display:none}
+.scr__body b{font-weight:400; color:var(--indigo)}
+.scr__body .dim{color:var(--mute)}
+.scr__body .big{
+  font-family:Archivo,"Arial Narrow",system-ui,sans-serif;
+  font-variation-settings:"wdth" 76,"wght" 500;
+  font-size:30px; line-height:1.05; letter-spacing:-.02em; display:block;
+}
+
+/* denomination list — real buttons, so it is reachable by Tab like anything else */
+.scr__opts{display:flex; flex-wrap:wrap; gap:6px; justify-content:center; margin-top:2px}
+.scr__opt{
+  font-family:"Fragment Mono",monospace; font-size:12px;
+  padding:6px 12px; border-radius:999px; cursor:pointer;
+  border:1px solid var(--hair); background:var(--paper); color:var(--ink);
+  transition:background .2s var(--ease), color .2s var(--ease), transform .2s var(--ease);
+}
+.scr__opt:hover{background:var(--ink); color:var(--white); transform:translateY(-1px)}
+.scr__opt:focus-visible{outline:2px solid var(--indigo); outline-offset:2px}
+
+/* tracking bar, drawn in text-adjacent blocks to match the terminal voice */
+.scr__bar{
+  width:min(240px,70vw); height:6px; border-radius:999px;
+  background:var(--hair); overflow:hidden; margin:3px auto 0;
+}
+.scr__bar i{
+  display:block; height:100%; width:0; border-radius:inherit;
+  background:var(--indigo); transition:width 1.9s var(--ease-io);
+}
+
+.scr__form{display:flex; align-items:center; gap:8px; margin-top:2px}
+.scr__form[hidden]{display:none}
+.scr__in{
+  border:0; border-bottom:1px solid var(--hair); background:transparent;
+  outline:0; min-width:0; width:22ch; padding:3px 2px;
+  font-family:"Fragment Mono",monospace; font-size:13px; color:var(--ink);
+}
+.scr__in::placeholder{color:var(--mute); opacity:.55}
+.scr__in:focus{border-bottom-color:var(--indigo)}
+.scr__hp{position:absolute; left:-9999px; width:1px; height:1px; opacity:0}
+.scr__go{
+  flex:none; border:0; cursor:pointer;
+  height:30px; padding:0 15px; border-radius:999px;
+  background:var(--ink); color:#fff;
+  font-size:12.5px; font-weight:600;
+  transition:transform .25s var(--ease), opacity .25s var(--ease);
+}
+.scr__go:hover{transform:translateY(-1px)}
+.scr__go:disabled{opacity:.45; cursor:default; transform:none}
+.scr__go:focus-visible{outline:2px solid var(--indigo); outline-offset:2px}
+.scr.is-err .scr__tag{color:#c0392b}
+
+/* ------------------------------------------------------- veil & flash */
+/* Brightness and do-not-disturb are one tinted sheet. It never goes past a
+   readable level, and it sits under the readout so messages stay legible. */
+.veil{
+  position:fixed; inset:0; z-index:40; pointer-events:none;
+  background:#0a0a12; opacity:0;
+  transition:opacity .5s var(--ease);
+}
+.flash{
+  position:fixed; inset:0; z-index:60; pointer-events:none;
+  background:#fff; opacity:0;
+}
+.flash.is-on{animation:snapflash .5s var(--ease)}
+@keyframes snapflash{
+  0%{opacity:.92}
+  100%{opacity:0}
+}
+/* the readout and the board stay above the veil so the page never goes dark */
+.nf__slot,.nf__scroll{position:relative; z-index:50}
+
+/* --------------------------------------------------- functional caps */
+/* The keys that do something are real buttons: focusable, labelled, and
+   operable from the keyboard. The purely musical caps stay decorative divs,
+   because 83 tab stops would wreck the page for anyone using a screen
+   reader to reach the actual content. */
+button.k{
+  appearance:none; -webkit-appearance:none; font:inherit; color:inherit;
+  border:0; margin:0; padding:0; text-align:center;
+}
+.k:focus-visible{
+  outline:2px solid var(--indigo); outline-offset:3px; z-index:2;
+}
+/* a held SHIFT leans the whole plate, the way a real board rocks under load */
+.kb{transition:transform .34s var(--ease)}
+.kb.is-shift{transform:rotateX(26.5deg) scale(1.02) translateY(3px)}
+
+@media (prefers-reduced-motion:reduce){
+  .scr{transition-duration:.01s}
+  .scr__bar i{transition-duration:.01s}
+  .kb,.veil{transition-duration:.01s}
+  .flash.is-on{animation-duration:.01s}
+}
+</style>
+</head>
+<body>
+
+<main class="nf">
+
+  <div class="nf__top">
+    <a href="index.html" aria-label="Grid.Pe home">
+      <img class="nf__logo" src="assets/logo-full.png" alt="Grid.Pe" width="1747" height="564">
+    </a>
+    <a class="nf__home" href="index.html">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+      Back to grid.pe
+    </a>
+  </div>
+
+  <div class="nf__head">
+    <h1 class="nf__code" aria-label="404">
+      <b data-digit="Digit4">4</b><b data-digit="Digit0">0</b><b data-digit="Digit4">4</b>
+    </h1>
+    <p class="nf__title">No cash at this address.</p>
+    <p class="nf__sub">The page you asked for isn&rsquo;t here &mdash; wrong link, or we moved it.</p>
+    <div class="nf__act">
+      <a class="btn btn--go" href="index.html">Back to grid.pe</a>
+    </div>
+  </div>
+
+  <div class="nf__stage">
+
+    <!-- The machine's readout. One surface for every response - messages,
+         the email input, the denomination list, the tracking bar - so no key
+         needs its own bespoke UI. It overlays rather than sits in flow, so a
+         tall response can never push the board out of the fold. -->
+    <div class="nf__slot">
+      <div class="scr" id="scr" role="status" aria-live="polite">
+        <span class="scr__tag" id="scrTag"></span>
+        <div class="scr__body" id="scrBody"></div>
+
+        <form class="scr__form" id="joinForm" novalidate hidden
+              data-endpoint="https://xxvbmvnrggsgetqswmjs.supabase.co/rest/v1/waitlist"
+              data-key="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh4dmJtdm5yZ2dzZ2V0cXN3bWpzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg1Mjc0ODgsImV4cCI6MjA4NDEwMzQ4OH0.qxwDinews3GPFuPQxZaHB0wgSyM_S1PxuKvby3fhJAk">
+          <input class="scr__in" id="scrIn" type="email" name="email"
+                 placeholder="you@email.com" autocomplete="email"
+                 autocapitalize="off" spellcheck="false" aria-label="Email address">
+          <input type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true" class="scr__hp">
+          <button class="scr__go" type="submit" id="scrGo">Send</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="nf__scroll">
+      <div class="kb" id="kb">
+        <div class="kb__rows" id="kbRows"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- One overlay does brightness, do-not-disturb and the shutter flash.
+       A CSS filter on an ancestor would flatten the board's 3D transform, so
+       this is a plain tinted sheet instead. -->
+  <div class="veil" id="veil" aria-hidden="true"></div>
+  <div class="flash" id="flash" aria-hidden="true"></div>
+
+</main>
+
+<script>
+(() => {
+  'use strict';
+
+  /* =====================================================================
+     THE MACHINE
+
+     One interaction layer rather than a handler per key:
+
+       key press  ->  press()      visual + switch click + note
+                  ->  dispatch()   looks the cap up in ACTIONS
+                  ->  readout()    the machine's single reply surface
+
+     Every cap that does something carries data-act, and ACTIONS is the only
+     place an action is defined. Modes decide what typing means; MODE is the
+     only state that changes routing.
+     ===================================================================== */
+
+  /* ---------------------------------------------------------- the board */
+  /* ANSI 75% plus the macro column and the knob. Every row totals 16 units,
+     which is what keeps the columns aligned.
+       act - functional cap: becomes a real <button>, dispatches an action
+       v   - synth voice for the musical caps */
+  const ROWS = [
+    { fn:true, keys:[
+      { code:'Escape', b:'esc', act:'esc',  label:'Cancel', cls:'k--fn k--dots' },
+      { code:'F1',  b:'F1',  i:'BR-',  act:'br-',  label:'Dim',            cls:'k--fn' },
+      { code:'F2',  b:'F2',  i:'BR+',  act:'br+',  label:'Brighten',       cls:'k--fn' },
+      { code:'F3',  b:'F3',  i:'GRID', act:'grid', label:'Grid mode',      cls:'k--fn' },
+      { code:'F4',  b:'F4',  i:'FIND', act:'find', label:'Search',         cls:'k--fn' },
+      { code:'F5',  b:'F5',  i:'DICT', act:'dict', label:'Dictate',        cls:'k--fn' },
+      { code:'F6',  b:'F6',  i:'DND',  act:'dnd',  label:'Do not disturb', cls:'k--fn' },
+      { code:'F7',  b:'F7',  i:'PREV', act:'prev', label:'Previous track', cls:'k--fn' },
+      { code:'F8',  b:'F8',  i:'PLAY', act:'play', label:'Play or pause',  cls:'k--fn' },
+      { code:'F9',  b:'F9',  i:'NEXT', act:'next', label:'Next track',     cls:'k--fn' },
+      { code:'F10', b:'F10', i:'MUTE', act:'mute', label:'Mute',           cls:'k--fn' },
+      { code:'F11', b:'F11', i:'VOL-', act:'vol-', label:'Volume down',    cls:'k--fn' },
+      { code:'F12', b:'F12', i:'VOL+', act:'vol+', label:'Volume up',      cls:'k--fn' },
+      { code:null,  b:'SNAP',  act:'snap',  label:'Snapshot',  cls:'k--macro' },
+      { code:null,  b:'CLEAR', act:'clear', label:'Clear',     cls:'k--macro' },
+      { knob:true }
+    ]},
+    { keys:[
+      { code:'Backquote', b:'`', i:'~', cls:'k--stack k--sm' },
+      { code:'Digit1', b:'1', i:'!', cls:'k--stack k--sm' },
+      { code:'Digit2', b:'2', i:'@', cls:'k--stack k--sm' },
+      { code:'Digit3', b:'3', i:'#', cls:'k--stack k--sm' },
+      { code:'Digit4', b:'4', i:'$', cls:'k--stack k--sm' },
+      { code:'Digit5', b:'5', i:'%', cls:'k--stack k--sm' },
+      { code:'Digit6', b:'6', i:'^', cls:'k--stack k--sm' },
+      { code:'Digit7', b:'7', i:'&amp;', cls:'k--stack k--sm' },
+      { code:'Digit8', b:'8', i:'*', cls:'k--stack k--sm' },
+      { code:'Digit9', b:'9', i:'(', cls:'k--stack k--sm' },
+      { code:'Digit0', b:'0', i:')', cls:'k--stack k--sm' },
+      { code:'Minus',  b:'-', i:'_', cls:'k--stack k--sm' },
+      { code:'Equal',  b:'=', i:'+', cls:'k--stack k--sm' },
+      { code:'Backspace', b:'BACKSPACE', w:2, act:'back', label:'Backspace', cls:'k--wide' },
+      { code:null, b:'PICK', act:'pick', label:'Pick a denomination', cls:'k--macro' }
+    ]},
+    { keys:[
+      { code:'Tab', b:'TAB', w:1.5, cls:'k--wide' },
+      { code:'KeyQ', b:'Q', v:'bell' }, { code:'KeyW', b:'W', v:'bell' },
+      { code:'KeyE', b:'E', v:'bell' }, { code:'KeyR', b:'R', v:'bell' },
+      { code:'KeyT', b:'T', v:'bell' }, { code:'KeyY', b:'Y', v:'bell' },
+      { code:'KeyU', b:'U', v:'bell' }, { code:'KeyI', b:'I', v:'bell' },
+      { code:'KeyO', b:'O', v:'bell' }, { code:'KeyP', b:'P', v:'bell' },
+      { code:'BracketLeft',  b:'[', i:'{', cls:'k--stack k--sm' },
+      { code:'BracketRight', b:']', i:'}', cls:'k--stack k--sm' },
+      { code:'Backslash',    b:'\\', i:'|', w:1.5, cls:'k--stack k--sm' },
+      { code:null, b:'ORDER', act:'order', label:'Order cash', cls:'k--macro' }
+    ]},
+    { keys:[
+      { code:'CapsLock', b:'&#10022;', w:1.75, cls:'k--hyper' },
+      { code:'KeyA', b:'A' }, { code:'KeyS', b:'S' }, { code:'KeyD', b:'D' },
+      { code:'KeyF', b:'F' }, { code:'KeyG', b:'G' }, { code:'KeyH', b:'H' },
+      { code:'KeyJ', b:'J' }, { code:'KeyK', b:'K' }, { code:'KeyL', b:'L' },
+      { code:'Semicolon', b:';', i:':', cls:'k--stack k--sm' },
+      { code:'Quote', b:'&#39;', i:'&quot;', cls:'k--stack k--sm' },
+      { code:'Enter', b:'GRID.PE', w:2.25, act:'home', label:'Back to grid.pe', cls:'k--wide' },
+      { code:null, b:'TRACK', act:'track', label:'Track delivery', cls:'k--macro' }
+    ]},
+    { keys:[
+      { code:'ShiftLeft', b:'SHIFT', w:2.25, cls:'k--wide' },
+      { code:'KeyZ', b:'Z', v:'perc' }, { code:'KeyX', b:'X', v:'perc' },
+      { code:'KeyC', b:'C', v:'perc' }, { code:'KeyV', b:'V', v:'perc' },
+      { code:'KeyB', b:'B', v:'perc' }, { code:'KeyN', b:'N', v:'perc' },
+      { code:'KeyM', b:'M', v:'perc' },
+      { code:'Comma',  b:',', i:'&lt;', cls:'k--stack k--sm' },
+      { code:'Period', b:'.', i:'&gt;', cls:'k--stack k--sm' },
+      { code:'Slash',  b:'/', i:'?', cls:'k--stack k--sm' },
+      { code:'ShiftRight', b:'SHIFT', w:1.75, cls:'k--wide' },
+      { code:'ArrowUp', b:'&#8593;', cls:'k--sm' },
+      { code:null, b:'OTP', act:'otp', label:'Enter OTP', cls:'k--macro' }
+    ]},
+    { keys:[
+      { code:'ControlLeft',  b:'CTRL', w:1.25, cls:'k--wide' },
+      { code:'AltLeft',      b:'OPT',  w:1.25, cls:'k--wide' },
+      { code:'MetaLeft',     b:'CMD',  w:1.25, cls:'k--wide' },
+      { code:'Space', b:'', w:6.25 },
+      { code:'MetaRight',    b:'CMD',  cls:'k--wide' },
+      { code:'Fn',           b:'FN',   cls:'k--wide' },
+      { code:'ControlRight', b:'CTRL', cls:'k--wide' },
+      { code:'ArrowLeft',  b:'&#8592;', cls:'k--sm' },
+      { code:'ArrowDown',  b:'&#8595;', cls:'k--sm' },
+      { code:'ArrowRight', b:'&#8594;', cls:'k--sm' }
+    ]}
+  ];
+
+  const $ = (id) => document.getElementById(id);
+  const kb = $('kb');
+  const rowsEl = $('kbRows');
+  const byCode = new Map();
+  const byAct = new Map();
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+  const touch = matchMedia('(hover: none) and (pointer: coarse)').matches;
+
+  const ledBar = (side, phase) => {
+    const bar = document.createElement('div');
+    bar.className = 'bar bar--' + side;
+    for (let i = 0; i < 9; i++) {
+      const s = document.createElement('span');
+      s.style.setProperty('--d', (phase + i * 0.11).toFixed(2) + 's');
+      bar.appendChild(s);
+    }
+    return bar;
+  };
+
+  ROWS.forEach((row, r) => {
+    const rowEl = document.createElement('div');
+    rowEl.className = 'kb__row' + (row.fn ? ' kb__row--fn' : '');
+    let x = 0;
+
+    row.keys.forEach((def) => {
+      if (def.knob) {
+        const knob = document.createElement('div');
+        knob.className = 'knob';
+        knob.id = 'knob';
+        knob.setAttribute('role', 'slider');
+        knob.setAttribute('tabindex', '0');
+        knob.setAttribute('aria-label', 'Volume');
+        knob.setAttribute('aria-valuemin', '0');
+        knob.setAttribute('aria-valuemax', '100');
+        knob.innerHTML = '<div class="knob__spin"></div>';
+        rowEl.appendChild(knob);
+        x += 1;
+        return;
+      }
+
+      const w = def.w || 1;
+      // a cap that does something is a real button; the rest are decorative
+      const el = document.createElement(def.act ? 'button' : 'div');
+      el.className = 'k' + (def.cls ? ' ' + def.cls : '');
+      if (def.act) {
+        el.type = 'button';
+        el.dataset.act = def.act;
+        el.setAttribute('aria-label', def.label || def.b);
+        byAct.set(def.act, el);
+      } else {
+        el.setAttribute('aria-hidden', 'true');
+      }
+      el.style.setProperty('--w', w);
+      // phase the ambient sweep by position so the bloom crosses on a diagonal
+      el.style.setProperty('--d', (-(x * 0.075 + r * 0.11)).toFixed(3) + 's');
+      // pitch reads off the board's geography: right climbs the scale, up climbs registers
+      el.dataset.deg = Math.round(x * 0.6) + (5 - r) * 2;
+      if (def.v) el.dataset.voice = def.v;
+      el.innerHTML = '<span class="sheen"></span>' +
+        (def.i ? '<i>' + def.i + '</i>' : '') +
+        (def.b ? '<b>' + def.b + '</b>' : '');
+      if (def.code) {
+        el.dataset.code = def.code;
+        if (!byCode.has(def.code)) byCode.set(def.code, el);
+      }
+      rowEl.appendChild(el);
+      x += w;
+    });
+
+    rowsEl.appendChild(rowEl);
+  });
+  kb.append(ledBar('l', 0), ledBar('r', 1.3));
+
+  /* ====================================================== audio engine */
+  /* Everything is synthesized. Nothing is downloaded, nothing is licensed,
+     and no context exists until the first real gesture - which is both the
+     autoplay rule and the reason the intro demo is silent. */
+  let gestured = false, ac = null, noise = null;
+  let vol = 0.5, muted = false, master = null, echo = null, musicBus = null;
+
+  const ctxFor = () => {
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return null;
+    if (!ac) ac = new AC();
+    if (ac.state === 'suspended') ac.resume();
+    return ac;
+  };
+
+  const noiseBuf = (ctx) => {
+    if (noise) return noise;
+    const n = Math.floor(ctx.sampleRate * 0.6);
+    noise = ctx.createBuffer(1, n, ctx.sampleRate);
+    const d = noise.getChannelData(0);
+    for (let i = 0; i < n; i++) d[i] = Math.random() * 2 - 1;
+    return noise;
+  };
+
+  /* One master gain governs clicks, notes and music alike, so the knob and
+     MUTE really do control everything. The echo is a short feedback delay so
+     fast typing washes together instead of reading as separate beeps. */
+  const chain = (ctx) => {
+    if (master) return master;
+    master = ctx.createGain();
+    master.gain.value = muted ? 0 : vol;
+    master.connect(ctx.destination);
+
+    echo = ctx.createDelay(0.5);
+    echo.delayTime.value = 0.17;
+    const fb = ctx.createGain(); fb.gain.value = 0.26;
+    const send = ctx.createGain(); send.gain.value = 0.3;
+    echo.connect(fb); fb.connect(echo); echo.connect(send); send.connect(master);
+
+    // the bed sits under the keys rather than competing with them
+    musicBus = ctx.createGain();
+    musicBus.gain.value = 0.42;
+    musicBus.connect(master);
+    return master;
+  };
+
+  const env = (ctx, peak, t, dur, shape) => {
+    const g = ctx.createGain();
+    g.gain.setValueAtTime(0, t);
+    g.gain.linearRampToValueAtTime(peak, t + (shape || 0.004));
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    return g;
+  };
+
+  const clack = (isDown) => {
+    if (!gestured) return;
+    let ctx; try { ctx = ctxFor(); } catch (_) { return; }
+    if (!ctx) return;
+    const out = chain(ctx), t = ctx.currentTime;
+    const v = 0.94 + Math.random() * 0.12;
+
+    const src = ctx.createBufferSource();
+    src.buffer = noiseBuf(ctx);
+    const bp = ctx.createBiquadFilter();
+    bp.type = 'bandpass';
+    bp.frequency.value = (isDown ? 2400 : 3300) * v;
+    bp.Q.value = 1.1;
+    const g = env(ctx, isDown ? 0.26 : 0.12, t, isDown ? 0.028 : 0.016, 0.001);
+    src.connect(bp).connect(g).connect(out);
+    src.start(t); src.stop(t + 0.06);
+
+    if (!isDown) return;
+    const o = ctx.createOscillator();
+    o.type = 'triangle';
+    o.frequency.setValueAtTime(190 * v, t);
+    o.frequency.exponentialRampToValueAtTime(90, t + 0.05);
+    const og = env(ctx, 0.14, t, 0.06, 0.002);
+    o.connect(og).connect(out);
+    o.start(t); o.stop(t + 0.08);
+  };
+
+  /* C major pentatonic. The scale is the whole trick: it contains no harsh
+     interval, so whatever anyone types still lands as music. A chromatic map
+     would put every semitone clash on the board. */
+  const PENTA = [0, 2, 4, 7, 9];
+  const ROOT = 130.81;                                   // C3
+  const degToFreq = (deg) => {
+    const step = ((deg % 5) + 5) % 5;
+    return ROOT * Math.pow(2, (PENTA[step] + 12 * Math.floor(deg / 5)) / 12);
+  };
+
+  /* Three voices, so the board reads as an instrument rather than a piano:
+     the top row rings, the home row plucks, the bottom row thumps. */
+  const VOICES = {
+    bell(ctx, out, f, t) {
+      const g = env(ctx, 0.15, t, 1.1, 0.006);
+      const bp = ctx.createBiquadFilter();
+      bp.type = 'bandpass'; bp.frequency.value = f * 2.2; bp.Q.value = 1.4;
+      [[1, 1], [2.01, 0.42], [3.02, 0.16]].forEach(([mult, amp]) => {
+        const o = ctx.createOscillator();
+        o.type = 'sine';
+        o.frequency.value = f * mult;
+        const a = ctx.createGain(); a.gain.value = amp;
+        o.connect(a).connect(bp);
+        o.start(t); o.stop(t + 1.2);
+      });
+      bp.connect(g); return g;
+    },
+    pluck(ctx, out, f, t) {
+      const g = env(ctx, 0.2, t, 0.9);
+      const lp = ctx.createBiquadFilter();
+      lp.type = 'lowpass';
+      lp.frequency.setValueAtTime(Math.min(f * 8, 9000), t);
+      lp.frequency.exponentialRampToValueAtTime(Math.max(f * 1.6, 180), t + 0.5);
+      const o1 = ctx.createOscillator(); o1.type = 'triangle'; o1.frequency.value = f;
+      const o2 = ctx.createOscillator(); o2.type = 'sine'; o2.frequency.value = f * 2;
+      const g2 = ctx.createGain(); g2.gain.value = 0.3;
+      o1.connect(lp); o2.connect(g2).connect(lp); lp.connect(g);
+      o1.start(t); o2.start(t); o1.stop(t + 1); o2.stop(t + 1);
+      return g;
+    },
+    perc(ctx, out, f, t) {
+      const g = env(ctx, 0.24, t, 0.34, 0.002);
+      const o = ctx.createOscillator();
+      o.type = 'sine';
+      o.frequency.setValueAtTime(f * 0.75, t);
+      o.frequency.exponentialRampToValueAtTime(f * 0.32, t + 0.16);
+      const og = ctx.createGain(); og.gain.value = 0.9;
+      o.connect(og).connect(g);
+      o.start(t); o.stop(t + 0.36);
+
+      const src = ctx.createBufferSource();
+      src.buffer = noiseBuf(ctx);
+      const bp = ctx.createBiquadFilter();
+      bp.type = 'bandpass'; bp.frequency.value = f * 5; bp.Q.value = 0.8;
+      const ng = env(ctx, 0.1, t, 0.06, 0.001);
+      src.connect(bp).connect(ng).connect(g);
+      src.start(t); src.stop(t + 0.08);
+      return g;
+    }
+  };
+
+  const note = (deg, voice) => {
+    if (!gestured || muted || !isFinite(deg)) return;
+    let ctx; try { ctx = ctxFor(); } catch (_) { return; }
+    if (!ctx) return;
+    const out = chain(ctx), t = ctx.currentTime;
+    const g = (VOICES[voice] || VOICES.pluck)(ctx, out, degToFreq(deg), t);
+    g.connect(out);
+    if (echo) g.connect(echo);
+  };
+
+  /* ------------------------------------------------------- the bed */
+  /* Three short procedural loops on a lookahead scheduler. All synthesized,
+     all in the same pentatonic as the keys, so playing over them works. */
+  const hit = (ctx, type, t, f, amp) => {
+    const out = musicBus;
+    if (!out) return;
+    if (type === 'hat') {
+      const src = ctx.createBufferSource();
+      src.buffer = noiseBuf(ctx);
+      const hp = ctx.createBiquadFilter();
+      hp.type = 'highpass'; hp.frequency.value = 7000;
+      const g = env(ctx, amp, t, 0.045, 0.001);
+      src.connect(hp).connect(g).connect(out);
+      src.start(t); src.stop(t + 0.06);
+    } else if (type === 'sub') {
+      const o = ctx.createOscillator();
+      o.type = 'sine'; o.frequency.value = f;
+      const g = env(ctx, amp, t, 0.5, 0.01);
+      o.connect(g).connect(out);
+      o.start(t); o.stop(t + 0.55);
+    } else if (type === 'kick') {
+      const o = ctx.createOscillator();
+      o.type = 'sine';
+      o.frequency.setValueAtTime(110, t);
+      o.frequency.exponentialRampToValueAtTime(38, t + 0.13);
+      const g = env(ctx, amp, t, 0.24, 0.003);
+      o.connect(g).connect(out);
+      o.start(t); o.stop(t + 0.28);
+    } else if (type === 'pad') {
+      const g = ctx.createGain();
+      g.gain.setValueAtTime(0, t);
+      g.gain.linearRampToValueAtTime(amp, t + 0.9);
+      g.gain.linearRampToValueAtTime(0.0001, t + 3.6);
+      const lp = ctx.createBiquadFilter();
+      lp.type = 'lowpass'; lp.frequency.value = 1400;
+      [1, 1.005, 1.5].forEach((m, i) => {
+        const o = ctx.createOscillator();
+        o.type = i === 2 ? 'sine' : 'triangle';
+        o.frequency.value = f * m;
+        const a = ctx.createGain(); a.gain.value = i === 2 ? 0.3 : 0.5;
+        o.connect(a).connect(lp);
+        o.start(t); o.stop(t + 3.7);
+      });
+      lp.connect(g).connect(out);
+    } else if (type === 'blip') {
+      const o = ctx.createOscillator();
+      o.type = 'triangle'; o.frequency.value = f;
+      const g = env(ctx, amp, t, 0.4, 0.005);
+      const lp = ctx.createBiquadFilter();
+      lp.type = 'lowpass'; lp.frequency.value = f * 4;
+      o.connect(lp).connect(g).connect(out);
+      o.start(t); o.stop(t + 0.45);
+    }
+  };
+
+  const D = (n) => degToFreq(n);
+  const TRACKS = [
+    { name: 'DRIFT', bpm: 62, step(ctx, i, t) {
+        const b = i % 32;
+        if (b === 0) hit(ctx, 'pad', t, D(0) / 2, 0.16);
+        if (b === 16) hit(ctx, 'pad', t, D(2) / 2, 0.14);
+        if (b === 6 || b === 19 || b === 27) hit(ctx, 'blip', t, D(12 + (i % 3) * 2), 0.09);
+      } },
+    { name: 'TRANSIT', bpm: 98, step(ctx, i, t) {
+        const b = i % 16;
+        if (b === 0 || b === 8) hit(ctx, 'sub', t, D(0) / 2, 0.2);
+        if (b % 2 === 1) hit(ctx, 'hat', t, 0, 0.045);
+        if (b === 4 || b === 12) hit(ctx, 'kick', t, 0, 0.22);
+        if (b === 2 || b === 7 || b === 11)
+          hit(ctx, 'blip', t, D(7 + ((i / 4) | 0) % 5), 0.075);
+      } },
+    { name: 'VAULT', bpm: 48, step(ctx, i, t) {
+        const b = i % 32;
+        if (b === 0) { hit(ctx, 'pad', t, D(-3) / 2, 0.18); hit(ctx, 'kick', t, 0, 0.18); }
+        if (b === 12 || b === 24) hit(ctx, 'hat', t, 0, 0.03);
+        if (b === 20) hit(ctx, 'blip', t, D(5), 0.07);
+      } }
+  ];
+
+  let playing = false, trackIx = 0, seqTimer = null, seqStep = 0, seqNext = 0;
+
+  const pump = () => {
+    let ctx; try { ctx = ctxFor(); } catch (_) { return; }
+    if (!ctx) return;
+    const tr = TRACKS[trackIx];
+    const spb = 60 / tr.bpm / 4;                 // one sixteenth
+    while (seqNext < ctx.currentTime + 0.12) {
+      if (seqNext >= ctx.currentTime) tr.step(ctx, seqStep, seqNext);
+      seqStep++;
+      seqNext += spb;
+    }
+  };
+
+  const startMusic = () => {
+    let ctx; try { ctx = ctxFor(); } catch (_) { return; }
+    if (!ctx) return;
+    chain(ctx);
+    playing = true;
+    seqStep = 0;
+    seqNext = ctx.currentTime + 0.06;
+    clearInterval(seqTimer);
+    seqTimer = setInterval(pump, 25);
+  };
+
+  const stopMusic = () => {
+    playing = false;
+    clearInterval(seqTimer);
+    seqTimer = null;
+  };
+
+  /* ------------------------------------------------------------ volume */
+  const paintMeter = () => {
+    const lit = muted ? 0 : Math.round(vol * 9);
+    document.querySelectorAll('.bar').forEach((bar) => {
+      bar.classList.add('bar--meter');
+      [...bar.children].forEach((dot, i) => dot.classList.toggle('on', (9 - i) <= lit));
+    });
+  };
+
+  const setVol = (v, quiet) => {
+    vol = Math.min(1, Math.max(0, v));
+    if (master) master.gain.value = muted ? 0 : vol;
+    paintMeter();
+    const pct = Math.round(vol * 100);
+    if (knob) {
+      knob.setAttribute('aria-valuenow', muted ? 0 : pct);
+      knob.setAttribute('aria-valuetext', muted ? 'Muted' : pct + '%');
+    }
+    if (quiet) return;
+    if (muted) readout('VOL', 'you muted Grid.Pe.');
+    else if (pct >= 100) readout('VOL', '100%\nLOUD.');
+    else if (pct <= 0) readout('VOL', '0%\nyou muted Grid.Pe.');
+    else readout('VOL', pct + '%');
+  };
+
+  /* ====================================================== the readout */
+  const scr = $('scr'), scrTag = $('scrTag'), scrBody = $('scrBody');
+  const form = $('joinForm'), field = $('scrIn'), goBtn = $('scrGo');
+  let hideTimer = null, seqToken = 0;
+
+  const hideScr = () => {
+    // bumping the token abandons any sequence still mid-flight, so dismissing
+    // the readout really dismisses it instead of being reopened a beat later
+    seqToken++;
+    clearTimeout(hideTimer);
+    scr.classList.remove('is-on', 'is-err');
+    document.querySelector('.nf').classList.remove('is-live');
+    form.hidden = true;
+  };
+
+  /* The single reply surface. hold:0 keeps it up until something replaces it. */
+  const readout = (tag, body, opts) => {
+    const o = opts || {};
+    seqToken++;                                  // cancels any running sequence
+    clearTimeout(hideTimer);
+    scrTag.textContent = tag || '';
+    scrBody.innerHTML = body || '';
+    scr.classList.toggle('is-err', !!o.err);
+    form.hidden = !o.form;
+    scr.classList.add('is-on');
+    document.querySelector('.nf').classList.add('is-live');
+    const hold = o.hold === undefined ? 2600 : o.hold;
+    if (hold > 0) hideTimer = setTimeout(hideScr, hold);
+    return seqToken;
+  };
+
+  /* Plays a scripted set of readouts, abandoning itself the moment anything
+     else takes the screen - so a fast explorer never sees stale replies. */
+  const play = async (steps) => {
+    const mine = readout(steps[0][0], steps[0][1], steps[0][2]);
+    for (let i = 1; i < steps.length; i++) {
+      const wait = steps[i][3] || 1100;
+      await new Promise((r) => setTimeout(r, wait));
+      if (seqToken !== mine) return;             // superseded
+      seqToken--;                                // keep ownership across the set
+      readout(steps[i][0], steps[i][1], steps[i][2]);
+      seqToken = mine;
+    }
+  };
+
+  const rupee = (n) => '₹' + Number(n).toLocaleString('en-IN');
+
+  /* ========================================================== the modes */
+  /* MODE decides only one thing: what typing means. Everything else is the
+     same code path regardless of what the machine is currently doing. */
+  let MODE = 'idle';                 // idle | email | find | otp
+  let buf = '';                      // letters, for the word eggs
+  let digits = '';                   // number row, for cash / OTP
+  let cashTimer = null;
+
+  const setMode = (m) => {
+    MODE = m;
+    digits = '';
+    clearTimeout(cashTimer);
+    field.value = '';
+    if (m === 'email') {
+      field.type = 'email';
+      field.placeholder = 'you@email.com';
+      field.setAttribute('aria-label', 'Email address');
+      field.inputMode = 'email';
+      goBtn.textContent = 'Send';
+    } else if (m === 'find') {
+      field.type = 'text';
+      field.placeholder = 'what are you looking for?';
+      field.setAttribute('aria-label', 'Search');
+      field.inputMode = 'text';
+      goBtn.textContent = 'Find';
+    } else if (m === 'otp') {
+      field.type = 'text';
+      field.placeholder = '••••';
+      field.setAttribute('aria-label', 'One time passcode');
+      field.inputMode = 'numeric';
+      goBtn.textContent = 'Verify';
+    }
+    if (m !== 'idle' && !touch) setTimeout(() => field.focus(), 30);
+  };
+
+  const exitMode = () => { setMode('idle'); hideScr(); };
+
+  /* ------------------------------------------------------- the waitlist */
+  /* Connects to the waitlist that already exists: the same PostgREST table,
+     anon key and honeypot the homepage form in main.js posts to. Insert-only
+     for the anon role, so return=minimal is required, and a 409 is the unique
+     index firing on a repeat signup - a success to the person typing. */
+  const FALLBACK = 'hello@grid.pe';
+  const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  let sending = false;
+
+  const sendEmail = async () => {
+    const email = field.value.trim();
+    if (!EMAIL.test(email)) {
+      readout('ORDERING CASH', 'That email does not look right.', { form: true, hold: 0, err: true });
+      field.focus();
+      return;
+    }
+    if (form.company && form.company.value) {          // honeypot
+      setMode('idle');
+      readout('REQUEST RECEIVED.', "We'll find you.\n<span class='dim'>Grid.Pe</span>", { hold: 4200 });
+      return;
+    }
+
+    sending = true;
+    goBtn.disabled = true;
+    readout('ORDERING CASH', 'Sending…', { form: true, hold: 0 });
+
+    try {
+      const key = form.dataset.key;
+      const res = await fetch(form.dataset.endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          apikey: key,
+          Authorization: 'Bearer ' + key,
+          Prefer: 'return=minimal'
+        },
+        body: JSON.stringify({ email, source: '404' })
+      });
+      if (res.status === 409) {
+        setMode('idle');
+        readout('ALREADY ON THE LIST.', "We'll find you.\n<span class='dim'>Grid.Pe</span>", { hold: 4200 });
+      } else if (!res.ok) {
+        throw new Error('HTTP ' + res.status);
+      } else {
+        setMode('idle');
+        readout('REQUEST RECEIVED.', "We'll find you.\n<span class='dim'>Grid.Pe</span>", { hold: 4200 });
+      }
+    } catch (err) {
+      console.warn('[waitlist]', err);
+      readout('NOT SENT', 'That did not go through.\nEmail ' + FALLBACK,
+              { form: true, hold: 0, err: true });
+    } finally {
+      sending = false;
+      goBtn.disabled = false;
+    }
+  };
+
+  const runFind = () => {
+    const q = field.value.trim().toLowerCase();
+    if (!q) return;
+    let reply;
+    if (/cash|money|rupee|₹|note/.test(q)) reply = 'Found 0 cash at this address.\n<span class="dim">Try your actual address.</span>';
+    else if (/404|page|link|url/.test(q)) reply = "That's the one thing this address has.";
+    else if (/grid\.?pe|grid/.test(q)) reply = 'Grid.Pe is one key away.\n<span class="dim">The big one.</span>';
+    else reply = 'No results at this address.\n<span class="dim">Nothing is kept here.</span>';
+    setMode('idle');
+    readout('FIND', reply, { hold: 4200 });
+  };
+
+  const runOtp = () => {
+    const code = field.value.replace(/\D/g, '');
+    if (!code) return;
+    setMode('idle');
+    if (code === '404') {
+      play([
+        ['OTP ACCEPTED', '', { hold: 0 }],
+        ['OTP ACCEPTED', 'We have absolutely no idea\nwhat just happened.', { hold: 4600 }, 900]
+      ]);
+    } else {
+      readout('OTP REJECTED', 'Not that one.\n<span class="dim">It was never sent anyway.</span>', { hold: 3600 });
+    }
+  };
+
+  /* ============================================================ actions */
+  /* The only place a key's behaviour is defined. */
+  let bright = 0, dnd = false;
+  const veil = $('veil'), flash = $('flash');
+
+  const paintVeil = () => {
+    // capped either side: dim enough to feel, never enough to hurt reading
+    const a = dnd ? 0.5 : Math.max(0, -bright) * 0.055;
+    veil.style.opacity = a.toFixed(3);
+  };
+
+  const CASH = [500, 1000, 2000, 5000];
+  const cashList = () =>
+    '<div class="scr__opts">' +
+    CASH.map((n) => '<button type="button" class="scr__opt" data-cash="' + n + '">' + rupee(n) + '</button>').join('') +
+    '</div>';
+
+  const ACTIONS = {
+    /* --- audio ------------------------------------------------------- */
+    play() {
+      if (playing) { stopMusic(); readout('PAUSED', TRACKS[trackIx].name); }
+      else { startMusic(); readout('PLAYING', TRACKS[trackIx].name); }
+    },
+    next() {
+      trackIx = (trackIx + 1) % TRACKS.length;
+      if (playing) startMusic();
+      readout(playing ? 'PLAYING' : 'TRACK', TRACKS[trackIx].name);
+    },
+    prev() {
+      trackIx = (trackIx - 1 + TRACKS.length) % TRACKS.length;
+      if (playing) startMusic();
+      readout(playing ? 'PLAYING' : 'TRACK', TRACKS[trackIx].name);
+    },
+    mute() { muted = !muted; setVol(vol); },
+    'vol-'() { setKnob(rot - 24); },
+    'vol+'() { setKnob(rot + 24); },
+
+    /* --- screen ------------------------------------------------------ */
+    'br-'() { bright = Math.max(-4, bright - 1); paintVeil(); readout('BRIGHTNESS', (5 + bright) + ' / 5'); },
+    'br+'() { bright = Math.min(1, bright + 1); paintVeil(); readout('BRIGHTNESS', (5 + bright) + ' / 5'); },
+    dnd() {
+      dnd = !dnd;
+      paintVeil();
+      if (dnd) readout('DO NOT DISTURB.', "WE'RE DELIVERING CASH.", { hold: 0 });
+      else { hideScr(); }
+    },
+
+    /* --- the fictional machine --------------------------------------- */
+    grid() {
+      play([
+        ['GRID MODE', 'SYSTEM ONLINE', { hold: 0 }],
+        ['GRID MODE', 'CASH\n' + cashList(), { hold: 6000 }, 1000]
+      ]);
+    },
+    find() { setMode('find'); readout('FIND', '', { form: true, hold: 0 }); },
+    dict() {
+      /* No microphone. Asking for one on a 404 page would contradict the
+         privacy policy, which promises this site collects nothing but an
+         email you type. The state is the joke; the permission is not worth it. */
+      play([
+        ['LISTENING…', '', { hold: 0 }],
+        ['LISTENING…', '<span class="dim">still listening</span>', { hold: 0 }, 1300],
+        ['HEARD NOTHING', 'This address is very quiet.', { hold: 3600 }, 1300]
+      ]);
+    },
+    pick() {
+      readout('PICK YOUR CASH', cashList(), { hold: 0 });
+    },
+    order() {
+      setMode('email');
+      readout('ORDERING CASH', 'Enter your email to join\nthe Grid.Pe waitlist.', { form: true, hold: 0 });
+    },
+    track() {
+      const bar = '<div class="scr__bar"><i></i></div>';
+      play([
+        ['TRACKING CASH DELIVERY', bar, { hold: 0 }],
+        ['TRACKING CASH DELIVERY',
+         bar + '\n52%\n<span class="dim">Driver location:</span> 404\n<span class="dim">Estimated arrival:</span> ¯\\_(ツ)_/¯',
+         { hold: 0 }, 2000],
+        ['DELIVERY FAILED', "Driver couldn't find this address.\n<span class='dim'>Makes sense.</span>",
+         { hold: 4200 }, 2400]
+      ]);
+      // let the bar paint at 0 before it animates, or the transition is skipped
+      requestAnimationFrame(() => {
+        const fill = scrBody.querySelector('.scr__bar i');
+        if (fill) requestAnimationFrame(() => { fill.style.width = '52%'; });
+      });
+    },
+    otp() { setMode('otp'); readout('ENTER OTP', '', { form: true, hold: 0 }); },
+
+    snap() {
+      flash.classList.remove('is-on');
+      void flash.offsetWidth;
+      flash.classList.add('is-on');
+      shutter();
+      readout('SNAP SAVED', '404 looks good on you.', { hold: 3200 });
+    },
+    clear() { exitMode(); buf = ''; digits = ''; },
+    esc() { exitMode(); buf = ''; digits = ''; },
+
+    back() {
+      if (MODE !== 'idle' && field.value) {
+        field.value = field.value.slice(0, -1);
+        return;
+      }
+      if (buf || digits) { buf = ''; digits = ''; hideScr(); return; }
+      readout('', 'Nothing to delete.\n<span class="dim">You already deleted the page.</span>');
+    },
+
+    home() { location.href = 'index.html'; },
+    enter() {
+      if (MODE === 'email') return sendEmail();
+      if (MODE === 'find') return runFind();
+      if (MODE === 'otp') return runOtp();
+      ACTIONS.home();
+    }
+  };
+
+  const shutter = () => {
+    if (!gestured || muted) return;
+    let ctx; try { ctx = ctxFor(); } catch (_) { return; }
+    if (!ctx) return;
+    const out = chain(ctx), t = ctx.currentTime;
+    [0, 0.085].forEach((off, i) => {
+      const src = ctx.createBufferSource();
+      src.buffer = noiseBuf(ctx);
+      const bp = ctx.createBiquadFilter();
+      bp.type = 'bandpass'; bp.frequency.value = i ? 1800 : 3000; bp.Q.value = 1.2;
+      const g = env(ctx, i ? 0.16 : 0.2, t + off, 0.03, 0.001);
+      src.connect(bp).connect(g).connect(out);
+      src.start(t + off); src.stop(t + off + 0.05);
+    });
+  };
+
+  const dispatch = (name) => {
+    const fn = ACTIONS[name];
+    if (!fn) return false;
+    stopDemo();
+    gestured = true;
+    fn();
+    return true;
+  };
+
+  /* ======================================================= the eggs */
+  /* Discovered, never advertised: nothing on the page hints at these. */
+  const EGGS = [
+    ['CASH',   'CASH DETECTED', 'Deploying delivery agent…', "…\nHe's lost."],
+    ['MONEY',  'MONEY DETECTED', "Please don't leave it\non the keyboard.", null],
+    ['GRIDPE', 'GRID.PE ONLINE', 'Every other address works.', null],
+    ['ORDER',  null, null, null],                 // opens the waitlist instead
+    ['OTP',    null, null, null]                  // opens the OTP egg instead
+  ];
+
+  const checkEggs = () => {
+    for (const [word, tag, line, tail] of EGGS) {
+      if (!buf.endsWith(word)) continue;
+      buf = '';
+      if (word === 'ORDER') { dispatch('order'); return true; }
+      if (word === 'OTP') { dispatch('otp'); return true; }
+      if (word === 'GRIDPE') kb.classList.add('is-found');
+      if (tail) play([[tag, line, { hold: 0 }], [tag, tail, { hold: 4200 }, 1400]]);
+      else readout(tag, line, { hold: 4000 });
+      return true;
+    }
+    return false;
+  };
+
+  const feedLetter = (ch) => {
+    buf = (buf + ch.toUpperCase()).slice(-8);
+    checkEggs();
+  };
+
+  const feedDigit = (ch) => {
+    digits = (digits + ch).slice(-8);
+    clearTimeout(cashTimer);
+
+    if (digits.endsWith('404')) {                 // the egg outranks the cash read
+      digits = '';
+      play([
+        ['', '404404404404', { hold: 0 }],
+        ['', 'okay stop.', { hold: 3000 }, 900]
+      ]);
+      return;
+    }
+    readout('', '<span class="big">' + rupee(digits) + '</span>', { hold: 0 });
+    cashTimer = setTimeout(() => {
+      if (digits.length < 3) { hideScr(); return; }
+      const amount = rupee(digits);
+      play([
+        ['CASH REQUEST DETECTED', '<span class="big">' + amount + '</span>', { hold: 0 }],
+        ['CASH REQUEST DETECTED',
+         '<span class="big">' + amount + '</span>\n<span class="dim">Delivery address:</span>\n404 NOT FOUND',
+         { hold: 0 }, 1200],
+        ['ORDER FAILED', 'bro where are we delivering this', { hold: 4200 }, 1500]
+      ]);
+      digits = '';
+    }, 1500);
+  };
+
+  /* ========================================================== pressing */
+  const down = new Set();
+
+  const press = (el) => {
+    if (!el || down.has(el)) return;
+    down.add(el);
+    el.classList.remove('is-lit');
+    el.classList.add('is-down');
+    clack(true);
+    // functional caps get the switch click only; the musical ones sing
+    if (!el.dataset.act) note(+el.dataset.deg, el.dataset.voice);
+  };
+
+  const release = (el) => {
+    if (!el || !down.has(el)) return;
+    down.delete(el);
+    el.classList.remove('is-down', 'is-lit');
+    void el.offsetWidth;
+    el.classList.add('is-lit');
+    clack(false);
+  };
+
+  document.addEventListener('animationend', (e) => {
+    if (e.animationName === 'kglow') e.target.classList.remove('is-lit');
+  }, true);
+
+  const headDigits = [...document.querySelectorAll('.nf__code b')];
+  const flashDigit = (code) => {
+    headDigits.forEach((d) => {
+      if (d.dataset.digit !== code) return;
+      d.classList.remove('lit');
+      void d.offsetWidth;
+      d.classList.add('lit');
+      setTimeout(() => d.classList.remove('lit'), 520);
+    });
+  };
+
+  /* ==================================================== real keyboard */
+  const SWALLOW = new Set(['Space', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Backspace']);
+  const editable = (t) => !!t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName));
+
+  addEventListener('keydown', (e) => {
+    if (e.key === 'Shift') kb.classList.add('is-shift');
+
+    // a focused cap or control handles its own Enter/Space; stay out of the way
+    const onControl = e.target !== document.body && e.target.closest &&
+                      e.target.closest('.k,.knob,.scr');
+    stopDemo();
+    gestured = true;
+
+    const el = byCode.get(e.code);
+    if (el && !e.repeat && !(onControl && (e.key === 'Enter' || e.key === ' '))) press(el);
+    if (el) flashDigit(e.code);
+
+    if (SWALLOW.has(e.code) && !editable(e.target) && !onControl
+        && !e.metaKey && !e.ctrlKey && !e.altKey) e.preventDefault();
+    if (e.repeat || e.metaKey || e.ctrlKey || e.altKey) return;
+
+    if (e.key === 'Escape') { dispatch('esc'); return; }
+    if (e.key === 'Enter' && !onControl) { dispatch('enter'); return; }
+    if (e.code === 'Backspace' && !editable(e.target)) { dispatch('back'); return; }
+
+    // the function row works from the physical keys too
+    if (el && el.dataset.act && /^F\d/.test(e.code)) { dispatch(el.dataset.act); return; }
+
+    if (e.key && e.key.length === 1) {
+      if (/[a-zA-Z]/.test(e.key)) {
+        if (MODE === 'idle') feedLetter(e.key);
+      } else if (/[0-9]/.test(e.key)) {
+        if (MODE === 'idle') feedDigit(e.key);
+      }
+      // typing anywhere but a field starts filling the machine's own input
+      if (MODE !== 'idle' && !editable(e.target)) field.focus();
+    }
+  });
+
+  addEventListener('keyup', (e) => {
+    if (e.key === 'Shift') kb.classList.remove('is-shift');
+    release(byCode.get(e.code));
+  });
+  addEventListener('blur', () => {
+    [...down].forEach(release);
+    kb.classList.remove('is-shift');
+  });
+
+  /* ------------------------------------------------------ pointer/tap */
+  kb.addEventListener('pointerdown', (e) => {
+    const el = e.target.closest('.k');
+    if (!el) return;
+    stopDemo();
+    gestured = true;
+    try { el.setPointerCapture(e.pointerId); } catch (_) {}
+    press(el);
+    if (el.dataset.code) flashDigit(el.dataset.code);
+  });
+  const upFromPointer = (e) => {
+    release(e.target.closest ? e.target.closest('.k') : null);
+  };
+  kb.addEventListener('pointerup', upFromPointer);
+  kb.addEventListener('pointercancel', upFromPointer);
+
+  /* Actions fire on click, not pointerup: click is what a mouse, a tap and a
+     focused button's Enter/Space all produce, so one listener covers every
+     input method and keyboard users get the same behaviour for free. */
+  kb.addEventListener('click', (e) => {
+    const el = e.target.closest('.k');
+    if (!el || !el.dataset.act) return;
+    e.preventDefault();
+    dispatch(el.dataset.act);
+  });
+
+  // the denomination buttons live inside the readout
+  scrBody.addEventListener('click', (e) => {
+    const opt = e.target.closest('.scr__opt');
+    if (!opt) return;
+    play([
+      ['SELECTED', '<span class="big">' + rupee(opt.dataset.cash) + '</span>', { hold: 0 }],
+      ['SELECTED', '<span class="big">' + rupee(opt.dataset.cash) + '</span>\n' +
+        "<span class='dim'>Unfortunately, you're standing\non a 404 page.</span>", { hold: 5000 }, 1200]
+    ]);
+  });
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (sending) return;
+    if (MODE === 'find') return runFind();
+    if (MODE === 'otp') return runOtp();
+    sendEmail();
+  });
+
+  /* --------------------------------------------------------------- knob */
+  const knob = $('knob');
+  const spin = knob.querySelector('.knob__spin');
+  let rot = 0, dragging = false, lastA = 0;
+
+  const angleTo = (e) => {
+    const r = knob.getBoundingClientRect();
+    return Math.atan2(e.clientY - (r.top + r.height / 2),
+                      e.clientX - (r.left + r.width / 2)) * 180 / Math.PI;
+  };
+  /* Bounded rather than free spinning: 300 degrees of travel maps to 0..1,
+     starting centred at half. */
+  const SWEEP = 150;
+  function setKnob(v, snappy, quiet) {
+    rot = Math.min(SWEEP, Math.max(-SWEEP, v));
+    spin.style.transition = snappy ? 'none' : '';
+    spin.style.setProperty('--rot', rot.toFixed(1) + 'deg');
+    if (muted && !quiet) muted = false;
+    setVol((rot + SWEEP) / (SWEEP * 2), quiet);
+  }
+
+  knob.addEventListener('pointerdown', (e) => {
+    dragging = true;
+    lastA = angleTo(e);
+    try { knob.setPointerCapture(e.pointerId); } catch (_) {}
+    stopDemo();
+    gestured = true;
+  });
+  knob.addEventListener('pointermove', (e) => {
+    if (!dragging) return;
+    const a = angleTo(e);
+    let d = a - lastA;
+    if (d > 180) d -= 360; else if (d < -180) d += 360;
+    lastA = a;
+    setKnob(rot + d, true);
+  });
+  const endDrag = () => { dragging = false; spin.style.transition = ''; };
+  knob.addEventListener('pointerup', endDrag);
+  knob.addEventListener('pointercancel', endDrag);
+  knob.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    stopDemo();
+    gestured = true;
+    setKnob(rot - Math.sign(e.deltaY) * 18);
+  }, { passive: false });
+  // the knob is a slider, so the arrow keys have to move it when it has focus
+  knob.addEventListener('keydown', (e) => {
+    const step = { ArrowRight: 15, ArrowUp: 15, ArrowLeft: -15, ArrowDown: -15 }[e.key];
+    if (step === undefined) return;
+    e.preventDefault();
+    gestured = true;
+    setKnob(rot + step);
+  });
+
+  /* ------------------------------------------------------- the demo */
+  /* Runs until the first real input, so an untouched page still shows that
+     the board is alive - and a touch device, which has no physical keys,
+     still sees it move. It calls press() only, never dispatch(), so it can
+     never fire an action or navigate. */
+  const SEQ = ['Digit4', 'Digit0', 'Digit4', null, 'KeyG', 'KeyR', 'KeyI', 'KeyD', null, null];
+  let timer = null, step = 0, stopped = false;
+
+  const tick = () => {
+    const code = SEQ[step % SEQ.length];
+    step++;
+    if (code) {
+      const el = byCode.get(code);
+      press(el);
+      flashDigit(code);
+      setTimeout(() => release(el), 95);
+    }
+    timer = setTimeout(tick, code ? 200 : 700);
+  };
+
+  function stopDemo() {
+    if (stopped) return;
+    stopped = true;
+    clearTimeout(timer);
+    [...down].forEach(release);
+  }
+
+  if (!reduce.matches) timer = setTimeout(tick, 900);
+  if (reduce.addEventListener) reduce.addEventListener('change', (e) => { if (e.matches) stopDemo(); });
+
+  setVol(vol, true);
+
+  /* ------------------------------------------------------------ cleanup */
+  /* Web Audio holds a hardware resource, so it gets released rather than left
+     running when the page goes away. */
+  addEventListener('pagehide', () => {
+    stopMusic();
+    clearTimeout(hideTimer);
+    clearTimeout(cashTimer);
+    clearTimeout(timer);
+    if (ac && ac.state !== 'closed') ac.close().catch(() => {});
+  });
+})();
+</script>
+
+</body>
+</html>
