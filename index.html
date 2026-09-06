@@ -109,7 +109,7 @@
      below, or the new characters silently fall back to the CSS stack. -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Permanent+Marker&amp;family=Caveat:wght@500;600&amp;display=swap&amp;text=%20%26BCKRSTYacdehijnprstuwy" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..100,500..700&amp;display=swap&amp;text=%E2%82%B9%E2%86%92"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..100,500..700&amp;family=Instrument+Serif:ital@0;1&amp;family=Manrope:wght@400..700&amp;family=Fragment+Mono&amp;display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Permanent+Marker&amp;family=Caveat:wght@500;600&amp;display=swap&amp;text=%20%26BCKRSTYacdehijnprstuwy"></noscript>
-<link rel="stylesheet" href="styles.css?v=1788680735">
+<link rel="stylesheet" href="styles.css?v=1788680996">
 <link rel="icon" href="assets/favicon/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16x16.png">
@@ -727,33 +727,20 @@
       </div>
     </div>
 
-    <!-- Decorative carousel, measured off the reference rather than guessed:
-         the tiles sit on a cylinder with a VERTICAL axis, so each one keeps a
-         fixed height and only swings left and right as the cylinder turns -
-         frames of the original are pixel-identical vertically. They are clipped
-         by the column's sides, not faded at top and bottom, and they leave the
-         picture by turning edge-on rather than by moving off it.
-         Angles are the golden angle apart so that the front-facing half is
-         always spread over the whole column height instead of bunching. -->
+    <!-- Decorative: eight cards on a vertical-axis ring that also descends,
+         so the ring reads as a spiral staircase. Geometry, spacing and speed
+         are the reference footer's own numbers - see .foot__reel in styles.css. -->
     <div class="foot__reel" aria-hidden="true">
       <div class="foot__swirl">
         <div class="foot__helix">
-          <i class="foot__cell" style="--i:0"><img class="foot__chip" src="assets/tiles/rates.webp" alt="" width="96" height="128" loading="lazy" decoding="async"></i>
-          <i class="foot__cell" style="--i:1"><img class="foot__chip" src="assets/tiles/fx.webp" alt="" width="96" height="128" loading="lazy" decoding="async"></i>
-          <i class="foot__cell" style="--i:2"><img class="foot__chip" src="assets/tiles/wallet.webp" alt="" width="96" height="128" loading="lazy" decoding="async"></i>
-          <i class="foot__cell" style="--i:3"><img class="foot__chip" src="assets/tiles/success.webp" alt="" width="96" height="128" loading="lazy" decoding="async"></i>
-          <i class="foot__cell" style="--i:4"><img class="foot__chip" src="assets/tiles/tracking.webp" alt="" width="96" height="128" loading="lazy" decoding="async"></i>
-          <i class="foot__cell" style="--i:5"><img class="foot__chip" src="assets/tiles/security.webp" alt="" width="96" height="128" loading="lazy" decoding="async"></i>
-          <i class="foot__cell" style="--i:6"><img class="foot__chip" src="assets/tiles/order.webp" alt="" width="96" height="128" loading="lazy" decoding="async"></i>
-          <i class="foot__cell" style="--i:7"><img class="foot__chip" src="assets/tiles/onboard.webp" alt="" width="96" height="128" loading="lazy" decoding="async"></i>
-          <i class="foot__cell" style="--i:8"><img class="foot__chip" src="assets/tiles/tracking.webp" alt="" width="96" height="128" loading="lazy" decoding="async"></i>
-          <i class="foot__cell" style="--i:9"><img class="foot__chip" src="assets/tiles/security.webp" alt="" width="96" height="128" loading="lazy" decoding="async"></i>
-          <i class="foot__cell" style="--i:10"><img class="foot__chip" src="assets/tiles/order.webp" alt="" width="96" height="128" loading="lazy" decoding="async"></i>
-          <i class="foot__cell" style="--i:11"><img class="foot__chip" src="assets/tiles/onboard.webp" alt="" width="96" height="128" loading="lazy" decoding="async"></i>
-          <i class="foot__cell" style="--i:12"><img class="foot__chip" src="assets/tiles/rates.webp" alt="" width="96" height="128" loading="lazy" decoding="async"></i>
-          <i class="foot__cell" style="--i:13"><img class="foot__chip" src="assets/tiles/fx.webp" alt="" width="96" height="128" loading="lazy" decoding="async"></i>
-          <i class="foot__cell" style="--i:14"><img class="foot__chip" src="assets/tiles/wallet.webp" alt="" width="96" height="128" loading="lazy" decoding="async"></i>
-          <i class="foot__cell" style="--i:15"><img class="foot__chip" src="assets/tiles/success.webp" alt="" width="96" height="128" loading="lazy" decoding="async"></i>
+          <i class="foot__cell" style="--i:0"><img class="foot__chip" src="assets/tiles/rates.webp" alt="" width="76" height="102" loading="lazy" decoding="async"></i>
+          <i class="foot__cell" style="--i:1"><img class="foot__chip" src="assets/tiles/fx.webp" alt="" width="76" height="102" loading="lazy" decoding="async"></i>
+          <i class="foot__cell" style="--i:2"><img class="foot__chip" src="assets/tiles/wallet.webp" alt="" width="76" height="102" loading="lazy" decoding="async"></i>
+          <i class="foot__cell" style="--i:3"><img class="foot__chip" src="assets/tiles/success.webp" alt="" width="76" height="102" loading="lazy" decoding="async"></i>
+          <i class="foot__cell" style="--i:4"><img class="foot__chip" src="assets/tiles/tracking.webp" alt="" width="76" height="102" loading="lazy" decoding="async"></i>
+          <i class="foot__cell" style="--i:5"><img class="foot__chip" src="assets/tiles/security.webp" alt="" width="76" height="102" loading="lazy" decoding="async"></i>
+          <i class="foot__cell" style="--i:6"><img class="foot__chip" src="assets/tiles/order.webp" alt="" width="76" height="102" loading="lazy" decoding="async"></i>
+          <i class="foot__cell" style="--i:7"><img class="foot__chip" src="assets/tiles/onboard.webp" alt="" width="76" height="102" loading="lazy" decoding="async"></i>
         </div>
       </div>
     </div>

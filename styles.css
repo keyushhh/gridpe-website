@@ -1320,50 +1320,66 @@ main:has(~ .foot)::after{
 }
 .foot__book:hover{transform:scale(1.05)}
 
-/* ---- centre carousel: tiles on a vertical-axis cylinder ---- */
+/* ---- centre carousel: a spiral staircase of cards on a vertical axis ----
+   Ported 1:1 off the reference footer, which is a three.js scene. Its numbers
+   are in world units; --u is the px-per-unit, fixed by the camera it used
+   (40deg fov at z=52), so the whole thing is one multiplication away from the
+   original: reel height = 2 * 52 * tan(20deg) * --u = 480px.
+     count 8 - gap .2 - card 6x8 - corner .38 - yStep -3.1 - yWave 1.3
+     speed .222 rad/s (= 28.3s a turn) - direction reverse
+   Ring radius is the reference's own formula, (card + gap) / (2 sin(pi/8)). */
 .foot__reel{
+  --u:12.7px;                       /* world unit -> px */
+  --card-w:calc(6 * var(--u));
+  --card-h:calc(8 * var(--u));
+  --ring:calc(8.1013 * var(--u));   /* 6.2 / (2 * sin(22.5deg)) */
   position:relative; height:480px; align-self:center;
   /* the reference clips at the sides and leaves the top and bottom alone -
      tiles exit by turning edge-on, not by sliding out of frame */
   overflow:hidden;
 }
-.foot__swirl{position:absolute; inset:0; perspective:1050px}
+/* camera distance, 52 units, is exactly CSS perspective */
+.foot__swirl{position:absolute; inset:0; perspective:calc(52 * var(--u))}
 .foot__helix{
   position:absolute; left:50%; top:50%;
   transform-style:preserve-3d; will-change:transform;
   /* negative, so the near face travels left - the direction the original turns */
-  animation:footTurn 30s linear infinite;
+  animation:footTurn 28.3s linear infinite;
 }
 @keyframes footTurn{from{transform:rotateY(0deg)} to{transform:rotateY(-360deg)}}
 
-/* 137.5deg is the golden angle: sixteen tiles land evenly around the cylinder
-   and, because the height rises with the index, the front-facing half is
-   always scattered over the full column instead of clumping into one band. */
+/* rotateY(a) translateZ(R) reproduces the reference's mesh exactly: it both
+   places the card at (sin a * R, cos a * R) and turns it to face outwards,
+   which is what setting position + rotation.y to the same angle did there.
+   CSS y points down where three's points up, hence the flipped signs. */
 .foot__cell{
   position:absolute; left:0; top:0; transform-style:preserve-3d;
   transform:
-    rotateY(calc(var(--i) * 137.5deg))
-    translateZ(150px)
-    translateY(calc(var(--i) * 24px - 180px));
+    rotateY(calc(var(--i) * 45deg))
+    translateZ(var(--ring))
+    translateY(calc((3.1 * (var(--i) - 3.5) - 1.3 * sin(var(--i) * 45deg)) * var(--u)));
 }
 .foot__chip{
-  display:block; width:96px; height:128px; max-width:none;
-  margin:-64px 0 0 -48px;
+  display:block; width:var(--card-w); height:var(--card-h); max-width:none;
+  margin:calc(var(--card-h) / -2) 0 0 calc(var(--card-w) / -2);
   /* cropped to the top of each screen, where the one big thing on it lives -
      a whole shrunken screenshot reads as noise at this size */
   object-fit:cover; object-position:50% 15%;
-  border-radius:24px;
+  border-radius:38%/28.5%;          /* cornerRadius .38 of the card width */
   /* these screens are dark UI on a black ground; without a lift they sink */
   filter:brightness(1.18) saturate(1.08);
   box-shadow:inset 0 0 0 1px rgba(255,255,255,.07);
-  /* the far half would show these screens mirrored; hiding it costs nothing,
-     because a tile turning away is edge-on and zero pixels wide by then */
-  backface-visibility:hidden;
+  /* the original material is double-sided, so the far half of the ring shows
+     the same art mirrored - which is what a plain backface gives us free */
 }
 .foot__reel:hover .foot__helix{animation-play-state:paused}
 
 /* 3D transforms only - without them every tile stacks on the centre point */
 @supports not (transform-style:preserve-3d){
+  .foot__reel{display:none}
+}
+/* sin() is what places the cards; no trig means no spiral, only a flat ring */
+@supports not (top:calc(1px * sin(45deg))){
   .foot__reel{display:none}
 }
 
@@ -1405,7 +1421,7 @@ main:has(~ .foot)::after{
    sticky reveal has nothing to pin to. */
 .foot__wordmark{
   margin:clamp(6px,1.2vw,16px) calc(var(--shell) * -1) 0; padding:0 4vw;
-  height:clamp(64px,12.5vw,180px); overflow:hidden;
+  height:clamp(72px,15vw,215px); overflow:hidden;
   user-select:none; pointer-events:none;
 }
 .foot__wordmark img{
@@ -1414,8 +1430,8 @@ main:has(~ .foot)::after{
 }
 
 @media (prefers-reduced-motion:reduce){
-  /* paused rather than none: the negative delays still place each chip along
-     the curve, so the composition survives - it just stops moving */
+  /* paused rather than none: each card's place on the spiral comes from --i,
+     not from the animation, so the composition survives - it just stops moving */
   .foot__helix{animation-play-state:paused}
 }
 
