@@ -10,7 +10,9 @@
   RewriteBase /
 
   # Block requests into hidden directories (.git/, .svn/, etc.) except .well-known
-  RewriteCond %{REQUEST_URI} (^|/)\.(?!well-known) [NC]
+  RewriteCond %{REQUEST_URI} (^|/)\.(?!well-known) [NC,OR]
+  # Block requests into private/source directories (_source/, etc.)
+  RewriteCond %{REQUEST_URI} (^|/)_ [NC]
   RewriteRule ^ - [F,L]
 
   # Canonical homepage URL: / instead of /index.html
@@ -50,9 +52,12 @@ ErrorDocument 404 /404.html
 </IfModule>
 
 # ----------------------------------------------------------------------
-# 4. SECURITY HEADERS (HSTS & CSP INTENTIONALLY OMITTED AT LAUNCH)
+# 4. SECURITY HEADERS
 # ----------------------------------------------------------------------
 <IfModule mod_headers.c>
+  # HTTP Strict Transport Security (enforce HTTPS for 1 year, including subdomains)
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+
   # Prevent clickjacking within frames
   Header always set X-Frame-Options "SAMEORIGIN"
 
@@ -64,6 +69,9 @@ ErrorDocument 404 /404.html
 
   # Restrict unneeded browser hardware capabilities
   Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+
+  # Cross-Origin Opener Policy (protect against window.opener cross-origin leaks)
+  Header always set Cross-Origin-Opener-Policy "same-origin"
 
   # Cross-site scripting filter for legacy browsers
   Header always set X-XSS-Protection "1; mode=block"
@@ -108,14 +116,14 @@ ErrorDocument 404 /404.html
 # Disable directory indexes (prevents browsing folder contents)
 Options -Indexes
 
-# Block access to hidden files (.env, .htaccess, etc.) except .well-known
+# Block access to hidden files (.env, .htaccess, etc.) and private directories/files (_*)
 <IfModule mod_authz_core.c>
-  <FilesMatch "^\.(?!well-known)">
+  <FilesMatch "^[\._](?!well-known)">
     Require all denied
   </FilesMatch>
 </IfModule>
 <IfModule !mod_authz_core.c>
-  <FilesMatch "^\.(?!well-known)">
+  <FilesMatch "^[\._](?!well-known)">
     Order allow,deny
     Deny from all
   </FilesMatch>
