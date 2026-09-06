@@ -1043,4 +1043,11 @@
       btn.querySelector('span').textContent = wasLabel;
     }
   });
+
+  /* ---------- go to top --------------------------------------------- */
+  document.querySelector('.foot__top')?.addEventListener('click', e => {
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (history.replaceState) history.replaceState(null, '', location.pathname + location.search);
+  });
 })();
