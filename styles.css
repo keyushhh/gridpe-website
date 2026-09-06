@@ -903,9 +903,11 @@ input:focus-visible{outline:2px solid var(--hot); outline-offset:2px}
   transition:transform .8s var(--ease);
 }
 .band__text.is-in .w > i{transform:none}
-/* oversized currency glyph, clipped by .band - decorative only */
+/* oversized currency glyph, bled off the band's bottom-right - decorative only.
+   Archivo's condensed rupee is far narrower than the system fallback this was
+   first eyeballed against, so the inset is tuned to the real glyph. */
 .band__mark{
-  position:absolute; z-index:0; right:-.02em; bottom:-.22em;
+  position:absolute; z-index:0; right:0; bottom:-.06em;
   font-family:Archivo,sans-serif; font-variation-settings:"wdth" 80,"wght" 700;
   font-size:clamp(160px,26vw,430px); line-height:.7;
   color:transparent; pointer-events:none; user-select:none;
@@ -1245,44 +1247,176 @@ input:focus-visible{outline:2px solid var(--hot); outline-offset:2px}
 
 /* =====================================================================
    FOOTER
+   The footer is not scrolled to, it is revealed: it pins to the viewport
+   bottom at z-index 0 and MAIN slides over it on a curved bottom edge.
+   The curve is not a radius on the last section - it is an ink-coloured
+   strip hanging off MAIN, so the seam reads at every scroll position and
+   does not pop in only once main has cleared it.
    ===================================================================== */
-.foot{background:var(--ink); color:#fff; padding:clamp(40px,6vw,80px) var(--shell) 0; overflow:hidden}
-.foot__legal{
-  max-width:var(--maxw); margin:0 auto; padding-bottom:44px;
-  border-bottom:1px solid rgba(255,255,255,.12);
-  display:grid; grid-template-columns:repeat(2,1fr); gap:24px;
-}
-.foot__legal p{margin:0; font-size:12.5px; line-height:1.7; color:rgba(255,255,255,.74)}
-.foot__legal b{color:#fff; font-weight:600}
+:root{--f-curve:60px; --f-curve-r:52px}
 
-.foot__grid{
-  max-width:var(--maxw); margin:0 auto; padding:48px 0;
-  display:grid; grid-template-columns:2fr repeat(4,1fr); gap:30px;
+/* scoped to the page that actually has a footer - privacy.html and terms.html
+   share this stylesheet and would otherwise grow a stray black curved strip */
+main:has(~ .foot){position:relative; z-index:1; background:var(--ground)}
+main:has(~ .foot)::after{
+  content:""; position:absolute; left:0; right:0; top:100%;
+  height:var(--f-curve); pointer-events:none;
+  background:var(--ink);                 /* matches .cta, the last section */
+  border-radius:0 0 var(--f-curve-r) var(--f-curve-r);
+  /* main and the footer are both near-black, so the corners alone would not
+     read as two planes - the cast shadow is what sells the layering */
+  box-shadow:0 26px 54px rgba(0,0,0,.75);
+  /* the rounded border traces the seam - on black-over-black the shadow alone
+     is too soft to tell you where one plane ends */
+  border-bottom:1px solid rgba(255,255,255,.11);
 }
-.foot__brand p{margin:10px 0 0; font-size:13.5px; color:rgba(255,255,255,.72)}
-.foot__grid nav{display:flex; flex-direction:column; gap:11px}
-.foot__grid b{
-  font-family:"Fragment Mono",monospace; font-size:10.5px; letter-spacing:.14em;
-  text-transform:uppercase; color:rgba(255,255,255,.72); font-weight:400; margin-bottom:3px;
+
+.foot{
+  position:sticky; bottom:0; z-index:0;
+  background:#000; color:#fff; overflow:hidden;
+  padding:calc(var(--f-curve) + clamp(26px,3vw,42px)) var(--shell) 0;
 }
-.foot__grid a{font-size:14px; color:rgba(255,255,255,.78); width:fit-content; transition:color .25s, transform .35s var(--ease)}
-.foot__grid a:hover{color:#fff; transform:translateX(4px)}
+/* one cold wash so the ground is not a flat black rectangle */
+.foot::before{
+  content:""; position:absolute; inset:auto -10% -30% -10%; height:70%;
+  pointer-events:none;
+  background:radial-gradient(46% 58% at 50% 100%,rgba(212,255,61,.10) 0%,rgba(212,255,61,.03) 46%,transparent 72%);
+}
+.foot > *{position:relative; z-index:1}
+
+.foot__stage{
+  max-width:var(--maxw); margin:0 auto;
+  display:grid; grid-template-columns:minmax(0,1.4fr) minmax(0,1.35fr) minmax(0,1fr);
+  gap:clamp(24px,3.4vw,56px); align-items:start;
+}
+
+/* ---- left ---- */
+.foot__eyebrow{
+  margin:0 0 clamp(14px,1.8vw,22px); display:flex; align-items:center; gap:11px;
+  font-family:"Fragment Mono",monospace; font-size:10.5px;
+  letter-spacing:.18em; text-transform:uppercase; color:rgba(255,255,255,.6);
+}
+.foot__eyebrow i{width:28px; height:1px; background:var(--lime); flex:none}
+.foot__say{
+  margin:0 0 clamp(20px,2.6vw,34px);
+  font-family:Archivo,sans-serif; font-variation-settings:"wdth" 76,"wght" 600;
+  font-size:clamp(34px,3.6vw,58px); line-height:.94; letter-spacing:-.03em;
+  text-transform:uppercase;
+}
+.foot__legal{display:grid; gap:12px; max-width:46ch}
+.foot__legal p{margin:0; font-size:12.5px; line-height:1.7; color:rgba(255,255,255,.6)}
+.foot__legal b{color:#fff; font-weight:600}
+.foot__card{
+  margin-top:clamp(22px,2.8vw,36px); max-width:400px;
+  display:flex; align-items:center; justify-content:space-between; gap:18px;
+  padding:16px 18px; border:1px solid rgba(255,255,255,.16); border-radius:14px;
+}
+.foot__card b{display:block; font-size:14.5px; font-weight:600}
+.foot__card span{display:block; margin-top:4px; font-size:12.5px; line-height:1.55; color:rgba(255,255,255,.6)}
+.foot__book{
+  flex:none; padding:10px 16px; border-radius:999px;
+  background:var(--lime); color:var(--ink); font-size:13px; font-weight:600;
+  transition:transform .3s var(--ease);
+}
+.foot__book:hover{transform:scale(1.05)}
+
+/* ---- centre carousel: tiles on a vertical-axis cylinder ---- */
+.foot__reel{
+  position:relative; height:480px; align-self:center;
+  /* the reference clips at the sides and leaves the top and bottom alone -
+     tiles exit by turning edge-on, not by sliding out of frame */
+  overflow:hidden;
+}
+.foot__swirl{position:absolute; inset:0; perspective:1050px}
+.foot__helix{
+  position:absolute; left:50%; top:50%;
+  transform-style:preserve-3d; will-change:transform;
+  /* negative, so the near face travels left - the direction the original turns */
+  animation:footTurn 30s linear infinite;
+}
+@keyframes footTurn{from{transform:rotateY(0deg)} to{transform:rotateY(-360deg)}}
+
+/* 137.5deg is the golden angle: sixteen tiles land evenly around the cylinder
+   and, because the height rises with the index, the front-facing half is
+   always scattered over the full column instead of clumping into one band. */
+.foot__cell{
+  position:absolute; left:0; top:0; transform-style:preserve-3d;
+  transform:
+    rotateY(calc(var(--i) * 137.5deg))
+    translateZ(150px)
+    translateY(calc(var(--i) * 24px - 180px));
+}
+.foot__chip{
+  display:block; width:96px; height:128px; max-width:none;
+  margin:-64px 0 0 -48px;
+  /* cropped to the top of each screen, where the one big thing on it lives -
+     a whole shrunken screenshot reads as noise at this size */
+  object-fit:cover; object-position:50% 15%;
+  border-radius:24px;
+  /* these screens are dark UI on a black ground; without a lift they sink */
+  filter:brightness(1.18) saturate(1.08);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.07);
+  /* the far half would show these screens mirrored; hiding it costs nothing,
+     because a tile turning away is edge-on and zero pixels wide by then */
+  backface-visibility:hidden;
+}
+.foot__reel:hover .foot__helix{animation-play-state:paused}
+
+/* 3D transforms only - without them every tile stacks on the centre point */
+@supports not (transform-style:preserve-3d){
+  .foot__reel{display:none}
+}
+
+/* ---- right ---- */
+.foot__menu{display:flex; flex-direction:column; gap:2px; margin-bottom:clamp(24px,3vw,40px)}
+.foot__menu a{
+  width:fit-content;
+  font-family:Archivo,sans-serif; font-variation-settings:"wdth" 82,"wght" 500;
+  font-size:clamp(20px,1.9vw,30px); line-height:1.24; letter-spacing:-.02em;
+  text-transform:uppercase; color:rgba(255,255,255,.82);
+  transition:color .25s, transform .35s var(--ease);
+}
+.foot__menu a:hover{color:var(--lime); transform:translateX(6px)}
+.foot__block{margin-bottom:clamp(16px,2vw,24px)}
+.foot__block b{
+  display:block; margin-bottom:9px;
+  font-family:"Fragment Mono",monospace; font-size:10.5px; font-weight:400;
+  letter-spacing:.14em; text-transform:uppercase; color:rgba(255,255,255,.55);
+}
+.foot__block a,.foot__block span{
+  display:block; width:fit-content; font-size:14px; color:rgba(255,255,255,.78);
+  transition:color .25s, transform .35s var(--ease);
+}
+.foot__block a:hover{color:#fff; transform:translateX(4px)}
 .foot a:focus-visible,.foot button:focus-visible{outline-color:var(--lime)}
 
 .foot__bar{
-  max-width:var(--maxw); margin:0 auto; padding:22px 0;
-  display:flex; justify-content:space-between; gap:16px;
+  max-width:var(--maxw); margin:clamp(22px,2.6vw,38px) auto 0; padding:18px 0;
+  display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap;
   border-top:1px solid rgba(255,255,255,.12);
   font-family:"Fragment Mono",monospace; font-size:10.5px;
-  letter-spacing:.12em; text-transform:uppercase; color:rgba(255,255,255,.72);
+  letter-spacing:.12em; text-transform:uppercase; color:rgba(255,255,255,.6);
 }
+.foot__bar-links{display:flex; gap:18px}
+.foot__bar a:hover{color:#fff}
+
+/* The mark bleeds off the page bottom rather than fitting on it. The crop is
+   also the height budget: the footer has to stay inside one viewport or the
+   sticky reveal has nothing to pin to. */
 .foot__wordmark{
-  margin:10px calc(var(--shell) * -1) 0; padding:0 4vw;
+  margin:clamp(6px,1.2vw,16px) calc(var(--shell) * -1) 0; padding:0 4vw;
+  height:clamp(64px,12.5vw,180px); overflow:hidden;
   user-select:none; pointer-events:none;
 }
 .foot__wordmark img{
   display:block; width:100%; height:auto;
   filter:invert(1); opacity:.07;
+}
+
+@media (prefers-reduced-motion:reduce){
+  /* paused rather than none: the negative delays still place each chip along
+     the curve, so the composition survives - it just stops moving */
+  .foot__helix{animation-play-state:paused}
 }
 
 /* =====================================================================
@@ -1375,7 +1509,25 @@ body.is-fly a,body.is-fly button,body.is-fly input,body.is-fly summary{cursor:po
   .trust__lin{position:static}
   .coverage{grid-template-columns:1fr}
   .coverage__map{max-width:520px}
-  .foot__grid{grid-template-columns:1fr 1fr}
+  /* the reel is the first thing to go: the two text columns need the width */
+  .foot__stage{grid-template-columns:minmax(0,1.1fr) minmax(0,.8fr)}
+  .foot__reel{display:none}
+}
+/* A footer taller than the viewport cannot pin sensibly - below this the
+   reveal is dropped and it is an ordinary block at the end of the page. */
+@media (max-width:900px){
+  main:has(~ .foot)::after{display:none}
+  .foot{position:static; padding-top:clamp(46px,9vw,70px)}
+  .foot__stage{grid-template-columns:1fr; gap:34px}
+  .foot__card{max-width:none}
+}
+/* A footer taller than the viewport cannot pin sensibly - below this the
+   reveal is dropped and it is an ordinary block at the end of the page. */
+@media (max-width:900px){
+  main:has(~ .foot)::after{display:none}
+  .foot{position:static; padding-top:clamp(46px,9vw,70px)}
+  .foot__stage{grid-template-columns:1fr; gap:34px}
+  .foot__card{max-width:none}
 }
 @media (max-width:820px){
   .nav__links{display:none}
@@ -1389,8 +1541,6 @@ body.is-fly a,body.is-fly button,body.is-fly input,body.is-fly summary{cursor:po
 @media (max-width:640px){
   .works__grid{grid-template-columns:1fr}
   .work:last-child{grid-column:auto}
-  .foot__legal{grid-template-columns:1fr}
-  .foot__grid{grid-template-columns:1fr 1fr}
   .field__head{align-items:flex-start}
 }
 

@@ -99,13 +99,17 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..100,500..700&amp;family=Instrument+Serif:ital@0;1&amp;family=Manrope:wght@400..700&amp;family=Fragment+Mono&amp;display=swap" media="print" onload="this.media='all'">
+<!-- Archivo's default Google subsets carry neither U+20B9 (Rs) nor U+2192 (arrow),
+     so the big outlined marks were silently falling back to system sans - wrong
+     shape, no wdth/wght. This ~1 KB subset fills exactly those two codepoints. -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..100,500..700&amp;display=swap&amp;text=%E2%82%B9%E2%86%92" media="print" onload="this.media='all'">
 <!-- Caveat + Permanent Marker only ever render two fixed strings on this page
      (the signature and the three pile labels), so they are subset to those
      glyphs: 102 KB -> ~6 KB. CHANGE EITHER STRING AND YOU MUST UPDATE &text=
      below, or the new characters silently fall back to the CSS stack. -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Permanent+Marker&amp;family=Caveat:wght@500;600&amp;display=swap&amp;text=%20%26BCKRSTYacdehijnprstuwy" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..100,500..700&amp;family=Instrument+Serif:ital@0;1&amp;family=Manrope:wght@400..700&amp;family=Fragment+Mono&amp;display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Permanent+Marker&amp;family=Caveat:wght@500;600&amp;display=swap&amp;text=%20%26BCKRSTYacdehijnprstuwy"></noscript>
-<link rel="stylesheet" href="styles.css?v=1788673987">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..100,500..700&amp;display=swap&amp;text=%E2%82%B9%E2%86%92"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..100,500..700&amp;family=Instrument+Serif:ital@0;1&amp;family=Manrope:wght@400..700&amp;family=Fragment+Mono&amp;display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Permanent+Marker&amp;family=Caveat:wght@500;600&amp;display=swap&amp;text=%20%26BCKRSTYacdehijnprstuwy"></noscript>
+<link rel="stylesheet" href="styles.css?v=1788680735">
 <link rel="icon" href="assets/favicon/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16x16.png">
@@ -699,45 +703,90 @@
 </main>
 
 <!-- ============ FOOTER ============ -->
+<!-- Revealed, not scrolled to: the footer is sticky at the viewport bottom and
+     MAIN slides over it on a curved bottom edge (see .foot / main::after in
+     styles.css). Below 900px the reveal is dropped and it is an ordinary
+     block - a footer taller than the viewport cannot pin sensibly. -->
 <footer class="foot" id="foot">
-  <div class="foot__legal">
-    <p>Grid.Pe is a cash-logistics and currency-exchange platform, <b>not a bank</b>. We do not hold customer balances, take deposits or pay interest.</p>
-    <p>Fees and delivery times shown in the app are indicative and vary by city, amount and time of day. Services and features described may differ by region.</p>
-  </div>
 
-  <div class="foot__grid">
-    <div class="foot__brand">
-      <img class="logo logo--onDark" src="assets/logo-full-320.webp" alt="Grid.Pe" width="320" height="104" loading="lazy" decoding="async">
-      <p>Real notes, to your door.</p>
+  <div class="foot__stage">
+
+    <div class="foot__l">
+      <p class="foot__eyebrow"><i></i>Cash logistics &middot; India</p>
+      <p class="foot__say">Real notes,<br>to your door.</p>
+      <div class="foot__legal">
+        <p>Grid.Pe is a cash-logistics and currency-exchange platform, <b>not a bank</b>. We do not hold customer balances, take deposits or pay interest.</p>
+        <p>Fees and delivery times shown in the app are indicative and vary by city, amount and time of day.</p>
+      </div>
+      <div class="foot__card">
+        <div>
+          <b>Run a counter?</b>
+          <span>Shops, kitchens and events. Tell us what your till needs.</span>
+        </div>
+        <a class="foot__book" href="mailto:gridpe.app@gmail.com?subject=Grid.Pe%20for%20counters">Book a call</a>
+      </div>
     </div>
-    <nav>
-      <b>Product</b>
-      <a href="#what-it-costs">What it costs</a>
-      <a href="#how-it-works">How it works</a>
-      <a href="#features">Features</a>
-      <a href="#coverage">Where we deliver</a>
-    </nav>
-    <nav>
-      <b>Company</b>
-      <a href="#founder">About</a>
-      <a href="#why-cash">Why order cash</a>
-      <a href="#trust">Trust &amp; safety</a>
-    </nav>
-    <nav>
-      <b>Legal</b>
-      <a href="privacy.html">Privacy Policy</a>
-      <a href="terms.html">Terms of Use</a>
-    </nav>
-    <nav>
-      <b>Contact</b>
-      <a href="mailto:gridpe.app@gmail.com">gridpe.app@gmail.com</a>
-      <a href="mailto:gridpe.app@gmail.com?subject=Grid.Pe%20for%20counters">For business</a>
-    </nav>
+
+    <!-- Decorative carousel, measured off the reference rather than guessed:
+         the tiles sit on a cylinder with a VERTICAL axis, so each one keeps a
+         fixed height and only swings left and right as the cylinder turns -
+         frames of the original are pixel-identical vertically. They are clipped
+         by the column's sides, not faded at top and bottom, and they leave the
+         picture by turning edge-on rather than by moving off it.
+         Angles are the golden angle apart so that the front-facing half is
+         always spread over the whole column height instead of bunching. -->
+    <div class="foot__reel" aria-hidden="true">
+      <div class="foot__swirl">
+        <div class="foot__helix">
+          <i class="foot__cell" style="--i:0"><img class="foot__chip" src="assets/tiles/rates.webp" alt="" width="96" height="128" loading="lazy" decoding="async"></i>
+          <i class="foot__cell" style="--i:1"><img class="foot__chip" src="assets/tiles/fx.webp" alt="" width="96" height="128" loading="lazy" decoding="async"></i>
+          <i class="foot__cell" style="--i:2"><img class="foot__chip" src="assets/tiles/wallet.webp" alt="" width="96" height="128" loading="lazy" decoding="async"></i>
+          <i class="foot__cell" style="--i:3"><img class="foot__chip" src="assets/tiles/success.webp" alt="" width="96" height="128" loading="lazy" decoding="async"></i>
+          <i class="foot__cell" style="--i:4"><img class="foot__chip" src="assets/tiles/tracking.webp" alt="" width="96" height="128" loading="lazy" decoding="async"></i>
+          <i class="foot__cell" style="--i:5"><img class="foot__chip" src="assets/tiles/security.webp" alt="" width="96" height="128" loading="lazy" decoding="async"></i>
+          <i class="foot__cell" style="--i:6"><img class="foot__chip" src="assets/tiles/order.webp" alt="" width="96" height="128" loading="lazy" decoding="async"></i>
+          <i class="foot__cell" style="--i:7"><img class="foot__chip" src="assets/tiles/onboard.webp" alt="" width="96" height="128" loading="lazy" decoding="async"></i>
+          <i class="foot__cell" style="--i:8"><img class="foot__chip" src="assets/tiles/tracking.webp" alt="" width="96" height="128" loading="lazy" decoding="async"></i>
+          <i class="foot__cell" style="--i:9"><img class="foot__chip" src="assets/tiles/security.webp" alt="" width="96" height="128" loading="lazy" decoding="async"></i>
+          <i class="foot__cell" style="--i:10"><img class="foot__chip" src="assets/tiles/order.webp" alt="" width="96" height="128" loading="lazy" decoding="async"></i>
+          <i class="foot__cell" style="--i:11"><img class="foot__chip" src="assets/tiles/onboard.webp" alt="" width="96" height="128" loading="lazy" decoding="async"></i>
+          <i class="foot__cell" style="--i:12"><img class="foot__chip" src="assets/tiles/rates.webp" alt="" width="96" height="128" loading="lazy" decoding="async"></i>
+          <i class="foot__cell" style="--i:13"><img class="foot__chip" src="assets/tiles/fx.webp" alt="" width="96" height="128" loading="lazy" decoding="async"></i>
+          <i class="foot__cell" style="--i:14"><img class="foot__chip" src="assets/tiles/wallet.webp" alt="" width="96" height="128" loading="lazy" decoding="async"></i>
+          <i class="foot__cell" style="--i:15"><img class="foot__chip" src="assets/tiles/success.webp" alt="" width="96" height="128" loading="lazy" decoding="async"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="foot__r">
+      <nav class="foot__menu" aria-label="Footer">
+        <a href="#how-it-works">How it works</a>
+        <a href="#why-cash">Why order cash</a>
+        <a href="#what-it-costs">What it costs</a>
+        <a href="#coverage">Where we deliver</a>
+        <a href="#trust">Trust &amp; safety</a>
+        <a href="#waitlist">Join the waitlist</a>
+      </nav>
+      <div class="foot__block">
+        <b>Contact</b>
+        <a href="mailto:gridpe.app@gmail.com">gridpe.app@gmail.com</a>
+        <a href="mailto:gridpe.app@gmail.com?subject=Grid.Pe%20for%20counters">For business</a>
+      </div>
+      <div class="foot__block">
+        <b>First cities</b>
+        <span>Bengaluru, then Guwahati</span>
+      </div>
+    </div>
+
   </div>
 
   <div class="foot__bar">
     <span>Made in India</span>
-    <span>© 2026 Grid.Pe</span>
+    <span class="foot__bar-links">
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="terms.html">Terms of Use</a>
+    </span>
+    <span>&copy; 2026 Grid.Pe</span>
   </div>
 
   <div class="foot__wordmark" aria-hidden="true">
