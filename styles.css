@@ -1150,6 +1150,16 @@ input:focus-visible{outline:2px solid var(--hot); outline-offset:2px}
   font-family:"Fragment Mono",monospace; font-size:9px;
 }
 .coverage__map .maplibregl-ctrl-attrib a{color:rgba(255,255,255,.72)}
+/* MapLibre's stylesheet is appended to <head> by main.js, so it lands after
+   this file. Its `.maplibregl-ctrl-attrib.maplibregl-compact` rule ties the
+   rule above on specificity (0,2,0) and wins on source order, repainting the
+   pill white - which put the white link colour on a white box and made the
+   CARTO / OpenStreetMap credit invisible. One extra class takes the tie back.
+   Colours only: MapLibre keeps its own compact padding, which reserves room
+   for the toggle button. */
+.coverage__map .maplibregl-ctrl-attrib.maplibregl-compact{
+  background:rgba(0,0,0,.55); color:rgba(255,255,255,.72);
+}
 .coverage__map .maplibregl-ctrl-attrib-button{filter:invert(1) opacity(.6)}
 
 /* city markers */
