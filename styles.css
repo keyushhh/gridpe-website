@@ -224,6 +224,7 @@ input:focus-visible{outline:2px solid var(--hot); outline-offset:2px}
     var(--chrome-1) 34%,  var(--chrome-4) 47%, var(--chrome-hi) 60%,
     var(--chrome-2) 72%,  var(--chrome-hi) 85%, var(--chrome-3) 100%);
   -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
   -webkit-mask-composite:xor; mask-composite:exclude;
 }
 .nav__cta::before{
