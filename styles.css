@@ -743,12 +743,12 @@ input:focus-visible{outline:2px solid var(--hot); outline-offset:2px}
    above the rows on z but takes no pointer events, or it would eat the hover
    on the art underneath. */
 .ffg{
-  --card:170px; --dur:15.25s; --imgrot:-90deg;
+  --card:clamp(170px,15vw,200px); --dur:15.25s; --imgrot:-90deg;
   display:grid; place-items:center; overflow:visible;
   perspective:1350px;
   height:calc(var(--card) * 1.35);
   margin:0 auto calc(var(--card) * -.35);
-  position:sticky; top:30vh; z-index:1; pointer-events:none;
+  position:sticky; top:30vh; z-index:5; pointer-events:none;
 }
 .ffg-scene{
   position:relative; transform-style:preserve-3d;
@@ -764,31 +764,27 @@ input:focus-visible{outline:2px solid var(--hot); outline-offset:2px}
   position:absolute; inset:0; transform-style:preserve-3d;
   transform-origin:center top; will-change:transform;
   animation:ffgTurn var(--dur) linear infinite;
-  animation-play-state:paused;
 }
 /* quarter-cycle apart. Negative delays start each card mid-orbit rather than
    making the first three wait, so the belt is already full on the first frame. */
 .ffg-li:nth-child(2){animation-delay:calc(var(--dur) / -4)}
 .ffg-li:nth-child(3){animation-delay:calc(var(--dur) / -2)}
 .ffg-li:nth-child(4){animation-delay:calc(var(--dur) / -1.3333)}
-.ffg.is-in .ffg-li{animation-play-state:running}
 
 /* The face box stays square, as the reference has it, because ::before is
    inset:0 and then rotated - a non-square box would stop covering itself the
    moment it turned. The note sits inside it with `contain`, so the whole bill
    reads and nothing is cropped. --imgrot cancels the scene's own 90deg turn:
    at -90deg the note lands horizontal on screen. Flip it to 0deg if it comes
-   out standing on its end. */
+   out standing on its end. Subtle 3D drop-shadow gives realistic folding depth. */
 .ffg-li::before,.ffg-li::after{
   content:""; position:absolute; inset:0; overflow:hidden;
   backface-visibility:hidden;
+  background-image:var(--bg-img);
   background-position:center center; background-size:contain; background-repeat:no-repeat;
   transform:rotate(var(--imgrot));
+  filter:drop-shadow(0 12px 22px rgba(0,0,0,.16)) drop-shadow(0 2px 6px rgba(0,0,0,.10));
 }
-/* The url is held back until main.js adds .is-armed, ~600px before the belt
-   scrolls in - otherwise these four faces (71 KB) download during first paint
-   for something that lives most of a page down. */
-.ffg.is-armed .ffg-li::before,.ffg.is-armed .ffg-li::after{background-image:var(--bg-img)}
 .ffg-li::after{transform:rotateX(180deg) rotate(var(--imgrot))}
 
 @keyframes ffgTurn{
@@ -796,7 +792,16 @@ input:focus-visible{outline:2px solid var(--hot); outline-offset:2px}
   100%{transform:rotateZ(90deg) rotateX(0turn)}
 }
 
-@media (max-width:820px){ .ffg{--card:130px} }
+@media (max-width:820px){
+  .ffg{
+    --card:140px;
+    position:relative;
+    top:auto;
+    height:calc(var(--card) * 1.35);
+    margin:12px auto 36px;
+    z-index:2;
+  }
+}
 
 /* --- the scatter itself: angles, offsets and column placement ---------- */
 .pile__row--a .snap{--rot:-7deg}
