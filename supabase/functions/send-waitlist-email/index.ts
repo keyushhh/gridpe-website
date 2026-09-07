@@ -34,14 +34,14 @@ Deno.serve(async (req: Request) => {
       from: 'Grid.Pe <hello@gridpe.app>',
       to: [email],
       replyTo: 'hello@gridpe.app',
-      subject: "You're on the Grid.Pe waitlist ⚡",
+      subject: "You're in. Now go touch some grass.",
       html: `
         <!DOCTYPE html>
         <html>
         <head>
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>Welcome to Grid.Pe</title>
+          <title>Grid.Pe Waitlist</title>
         </head>
         <body style="margin: 0; padding: 0; background-color: #0b0c0e; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #ffffff;">
           <table width="100%" border="0" cellspacing="0" cellpadding="0" style="background-color: #0b0c0e; padding: 40px 16px;">
@@ -50,40 +50,50 @@ Deno.serve(async (req: Request) => {
                 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="max-width: 540px; background-color: #121316; border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; overflow: hidden; padding: 36px 32px; text-align: left;">
                   <tr>
                     <td style="padding-bottom: 24px;">
-                      <span style="font-size: 20px; font-weight: 800; letter-spacing: -0.02em; color: #d4ff00;">Grid.Pe</span>
+                      <span style="font-size: 22px; font-weight: 800; letter-spacing: -0.02em; color: #d4ff00;">Grid.Pe</span>
                     </td>
                   </tr>
                   <tr>
-                    <td style="padding-bottom: 16px;">
-                      <h1 style="margin: 0; font-size: 24px; font-weight: 700; letter-spacing: -0.02em; color: #ffffff; line-height: 1.25;">
-                        You're on the list.
+                    <td style="padding-bottom: 20px;">
+                      <h1 style="margin: 0; font-size: 24px; font-weight: 700; letter-spacing: -0.02em; color: #ffffff; line-height: 1.3;">
+                        You're in. Now go touch some grass.
                       </h1>
                     </td>
                   </tr>
                   <tr>
-                    <td style="font-size: 15px; line-height: 1.6; color: rgba(255,255,255,0.72); padding-bottom: 20px;">
-                      Thanks for joining the Grid.Pe waitlist. We are rolling out doorstep cash access street-by-street across India, starting with our live pilot in <strong>Bengaluru</strong>, with <strong>Guwahati</strong> next.
+                    <td style="font-size: 15.5px; line-height: 1.65; color: rgba(255,255,255,0.85); padding-bottom: 14px;">
+                      Hey,
                     </td>
                   </tr>
                   <tr>
-                    <td style="padding-bottom: 24px;">
-                      <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 18px 20px;">
-                        <p style="margin: 0 0 6px 0; font-size: 14px; font-weight: 600; color: #d4ff00;">No ATM hunts. No hidden deductions.</p>
-                        <p style="margin: 0; font-size: 13.5px; line-height: 1.55; color: rgba(255,255,255,0.65);">
-                          Order what you need, track a KYC-verified courier in real time, and confirm handover with a secure 6-digit OTP.
-                        </p>
-                      </div>
+                    <td style="font-size: 16px; line-height: 1.6; color: #ffffff; padding-bottom: 14px;">
+                      <strong>You're on the Grid.Pe waitlist.</strong>
                     </td>
                   </tr>
                   <tr>
-                    <td style="font-size: 14.5px; line-height: 1.6; color: rgba(255,255,255,0.72); padding-bottom: 28px;">
-                      We will send you exactly one email the moment delivery goes live in your neighborhood. Nothing else.
+                    <td style="font-size: 15.5px; line-height: 1.65; color: rgba(255,255,255,0.85); padding-bottom: 14px;">
+                      Beautiful.
                     </td>
                   </tr>
                   <tr>
-                    <td style="font-size: 13px; line-height: 1.5; color: rgba(255,255,255,0.45); border-top: 1px solid rgba(255,255,255,0.07); padding-top: 24px;">
-                      Have questions or feedback? Reply directly to this email at <a href="mailto:hello@gridpe.app" style="color: #d4ff00; text-decoration: none;">hello@gridpe.app</a>.<br><br>
-                      &copy; 2026 Grid.Pe &middot; Built in India. Cash access, street by street.
+                    <td style="font-size: 15px; line-height: 1.65; color: rgba(255,255,255,0.75); padding-bottom: 16px;">
+                      Your spot is secured. Your cash is not yet en route. Please do not wait by the door.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="font-size: 15px; line-height: 1.65; color: rgba(255,255,255,0.75); padding-bottom: 24px;">
+                      We’re busy making doorstep cash a thing, because apparently humanity has conquered space but still makes people leave home for an ATM.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="font-size: 16px; font-weight: 700; color: #d4ff00; padding-bottom: 28px;">
+                      Your turn is coming.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="font-size: 14px; line-height: 1.6; color: rgba(255,255,255,0.45); border-top: 1px solid rgba(255,255,255,0.08); padding-top: 24px;">
+                      <strong style="color: rgba(255,255,255,0.75);">Grid.Pe</strong><br>
+                      Cash, delivered.
                     </td>
                   </tr>
                 </table>
