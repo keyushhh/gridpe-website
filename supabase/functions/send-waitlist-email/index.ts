@@ -45,7 +45,7 @@ Deno.serve(async (req: Request) => {
   <title>Grid.Pe Waitlist</title>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    :root { color-scheme: light; supported-color-schemes: light; }
+    :root { color-scheme: light; }
     body, table, td, p, h1, h2, span, div { -webkit-text-size-adjust:100%; }
     img { border:0; outline:none; text-decoration:none; -ms-interpolation-mode:bicubic; }
     a { color:#111111; }
