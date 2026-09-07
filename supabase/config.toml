@@ -1,0 +1,7 @@
+project_id = "xxvbmvnrggsgetqswmjs"
+
+# Supabase Database Webhooks send no Authorization header, so JWT verification
+# has to be off or every INSERT is rejected with 401 before the function runs.
+# The function verifies the recipient against the waitlist table instead.
+[functions.send-waitlist-email]
+verify_jwt = false
