@@ -990,6 +990,22 @@
   const FALLBACK_TO = 'hello@gridpe.app';
   let submitting = false;
 
+  /* Spam, in three cheap layers on top of the honeypot below:
+     a time trap (nobody reads that copy and types an address in under 2s),
+     a per-browser cooldown, and a per-browser daily cap. All three are
+     client-side and a determined script walks past them - they exist to stop
+     the drive-by form spam that is 99% of it. */
+  const SPAM = { MIN_MS: 2000, COOLDOWN_MS: 30e3, PER_DAY: 5, KEY: 'gridpe:sent' };
+  const shownAt = Date.now();
+  const sentLog = () => {
+    try { return JSON.parse(localStorage.getItem(SPAM.KEY) || '[]'); } catch (e) { return []; }
+  };
+  const logSend = () => {
+    try {
+      localStorage.setItem(SPAM.KEY, JSON.stringify(sentLog().concat(Date.now()).slice(-20)));
+    } catch (e) {}
+  };
+
   form?.addEventListener('submit', async e => {
     e.preventDefault();
     if (submitting) return;
@@ -1006,10 +1022,30 @@
     }
     msg.classList.remove('err');
 
-    /* honeypot: a real person never fills a field they cannot see */
-    if (form.company && form.company.value) {
+    /* honeypot: a real person never fills a field they cannot see.
+       Time trap goes with it: both answer with the success line and post
+       nothing, so a bot cannot tell a block from a save. */
+    if ((form.company && form.company.value) || Date.now() - shownAt < SPAM.MIN_MS) {
       form.reset();
       msg.textContent = "You're on the list. We'll email you when Grid.Pe opens in your area.";
+      submitting = false;
+      return;
+    }
+
+    /* cooldown and daily cap: a real visitor signs up once */
+    const now = Date.now(), log = sentLog();
+    const recent = log.filter(t => now - t < 864e5);
+    if (log.length && now - log[log.length - 1] < SPAM.COOLDOWN_MS) {
+      msg.classList.add('err');
+      msg.textContent = 'Just a moment — that one is still going through.';
+      submitting = false;
+      return;
+    }
+    if (recent.length >= SPAM.PER_DAY) {
+      msg.classList.add('err');
+      msg.innerHTML = 'That is a lot of sign-ups from one browser. Email us at '
+        + '<a href="mailto:' + FALLBACK_TO + '">' + FALLBACK_TO + '</a> instead.';
+      submitting = false;
       return;
     }
 
@@ -1042,11 +1078,16 @@
 
       /* already signed up: the unique index fires, which is not a failure */
       if (res.status === 409) {
+        logSend();
+
         form.reset();
         msg.textContent = "You're already on the list. We'll email you when Grid.Pe opens in your area.";
         return;
       }
       if (!res.ok) throw new Error('HTTP ' + res.status + ' ' + (await res.text()).slice(0, 120));
+
+      logSend();
+
 
       form.reset();
       msg.textContent = "You're on the list. We'll email you when Grid.Pe opens in your area.";
