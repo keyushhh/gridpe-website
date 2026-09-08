@@ -52,7 +52,6 @@ gridpe-website/
 ├── assets/               # Production assets, currency visuals, icons & geo data
 │   ├── favicon/          # Multi-platform app icons & manifest
 │   ├── notes/            # Denomination visual assets
-│   ├── screens/          # App UI previews
 │   └── india.geo.json    # Map boundary data
 └── robots.txt / sitemap  # Crawler indexing rules & sitemap
 ```
