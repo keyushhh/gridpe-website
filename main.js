@@ -42,14 +42,26 @@
     const prev = root.style.scrollBehavior;
     root.style.scrollBehavior = 'auto';                 /* smooth would animate up from 0 */
 
-    let ticks = 0;
+    /* The reader always outranks the restore. syncHash writes the current
+       section into the URL as you scroll, so a reload part-way down the page
+       always comes back with a hash - which used to start this loop and spend
+       the next second yanking scrollTop back under the reader's thumb. Every
+       swipe in that window was undone, which reads as "scrolling is broken"
+       and is worst on touch, where you just swipe again. First real input
+       from the reader ends it. */
+    const GIVE_UP = ['wheel', 'touchstart', 'pointerdown', 'keydown'];
+    let ticks = 0, timer = 0;
     const apply = () => { root.scrollTop = resolve(); };
+    const stop = () => {
+      clearInterval(timer);
+      removeEventListener('load', apply);
+      root.style.scrollBehavior = prev;
+      GIVE_UP.forEach(t => removeEventListener(t, stop));
+    };
     apply();
-    const timer = setInterval(() => {
-      apply();
-      if (++ticks > 14) { clearInterval(timer); root.style.scrollBehavior = prev; }
-    }, 70);
+    timer = setInterval(() => { apply(); if (++ticks > 14) stop(); }, 70);
     addEventListener('load', apply, { once: true });
+    GIVE_UP.forEach(t => addEventListener(t, stop, { passive: true }));
   })();
 
   const $  = (s, r = document) => r.querySelector(s);
@@ -177,11 +189,18 @@
   const arts = $$('.pile__art');
   const vh = () => window.innerHeight;
 
+  /* Every read is taken before the first write. Interleaving them made each
+     style.transform invalidate the layout the next getBoundingClientRect had
+     to rebuild, so a frame paid for one forced reflow per element instead of
+     one for the whole batch. */
   const onScroll = () => {
+    const h = vh();
+    const stageRect = stage ? stage.getBoundingClientRect() : null;
+    const artRects = arts.map(el => el.getBoundingClientRect());
+
     /* hero phone rises + scales as it enters the viewport */
     if (stage) {
-      const r = stage.getBoundingClientRect();
-      const p = clamp(1 - (r.top / vh()), 0, 1);
+      const p = clamp(1 - (stageRect.top / h), 0, 1);
       stage.style.transform =
         `translateY(${(46 * (1 - p)).toFixed(2)}px) scale(${(0.86 + 0.18 * p).toFixed(4)}) ` +
         `perspective(1200px) rotateX(${(7 * (1 - p)).toFixed(2)}deg)`;
@@ -190,9 +209,9 @@
     /* Each cluster on the pinboard drifts at its own rate and sign, so the
        scatter keeps re-composing as you pass it. Translate only - the angles
        live on .snap in CSS, so a transform here can never flatten them. */
-    arts.forEach(el => {
-      const r = el.getBoundingClientRect();
-      const p = clamp((r.top + r.height / 2) / vh(), -0.5, 1.5) - 0.5;
+    arts.forEach((el, i) => {
+      const r = artRects[i];
+      const p = clamp((r.top + r.height / 2) / h, -0.5, 1.5) - 0.5;
       const drift = Number(el.dataset.drift) || 1;
       el.style.transform = `translate3d(0,${(p * -32 * drift).toFixed(2)}px,0)`;
     });
