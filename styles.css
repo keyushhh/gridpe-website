@@ -1291,9 +1291,14 @@ main:has(~ .foot)::after{
 }
 /* one cold wash so the ground is not a flat black rectangle */
 .foot::before{
-  content:""; position:absolute; inset:auto -10% -30% -10%; height:70%;
+  /* Was inset -10% left and right, making the glow box 120% of the footer.
+     It is absolutely positioned, so that bleed was real scrollable overflow -
+     ~38px of sideways drag on a 375px viewport. Pulled back to the footer's
+     own width; the gradient's horizontal radius goes 46% -> 55.2% (46 x 1.2)
+     so the glow is drawn at exactly the same size as before. */
+  content:""; position:absolute; inset:auto 0 -30% 0; height:70%;
   pointer-events:none;
-  background:radial-gradient(46% 58% at 50% 100%,rgba(212,255,61,.10) 0%,rgba(212,255,61,.03) 46%,transparent 72%);
+  background:radial-gradient(55.2% 58% at 50% 100%,rgba(212,255,61,.10) 0%,rgba(212,255,61,.03) 46%,transparent 72%);
 }
 .foot > *{position:relative; z-index:1}
 
@@ -1714,7 +1719,12 @@ body.is-fly a,body.is-fly button,body.is-fly input,body.is-fly summary{cursor:po
      indicator so the strip still reaches the physical bottom edge */
   height:calc(120px + env(safe-area-inset-bottom, 0px));
   z-index:500; pointer-events:none; user-select:none; -webkit-user-select:none;
-  overflow:hidden; transform:translateZ(0);
+  /* No transform and no overflow here on purpose. A transform makes an element
+     a Backdrop Root, which leaves the layers inside it with an empty backdrop
+     to sample - Chrome tolerates it, WebKit does not, and a blurred empty
+     backdrop paints as a flat white wash on iOS. Neither property earned its
+     place: the layers are inset:0 so there is nothing to clip, and the
+     translateZ was only a compositing hint. */
 }
 .pblur i{position:absolute; inset:0; display:block; pointer-events:none}
 .pblur i:nth-child(1){
