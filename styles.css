@@ -1767,3 +1767,63 @@ body.is-fly a,body.is-fly button,body.is-fly input,body.is-fly summary{cursor:po
   mask-image:linear-gradient(to bottom, transparent 0%, transparent 61.25%, black 70%, black 100%);
   -webkit-mask-image:linear-gradient(to bottom, transparent 0%, transparent 61.25%, black 70%, black 100%);
 }
+
+/* ============ COOKIE BANNER ============
+   Injected by consent.js. One low pill floating clear of the viewport edges -
+   icon, a single line, then the two choices. Light, like the nav pill, so it
+   reads as part of the furniture rather than a black slab dropped on the page.
+   Sits above .pblur (z-index 500) so the bottom blur never washes over it. */
+.cbar{
+  --cbar-gap: clamp(14px, 2.2vw, 26px);
+  position:fixed; z-index:9990;
+  left:var(--cbar-gap); right:var(--cbar-gap);
+  bottom:calc(var(--cbar-gap) + env(safe-area-inset-bottom, 0px));
+  max-width:min(var(--maxw), 920px); margin-inline:auto;
+  display:flex; align-items:center; gap:14px;
+  padding:10px 10px 10px 18px;
+  background:var(--white); color:var(--ink);
+  border:1px solid var(--hair);
+  border-radius:999px;
+  box-shadow:0 18px 44px rgba(0,0,0,.13), 0 2px 8px rgba(0,0,0,.06);
+  transform:translateY(calc(100% + var(--cbar-gap))); opacity:0;
+  transition:transform .55s var(--ease), opacity .4s var(--ease);
+}
+.cbar.is-in{transform:none; opacity:1}
+
+.cbar__ico{flex:none; display:block; color:var(--ink)}
+.cbar__t{
+  flex:1 1 auto; min-width:0; margin:0;
+  font-size:14px; line-height:1.45; color:var(--ink);
+}
+.cbar__t a{color:var(--mute); text-decoration:underline; text-underline-offset:3px}
+.cbar__t a:hover{color:var(--ink)}
+
+.cbar__b{display:flex; align-items:center; gap:8px; margin-left:auto; flex:none}
+.cbar button{
+  font:inherit; font-size:14px; font-weight:500; cursor:pointer;
+  padding:11px 22px; border-radius:999px; border:0;
+  white-space:nowrap;
+  transition:transform .35s var(--ease), background .3s var(--ease), color .3s var(--ease);
+}
+.cbar__no{background:rgba(0,0,0,.05); color:var(--ink)}
+.cbar__no:hover{background:rgba(0,0,0,.09)}
+.cbar__ok{background:var(--ink); color:#fff}
+.cbar__ok:hover{background:var(--lime); color:var(--ink); transform:scale(1.03)}
+.cbar :focus-visible{outline:2px solid var(--ink); outline-offset:3px}
+
+/* Narrow: one line plus two pills will not sit in a row, so the pill becomes
+   a small card - the icon stays on the sentence, the buttons take their own. */
+@media (max-width:760px){
+  .cbar{
+    flex-wrap:wrap; gap:12px 12px;
+    padding:16px; border-radius:var(--r-md);
+  }
+  /* icon stays on the sentence - giving it a row of its own wastes a line */
+  .cbar__t{flex:1 1 200px; font-size:13.5px}
+  .cbar__b{flex:1 1 100%; margin-left:0}
+  .cbar__b button{flex:1; padding:12px 18px}
+}
+@media (prefers-reduced-motion:reduce){
+  .cbar{transition:none; transform:none; opacity:1}
+  .cbar__ok:hover{transform:none}
+}
