@@ -1087,11 +1087,16 @@
       if (!res.ok) throw new Error('HTTP ' + res.status + ' ' + (await res.text()).slice(0, 120));
 
       logSend();
-
-
       form.reset();
       msg.textContent = "You're on the list. We'll email you when Grid.Pe opens in your area.";
       fireConfetti(btn);          /* only a real 201: a duplicate is not a new win */
+
+      /* Same rule as the confetti: a duplicate above returns early, so this
+         counts new sign-ups only. gtag exists only once someone accepted
+         cookies (see consent.js), so this is a no-op for anyone who declined
+         - which also means the number under-counts, and is a floor rather
+         than a total. No email is sent, only that one happened. */
+      window.gtag?.('event', 'sign_up', { method: 'waitlist' });
     } catch (err) {
       console.warn('[waitlist]', err);
       msg.classList.add('err');
