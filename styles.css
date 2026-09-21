@@ -214,6 +214,14 @@ input:focus-visible{outline:2px solid var(--hot); outline-offset:2px}
 .nav__links a:focus-visible{outline:2px solid var(--hot); outline-offset:3px; border-radius:999px}
 .nav__links a:focus-visible::after{transform:none}
 
+/* The one nav item that leaves the page. A small outbound arrow separates it
+   from the in-page anchors either side of it. */
+.nav__links-out{display:inline-flex; align-items:center; gap:5px}
+.nav__links-out::before{
+  content:""; width:5px; height:5px; flex:none; border-radius:50%;
+  background:var(--hot); opacity:.75;
+}
+
 .nav__cta{
   position:relative; isolation:isolate;
   display:flex; align-items:center; gap:11px;
@@ -834,6 +842,8 @@ input:focus-visible{outline:2px solid var(--hot); outline-offset:2px}
   .pile__row--c .pile__copy{grid-column:8/13}
   .pile__row--d .pile__copy{grid-column:1/6}
   .pile__row--d .pile__art {grid-column:9/13}   /* right, +1 col */
+  /* no art: let the copy breathe across the middle instead of hugging one edge */
+  .pile__row--solo .pile__copy{grid-column:2/10}
   /* rows interleave so the pile reads as one pinboard, not four blocks */
   .pile__row + .pile__row{margin-top:calc(clamp(18px,3.4vw,54px) * -1)}
 }

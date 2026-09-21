@@ -1,0 +1,886 @@
+<!doctype html>
+<html lang="en-IN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Case study | Grid.Pe &mdash; doorstep access to physical cash</title>
+<meta name="description" content="Grid.Pe is testing whether access to physical cash can work as an on-demand service. What has been built, how the product works, what the risks are, and which assumptions are still unproven.">
+<meta name="theme-color" content="#f2f2f2">
+<link rel="canonical" href="https://gridpe.app/case-study">
+<meta name="robots" content="index,follow">
+<meta property="og:title" content="Grid.Pe &mdash; a case study in cash access">
+<meta property="og:description" content="Digital payments changed how money moves. Getting physical cash still takes a trip. This is what Grid.Pe has built, and what it has yet to prove.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://gridpe.app/case-study">
+<meta property="og:site_name" content="Grid.Pe">
+<meta property="og:locale" content="en_IN">
+<meta property="og:image" content="https://gridpe.app/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Grid.Pe &mdash; a case study in cash access">
+<meta name="twitter:description" content="Digital payments changed how money moves. Getting physical cash still takes a trip. This is what Grid.Pe has built, and what it has yet to prove.">
+<meta name="twitter:image" content="https://gridpe.app/assets/og-image.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..100,500..700&amp;family=Instrument+Serif:ital@0;1&amp;family=Manrope:wght@400..700&amp;family=Fragment+Mono&amp;display=swap" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..100,500..700&amp;display=swap&amp;text=%E2%82%B9%E2%86%92" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..100,500..700&amp;family=Instrument+Serif:ital@0;1&amp;family=Manrope:wght@400..700&amp;family=Fragment+Mono&amp;display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..100,500..700&amp;display=swap&amp;text=%E2%82%B9%E2%86%92"></noscript>
+<link rel="stylesheet" href="styles.css?v=1788886791">
+<link rel="stylesheet" href="case-study.css?v=1788886791">
+<link rel="icon" href="assets/favicon/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-icon-180x180.png">
+</head>
+<body class="cs-body">
+
+<a href="#main-content" class="skip-link">Skip to content</a>
+
+<div class="grain" aria-hidden="true"></div>
+
+<header class="nav" id="nav">
+  <div class="nav__pill">
+    <a class="nav__logo" href="/" aria-label="Grid.Pe home">
+      <img class="logo" src="assets/logo-full-320.webp" alt="Grid.Pe" width="320" height="104" decoding="async">
+    </a>
+
+    <nav class="nav__links" aria-label="Primary">
+      <a href="#problem">Problem</a>
+      <a href="#product">Product</a>
+      <a href="#today">What exists</a>
+      <a href="#trust">Risk</a>
+    </nav>
+
+    <a class="nav__cta" href="/" aria-label="Go to the Grid.Pe site">
+      <span class="nav__cta-ring" aria-hidden="true"></span>
+      <span class="nav__cta-tile" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M13 2 4.5 13.5H11l-1 8.5 8.5-11.5H12l1-8.5Z" fill="currentColor"/></svg>
+      </span>
+      <span class="nav__cta-label">Visit grid.pe</span>
+    </a>
+
+    <button class="nav__burger" id="burger" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<div class="drawer" id="drawer" aria-hidden="true" inert>
+  <a href="#problem">Problem</a>
+  <a href="#thesis">Thesis</a>
+  <a href="#product">Product</a>
+  <a href="#today">What exists</a>
+  <a href="#trust">Risk</a>
+  <a href="/" class="drawer__cta">Back to grid.pe</a>
+</div>
+
+<!-- Chapter rail: desktop-only wayfinding for a page this long. Decorative
+     duplication of the section headings, so it is hidden from assistive tech -
+     the nav pill and the heading outline already carry the same structure. -->
+<nav class="rail" id="rail" aria-hidden="true">
+  <a href="#problem"><i></i><b>01</b><span>The problem</span></a>
+  <a href="#thesis"><i></i><b>02</b><span>The thesis</span></a>
+  <a href="#why"><i></i><b>03</b><span>Why now</span></a>
+  <a href="#product"><i></i><b>04</b><span>The product</span></a>
+  <a href="#flow"><i></i><b>05</b><span>How it works</span></a>
+  <a href="#today"><i></i><b>06</b><span>What exists</span></a>
+  <a href="#trust"><i></i><b>07</b><span>Trust &amp; risk</span></a>
+  <a href="#model"><i></i><b>08</b><span>Business model</span></a>
+  <a href="#landscape"><i></i><b>09</b><span>What already exists</span></a>
+  <a href="#upi"><i></i><b>10</b><span>UPI</span></a>
+  <a href="#decisions"><i></i><b>11</b><span>Design decisions</span></a>
+  <a href="#vision"><i></i><b>12</b><span>The bigger idea</span></a>
+</nav>
+
+<div id="top"></div>
+<main id="main-content">
+
+<!-- ============ 01 HERO ============ -->
+<section class="csh">
+  <p class="csh__tag" data-reveal><i aria-hidden="true"></i>Company case study &middot; Grid.Pe &middot; 2026</p>
+
+  <h1 class="csh__title" data-reveal-lines>
+    <span class="line"><span>MONEY MOVES</span></span>
+    <span class="line"><span>IN A SECOND.</span></span>
+    <span class="line"><span>CASH STILL</span></span>
+    <span class="line"><span>MAKES YOU WALK.</span></span>
+  </h1>
+
+  <p class="csh__sub" data-reveal>
+    Grid.Pe is building an on-demand service for doorstep access to physical cash.
+  </p>
+
+  <div class="csh__meta" data-reveal-stagger>
+    <div><b>What this is</b><span>A written thesis, not a pitch. What we believe, what we have built, and what we have not proven.</span></div>
+    <div><b>Who it is for</b><span>Operators, founders, investors and partners deciding whether the problem is real.</span></div>
+    <div><b>Stage</b><span>Early. The product exists; the business does not yet have results to report.</span></div>
+  </div>
+
+  <a class="csh__scroll" href="#problem" aria-label="Start reading">
+    Start reading
+    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+  </a>
+</section>
+
+<!-- ============ 02 THE PROBLEM ============ -->
+<section class="cs cs--problem" id="problem">
+  <div class="cs__head">
+    <span class="eyebrow">01 &middot; The problem</span>
+    <h2 class="cs__h2 display" data-reveal-lines>
+      <span class="line"><span>PAYING GOT EASIER.</span></span>
+      <span class="line"><span>GETTING CASH</span></span>
+      <span class="line"><span>DIDN'T.</span></span>
+    </h2>
+    <p class="cs__lede" data-reveal>
+      Most of a payment has been rebuilt for a phone. The step that still ends
+      with a person standing in front of a machine is the one where you need
+      notes in your hand.
+    </p>
+  </div>
+
+  <ol class="frict" data-reveal-stagger>
+    <li class="frict__item">
+      <span class="frict__n">01</span>
+      <h3>The machine sets the constraints</h3>
+      <p>An ATM is a fixed point with a cash tray that can empty. Out of service, out of notes, or out of the way: each one ends the same trip.</p>
+    </li>
+    <li class="frict__item">
+      <span class="frict__n">02</span>
+      <h3>The trip has a cost nobody prices</h3>
+      <p>Time, a queue, fuel or a fare, and the trip back. That cost rarely appears on a statement, but it is still part of getting cash.</p>
+    </li>
+    <li class="frict__item">
+      <span class="frict__n">03</span>
+      <h3>Some payments still end in notes</h3>
+      <p>The plumber, the house help, the vegetable cart. Where the person being paid takes cash, the person paying needs cash.</p>
+    </li>
+    <li class="frict__item">
+      <span class="frict__n">04</span>
+      <h3>Leaving is not always an option</h3>
+      <p>A shopkeeper minding a counter, someone at home with no one to cover for them. Most cash-access options assume you are free to travel.</p>
+    </li>
+  </ol>
+
+  <p class="cs__caveat" data-reveal>
+    This is not everyone's problem, and we do not claim it is. Plenty of people
+    live near a working ATM and have no reason to want anything else. The
+    problem we are testing is narrower: there are specific situations where the
+    physical trip is inconvenient, costly or impractical, and we do not yet know
+    how many people are in them, or how often.
+  </p>
+</section>
+
+<!-- ============ 03 THE THESIS ============ -->
+<section class="cs cs--ink cs--thesis" id="thesis">
+  <div class="cs__head">
+    <span class="eyebrow eyebrow--light">02 &middot; The thesis <span class="tag tag--hyp">Hypothesis</span></span>
+    <h2 class="cs__h2 display" data-reveal-lines>
+      <span class="line"><span>DIGITAL MONEY</span></span>
+      <span class="line"><span>IS ON DEMAND.</span></span>
+      <span class="line"><span>CAN PHYSICAL</span></span>
+      <span class="line"><span>CASH BE?</span></span>
+    </h2>
+  </div>
+
+  <!-- The argument in one picture: the digital rail ends on a screen, the cash
+       rail still ends in a trip, and the third row is what Grid.Pe changes. -->
+  <div class="rails" data-reveal>
+    <div class="rails__row">
+      <span class="rails__label">Digital money</span>
+      <div class="rails__track rails__track--done">
+        <span class="rails__seg">Your account</span>
+        <span class="rails__seg">Request</span>
+        <span class="rails__seg">Arrives</span>
+      </div>
+      <span class="rails__verdict rails__verdict--ok">Ends on a screen, wherever you are.</span>
+    </div>
+
+    <div class="rails__row">
+      <span class="rails__label">Physical cash</span>
+      <div class="rails__track rails__track--gap">
+        <span class="rails__seg">Your account</span>
+        <span class="rails__seg">Request</span>
+        <span class="rails__seg rails__seg--void">You travel</span>
+        <span class="rails__seg">Notes</span>
+      </div>
+      <span class="rails__verdict">Still ends with a physical step.</span>
+    </div>
+
+    <div class="rails__row rails__row--us">
+      <span class="rails__label">With Grid.Pe</span>
+      <div class="rails__track rails__track--fix">
+        <span class="rails__seg">Your account</span>
+        <span class="rails__seg">Pay online</span>
+        <span class="rails__seg rails__seg--fill">We travel</span>
+        <span class="rails__seg">Notes</span>
+      </div>
+      <span class="rails__verdict rails__verdict--ok">The trip moves to us.</span>
+    </div>
+  </div>
+
+  <p class="cs__lede cs__lede--light" data-reveal>
+    That is the idea, and it is a hypothesis rather than a finding. Not a bet
+    against digital payments, and not a claim that cash is coming back: a
+    hypothesis that the last mile of cash is primarily a logistics problem, and
+    that logistics problems can be solved by moving the trip to someone whose
+    job it is. Whether that holds at a price people will pay is exactly what
+    remains untested.
+  </p>
+</section>
+
+<!-- ============ 04 WHY NOW ============ -->
+<section class="cs cs--why" id="why">
+  <div class="cs__head">
+    <span class="eyebrow">03 &middot; Why this is testable now</span>
+    <h2 class="cs__h2 display" data-reveal-lines>
+      <span class="line"><span>NOTHING HERE</span></span>
+      <span class="line"><span>IS NEW.</span></span>
+      <span class="line"><span>THE COMBINATION IS.</span></span>
+    </h2>
+    <p class="cs__lede" data-reveal>
+      Doorstep cash is not a new idea. It is an idea that needs four ordinary
+      things to exist at the same time.
+    </p>
+  </div>
+
+  <div class="stack" data-reveal-stagger>
+    <div class="stack__card">
+      <b>Identity that resolves in an app</b>
+      <p>Digital KYC means both ends of a handover can be checked before anyone
+      knocks on a door. Without it, doorstep cash is a stranger with an envelope.</p>
+    </div>
+    <div class="stack__card">
+      <b>Online payment infrastructure</b>
+      <p>A customer can pay for a physical service upfront, through a licensed
+      processor, and be refunded through the same route when it fails.</p>
+    </div>
+    <div class="stack__card">
+      <b>Delivery as an existing behaviour</b>
+      <p>Food, groceries, medicine, documents. Ordering a physical thing to a
+      door is already familiar, so the interaction needs no explaining.</p>
+    </div>
+    <div class="stack__card">
+      <b>Continued use of physical cash</b>
+      <p>Digital payments changed how people move money. Getting hold of notes
+      still requires a physical step, and some payments still end in them.</p>
+    </div>
+  </div>
+
+  <blockquote class="pull" data-reveal>
+    These conditions make the model possible to <em>test</em>. They are not
+    evidence that people will use it, or that the economics will work.
+  </blockquote>
+</section>
+
+<!-- ============ 05 THE PRODUCT ============ -->
+<!-- Only screens whose on-screen copy matches the current Terms are published
+     here. Screens from the older wallet build are deliberately not shown. -->
+<section class="cs cs--product" id="product">
+  <div class="cs__head">
+    <span class="eyebrow">04 &middot; The product <span class="tag tag--built">Built</span></span>
+    <h2 class="cs__h2 display" data-reveal-lines>
+      <span class="line"><span>THIS PART</span></span>
+      <span class="line"><span>ALREADY EXISTS.</span></span>
+    </h2>
+    <p class="cs__lede" data-reveal>
+      Screens from the Grid.Pe app as implemented. The request, the limits, the
+      live delivery and the OTP that closes it are all built. Everything after
+      this section is about whether the business around them works.
+    </p>
+  </div>
+
+  <div class="shots" data-reveal-stagger>
+    <figure class="shot">
+      <div class="shot__frame"><img src="assets/screens/home.webp" width="600" height="1339" loading="lazy" decoding="async" alt="Grid.Pe home screen: a field asking how much cash you need, an Order Cash button, a daily delivery limit of 500 to 5000 rupees, a Basic tier showing 5000 of 25,000 rupees a month, and a Grid.Pe Pro upgrade prompt."></div>
+      <figcaption><b>Request</b>One field and a button. The daily limit and the tier it comes from sit underneath, so the ceiling is visible before you type.</figcaption>
+    </figure>
+    <figure class="shot">
+      <div class="shot__frame"><img src="assets/screens/tracking.webp" width="402" height="874" loading="lazy" decoding="async" alt="Order tracking screen with a live map, an eight minute arrival estimate, the delivery partner's photo, name and verified badge, a View KYC button, and a six digit delivery OTP."></div>
+      <figcaption><b>Track &amp; confirm</b>Who is coming, how far away, their KYC status, and the six digits that mark the order fulfilled.</figcaption>
+    </figure>
+    <figure class="shot">
+      <div class="shot__frame"><img src="assets/screens/rates.webp" width="402" height="874" loading="lazy" decoding="async" alt="Live Rates screen converting US dollars to rupees with a historical rate chart and an Exchange Currency button."></div>
+      <figcaption><b>Currency</b>The same delivery idea carrying foreign notes. Under the current Terms this sits behind the Pro tier and a verified passport.</figcaption>
+    </figure>
+  </div>
+
+  <p class="cs__caveat" data-reveal>
+    Some screens in the app still carry wording from an earlier build. Those are
+    not published here, and that copy is being brought back in line with the
+    model described on this page.
+  </p>
+</section>
+
+<!-- ============ 06 HOW IT WORKS ============ -->
+<!-- The five beats below follow the Terms, in the Terms' own vocabulary:
+     payment is taken upfront and processed by an independent RBI-licensed
+     payment aggregator, and Grid.Pe is paid once the order is fulfilled and
+     OTP-authenticated. Grid.Pe holds nothing at any point. Do not reintroduce
+     wallet, hold, escrow or settlement language without changing the Terms. -->
+<section class="cs cs--flow" id="flow">
+  <div class="cs__head">
+    <span class="eyebrow">05 &middot; How it works</span>
+    <h2 class="cs__h2 display" data-reveal-lines>
+      <span class="line"><span>REQUEST CASH.</span></span>
+      <span class="line"><span>PAY ONLINE.</span></span>
+      <span class="line"><span>WE BRING IT.</span></span>
+    </h2>
+    <p class="cs__lede" data-reveal>
+      Five steps, and none of them are clever. Step through them to see who is
+      doing what at each point.
+    </p>
+  </div>
+
+  <div class="cyc" data-reveal>
+    <div class="cyc__steps" role="tablist" aria-label="Order lifecycle">
+      <button class="cyc__step is-on" role="tab" aria-selected="true"  aria-controls="fp-1" id="ft-1"><b>01</b><span>Cash request</span></button>
+      <button class="cyc__step"       role="tab" aria-selected="false" aria-controls="fp-2" id="ft-2" tabindex="-1"><b>02</b><span>Online payment</span></button>
+      <button class="cyc__step"       role="tab" aria-selected="false" aria-controls="fp-3" id="ft-3" tabindex="-1"><b>03</b><span>Fulfilment</span></button>
+      <button class="cyc__step"       role="tab" aria-selected="false" aria-controls="fp-4" id="ft-4" tabindex="-1"><b>04</b><span>Cash delivery</span></button>
+      <button class="cyc__step"       role="tab" aria-selected="false" aria-controls="fp-5" id="ft-5" tabindex="-1"><b>05</b><span>Confirmation</span></button>
+      <span class="cyc__rail" aria-hidden="true"><i id="cycFill"></i></span>
+    </div>
+
+    <div class="cyc__stage">
+      <!-- left: who is doing what at this step, right: what happens -->
+      <div class="cyc__money" aria-hidden="true">
+        <span class="cyc__money-h">Who is doing what</span>
+        <ol class="cyc__party">
+          <li class="cyc__p is-at" data-party="you"><i></i><b>You</b><span>Request, pay, confirm</span></li>
+          <li class="cyc__p" data-party="pa"><i></i><b>Payment processor</b><span>An independent, RBI-licensed payment aggregator handles the payment</span></li>
+          <li class="cyc__p" data-party="gp"><i></i><b>Grid.Pe</b><span>Fulfils the order and delivers the cash</span></li>
+        </ol>
+        <p class="cyc__state" id="cycState">Nothing has been paid yet.</p>
+      </div>
+
+      <div class="cyc__panes">
+        <div class="cyc__pane is-on" role="tabpanel" id="fp-1" aria-labelledby="ft-1" tabindex="0">
+          <h3>You ask for an amount</h3>
+          <p>Enter the figure you need and set the address. The delivery fee, the
+          platform fee and GST on those two are shown before you confirm. GST
+          does not apply to the cash itself, and the fee is not taken out of it.</p>
+          <span class="cyc__note">Nothing has moved yet</span>
+        </div>
+        <div class="cyc__pane" role="tabpanel" id="fp-2" aria-labelledby="ft-2" tabindex="0" hidden>
+          <h3>You pay upfront, online</h3>
+          <p>Payment is taken at checkout and processed by an independent,
+          RBI-licensed payment aggregator. Grid.Pe is not a bank and is not a
+          payment instrument issuer; it does not hold your money at any point in
+          this flow.</p>
+          <span class="cyc__note">Handled by the licensed processor</span>
+        </div>
+        <div class="cyc__pane" role="tabpanel" id="fp-3" aria-labelledby="ft-3" tabindex="0" hidden>
+          <h3>The order is fulfilled</h3>
+          <p>Grid.Pe routes the order to a KYC-verified delivery partner who
+          collects the notes for it. This is the step Grid.Pe is being paid for,
+          and the step the rest of this page argues is the hard one.</p>
+          <span class="cyc__note">Grid.Pe's actual work starts here</span>
+        </div>
+        <div class="cyc__pane" role="tabpanel" id="fp-4" aria-labelledby="ft-4" tabindex="0" hidden>
+          <h3>The cash comes to you</h3>
+          <p>You follow the partner on the live map, with their photo, name and
+          KYC status visible before they reach your door. Under the Terms,
+          checking that identity before the handover is the customer's step.</p>
+          <span class="cyc__note">In transit</span>
+        </div>
+        <div class="cyc__pane" role="tabpanel" id="fp-5" aria-labelledby="ft-5" tabindex="0" hidden>
+          <h3>Six digits close it</h3>
+          <p>The handover completes only when you read out the app's six-digit
+          OTP. Under the Terms, that is the one thing that marks an order
+          fulfilled: not the rider saying so, and not us.</p>
+          <span class="cyc__note">Order fulfilled</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p class="cs__caveat" data-reveal>
+    Grid.Pe is a technology and logistics platform. Under its current Terms it
+    is not a bank, not a payment instrument issuer and not a custodian: it does
+    not hold customer money, take deposits, or keep funds in escrow. The payment
+    processor being licensed is not a regulatory approval of Grid.Pe, and we do
+    not present it as one.
+  </p>
+</section>
+
+<!-- ============ 07 WHAT EXISTS TODAY ============ -->
+<section class="cs cs--today" id="today">
+  <div class="cs__head">
+    <span class="eyebrow">06 &middot; What exists today</span>
+    <h2 class="cs__h2 display" data-reveal-lines>
+      <span class="line"><span>WHAT'S BUILT,</span></span>
+      <span class="line"><span>WHAT ISN'T,</span></span>
+      <span class="line"><span>AND WHAT'S NEXT.</span></span>
+    </h2>
+    <p class="cs__lede" data-reveal>
+      An early company is mostly a list of open questions. This is ours, sorted
+      as honestly as we can sort it.
+    </p>
+  </div>
+
+  <div class="state" data-reveal-stagger>
+    <div class="state__col state__col--built">
+      <span class="state__h"><i></i>Built</span>
+      <ul>
+        <li>Customer app: onboarding, cash request, online payment, tracking, OTP confirmation</li>
+        <li>Upfront online payment through a licensed payment aggregator, with the fee quote validated server-side</li>
+        <li>KYC, MPIN and biometric lock</li>
+        <li>OTP-confirmed handover</li>
+        <li>Delivery limits, and the Basic / Pro tier that sets them</li>
+        <li>Currency exchange, with live rates from a third-party rates API</li>
+        <li>A separate rider app on the same backend: accept, pick up, complete, and verify the delivery OTP</li>
+        <li>This website and its design system</li>
+      </ul>
+      <p class="state__note">Built means implemented in the product, not proven in operation.</p>
+    </div>
+
+    <div class="state__col state__col--val">
+      <span class="state__h"><i></i>Being validated</span>
+      <ul>
+        <li>Whether the problem is frequent enough to build on, and for whom</li>
+        <li>Willingness to pay, and at what price</li>
+        <li>Unit economics per delivery, including the runs that fail</li>
+        <li>Where cash is sourced, who carries it, how it reconciles</li>
+        <li>Delivery partner supply, reliability and safety</li>
+        <li>Refund and dispute handling under real conditions</li>
+        <li>The regulatory structure and which partners it requires</li>
+      </ul>
+    </div>
+
+    <div class="state__col state__col--next">
+      <span class="state__h"><i></i>Next</span>
+      <ul>
+        <li>Run deliveries in a first city and learn from every failure</li>
+        <li>Turn that into numbers worth publishing</li>
+        <li>Bring every in-app screen in line with the current model</li>
+        <li>Decide the cash sourcing and reconciliation model</li>
+        <li>Establish the compliance programme the model needs</li>
+      </ul>
+    </div>
+  </div>
+
+  <p class="cs__caveat" data-reveal>
+    Nothing here has been proven in the field. The product runs end to end, but
+    the business behind it has not started reporting results, so this page makes
+    no claim about deliveries completed, cities served or customers acquired.
+    When there are numbers worth publishing, they will appear here.
+  </p>
+
+  <p class="cs__caveat" data-reveal>
+    Grid.Pe is a sole proprietorship with a small team.
+  </p>
+</section>
+
+<!-- ============ 08 TRUST & RISK ============ -->
+<section class="cs cs--ink cs--trust" id="trust">
+  <div class="cs__head">
+    <span class="eyebrow eyebrow--light">07 &middot; Trust &amp; risk</span>
+    <h2 class="cs__h2 display" data-reveal-lines>
+      <span class="line"><span>THE HARD PART</span></span>
+      <span class="line"><span>ISN'T THE APP.</span></span>
+    </h2>
+    <p class="cs__lede cs__lede--light" data-reveal>
+      Anyone who has run operations asks the same thing within thirty seconds:
+      the customer has already paid, so what makes the delivery trustworthy?
+      Here is what the model relies on, and then the list of things it does not
+      solve on its own.
+    </p>
+  </div>
+
+  <div class="chain" data-reveal-stagger>
+    <div class="chain__node"><b>Verified user</b><span>Identity verified once, in the app, before an order can be placed.</span></div>
+    <div class="chain__node"><b>Priced request</b><span>Delivery fee, platform fee and GST on screen before anything is charged.</span></div>
+    <div class="chain__node"><b>Licensed processor</b><span>The payment is handled by an RBI-licensed aggregator, not by Grid.Pe.</span></div>
+    <div class="chain__node"><b>Verified partner</b><span>Identity-checked before they can carry cash for an order.</span></div>
+    <div class="chain__node"><b>Visible delivery</b><span>Live on the map, with the partner's identity shown before arrival.</span></div>
+    <div class="chain__node chain__node--end"><b>OTP confirmation</b><span>Six digits from the customer. Nothing else marks an order fulfilled.</span></div>
+  </div>
+
+  <div class="risks" data-reveal>
+    <h3 class="risks__h">What that still has to survive</h3>
+    <p class="risks__lede">Open problems, not solved ones. None of these is claimed to be handled today.</p>
+    <ul class="risks__list">
+      <li><b>Payment failure</b><span>A charge that succeeds at the bank and fails in the app, or the reverse. The customer has paid for something that has not started.</span></li>
+      <li><b>Failed fulfilment</b><span>Paid, then undeliverable: nobody home, wrong address, an abandoned run. The money has to come back cleanly and quickly.</span></li>
+      <li><b>Cash availability</b><span>The notes have to exist, in usable denominations, near enough to deliver. Running out is a failure mode the ATM already has.</span></li>
+      <li><b>Delivery verification</b><span>The OTP proves a handover happened. It does not prove what was in the envelope.</span></li>
+      <li><b>Identity verification</b><span>Shared households, someone collecting on another's behalf, a name that does not match a document.</span></li>
+      <li><b>Fraud</b><span>Account takeover, collusion between a customer and a partner, someone testing where the seams are.</span></li>
+      <li><b>Cash handling</b><span>Sourcing, carrying, counting and reconciling physical notes. Counterfeits are a category, not a footnote.</span></li>
+      <li><b>Rider safety</b><span>Someone is moving through a city carrying money. Route exposure, insurance and what happens after an incident are unresolved until they are funded.</span></li>
+      <li><b>Disputes</b><span>Two accounts of the same doorstep. Evidence, escalation and who absorbs the loss need deciding before volume, not after.</span></li>
+      <li><b>Refunds</b><span>Payment is upfront, so every failure is a refund. Speed and predictability here decide whether anyone orders twice.</span></li>
+      <li><b>AML and CFT</b><span>A service that turns an online payment into physical notes on demand is a cash-out channel. KYC and delivery limits are a starting point; a full compliance programme is not something we claim to have built.</span></li>
+      <li><b>Operational reconciliation</b><span>The ledger has to agree with the notes, daily, with no manual patching. This decides whether the model is auditable at all.</span></li>
+    </ul>
+    <p class="risks__foot">
+      These are not solved. They are the reason the model is hard, and they are
+      the work.
+    </p>
+  </div>
+</section>
+
+<!-- ============ 09 BUSINESS MODEL ============ -->
+<section class="cs cs--model" id="model">
+  <div class="cs__head">
+    <span class="eyebrow">08 &middot; Business model</span>
+    <h2 class="cs__h2 display" data-reveal-lines>
+      <span class="line"><span>PAID FOR</span></span>
+      <span class="line"><span>THE DELIVERY</span></span>
+      <span class="line"><span>THAT HAPPENED.</span></span>
+    </h2>
+    <p class="cs__lede" data-reveal>
+      Revenue comes from the service, not from the cash. The primary line is the
+      per-order fee; the Terms also describe a membership tier and a stated
+      margin on currency exchange.
+    </p>
+  </div>
+
+  <ol class="mflow" data-reveal-stagger>
+    <li><b>Customer</b><span>Requests an amount</span></li>
+    <li><b>Pays online</b><span>Upfront, at checkout</span></li>
+    <li><b>Grid.Pe fulfils</b><span>Routes and delivers the order</span></li>
+    <li><b>Cash delivered</b><span>Confirmed by OTP</span></li>
+    <li class="mflow__end"><b>Service revenue</b><span>Earned on the fulfilment</span></li>
+  </ol>
+
+  <div class="econ" data-reveal>
+    <div class="econ__side econ__side--in">
+      <span class="econ__h">What comes in</span>
+      <ul>
+        <li><b>Transaction fees <span class="tag tag--sm">Primary</span></b><span>A delivery fee that scales with the amount, plus a flat platform fee. GST applies to those, not to the cash.</span></li>
+        <li><b>Grid.Pe Pro <span class="tag tag--sm">Additional</span></b><span>A recurring membership, implemented and billed through the payment provider. It raises the delivery limits and opens the multi-currency features.</span></li>
+        <li><b>Currency margin <span class="tag tag--sm">Additional</span></b><span>A stated markup over the base rate on exchange orders, itemised in the app.</span></li>
+      </ul>
+    </div>
+    <div class="econ__side econ__side--out">
+      <span class="econ__h">What it has to cover</span>
+      <ul>
+        <li><b>Cash procurement</b><span>Obtaining notes in usable denominations.</span></li>
+        <li><b>Cash positioning</b><span>Getting them near enough to where orders happen.</span></li>
+        <li><b>Partner payout</b><span>What the person who makes the trip is paid.</span></li>
+        <li><b>Failed deliveries</b><span>A run that costs everything and earns nothing.</span></li>
+        <li><b>Payment processing &amp; refunds</b><span>Aggregator charges, reversals, chargebacks.</span></li>
+        <li><b>Fraud, losses, insurance and safety</b><span>Including whatever rider protection turns out to cost.</span></li>
+        <li><b>Acquisition &amp; support</b><span>Getting a first order, and answering when one goes wrong.</span></li>
+        <li><b>Working capital</b><span>Physical cash operations tie up capital. How much, and who carries it, is not yet determined.</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="tbd" data-reveal>
+    <span class="tbd__badge">Being validated</span>
+    <p>
+      The honest version of this section is a unit-economics table, and we are
+      not going to invent one. Contribution per delivery, cost per failed run,
+      working capital per active city, repeat rate, orders per partner-hour and
+      the price the market accepts are the numbers that decide whether this
+      works. We will publish them when we have earned them.
+    </p>
+  </div>
+
+  <p class="cs__caveat" data-reveal>
+    The structural question is easy to state and hard to answer: can the fee on
+    one delivery cover the cost of moving physical cash to one door, including
+    the deliveries that fail, often enough to be a business. Membership revenue
+    changes the shape of that question without removing it.
+  </p>
+</section>
+
+<!-- ============ 10 WHAT ALREADY EXISTS ============ -->
+<section class="cs cs--vs" id="landscape">
+  <div class="cs__head">
+    <span class="eyebrow">09 &middot; The cash-access landscape</span>
+    <h2 class="cs__h2 display" data-reveal-lines>
+      <span class="line"><span>WHAT ALREADY</span></span>
+      <span class="line"><span>EXISTS.</span></span>
+    </h2>
+    <p class="cs__lede" data-reveal>
+      Cash access in India is not an empty field, and the ATM is not the only
+      thing in it. These are the routes people already have. We describe them at
+      a conceptual level, because we have not done the primary research that
+      would let us make operational claims about any of them.
+    </p>
+  </div>
+
+  <div class="stack" data-reveal-stagger>
+    <div class="stack__card">
+      <b>ATMs</b>
+      <p>The default. You travel to a machine; the machine has to be working and
+      stocked. Mature, widely deployed, and usually free at the point of use
+      within your bank's limits.</p>
+    </div>
+    <div class="stack__card">
+      <b>Bank branches</b>
+      <p>You travel, during banking hours, and can generally get larger amounts
+      and specific denominations than a machine will give you.</p>
+    </div>
+    <div class="stack__card">
+      <b>AePS and business correspondents</b>
+      <p>Agent-assisted cash-out, often closer to the customer than a branch.
+      An established rail with its own agent network and its own limits.</p>
+    </div>
+    <div class="stack__card">
+      <b>Micro-ATMs</b>
+      <p>Agent-operated terminals that turn a local shop or kiosk into a
+      withdrawal point. You still travel, but usually less far.</p>
+    </div>
+    <div class="stack__card">
+      <b>Merchant cash-out</b>
+      <p>Getting notes at a shop counter alongside or instead of a purchase.
+      Informal in practice, and dependent on that merchant having cash.</p>
+    </div>
+    <div class="stack__card">
+      <b>Bank and post office doorstep services</b>
+      <p>Banks and India Post Payments Bank offer doorstep cash services, with
+      their own eligibility rules, coverage and scheduling. The closest existing
+      analogue to what Grid.Pe is testing.</p>
+    </div>
+  </div>
+
+  <div class="vs" data-reveal>
+    <h3 class="vs__h">Grid.Pe against the default</h3>
+    <div class="vs__switch" role="group" aria-label="Choose a column to view">
+      <button class="vs__tab is-on" data-col="atm" aria-pressed="true">ATM</button>
+      <button class="vs__tab" data-col="gp" aria-pressed="false">Grid.Pe</button>
+    </div>
+
+    <table class="vs__table">
+      <caption class="sr-only">How withdrawing at an ATM compares conceptually with ordering a doorstep cash delivery</caption>
+      <thead>
+        <tr><th scope="col">Dimension</th><th scope="col" class="vs__c vs__c--atm">ATM</th><th scope="col" class="vs__c vs__c--gp">Grid.Pe</th></tr>
+      </thead>
+      <tbody>
+        <tr><th scope="row">Where it happens</th><td class="vs__c vs__c--atm">At the machine</td><td class="vs__c vs__c--gp">At your door</td></tr>
+        <tr><th scope="row">Who travels</th><td class="vs__c vs__c--atm">You do</td><td class="vs__c vs__c--gp">A delivery partner does</td></tr>
+        <tr><th scope="row">Cost at the point of use</th><td class="vs__c vs__c--atm">Usually free, within your bank's limits</td><td class="vs__c vs__c--gp">A fee, shown before you confirm</td></tr>
+        <tr><th scope="row">What the user needs</th><td class="vs__c vs__c--atm">A card, and a way to get there</td><td class="vs__c vs__c--gp">The app, KYC, and an online payment method</td></tr>
+        <tr><th scope="row">Availability depends on</th><td class="vs__c vs__c--atm">The machine having cash and power</td><td class="vs__c vs__c--gp">Cash being available nearby and a partner being free</td></tr>
+        <tr><th scope="row">Certainty before you commit</th><td class="vs__c vs__c--atm">You find out when you arrive</td><td class="vs__c vs__c--gp">You find out before you order</td></tr>
+        <tr><th scope="row">Typical use case</th><td class="vs__c vs__c--atm">Routine withdrawal when getting there is easy</td><td class="vs__c vs__c--gp">When the trip itself is the problem</td></tr>
+        <tr><th scope="row">Maturity</th><td class="vs__c vs__c--atm">Decades of infrastructure</td><td class="vs__c vs__c--gp">Early, and unproven in operation</td></tr>
+      </tbody>
+    </table>
+    <p class="vs__foot">
+      For someone who can easily reach a working ATM, the existing option may be
+      perfectly adequate, and we are not arguing otherwise. Grid.Pe only needs to
+      be useful when the physical trip itself becomes the problem. How often that
+      is true, and for whom, is the thing we are trying to find out.
+    </p>
+  </div>
+</section>
+
+<!-- ============ 11 UPI ============ -->
+<section class="cs cs--ink cs--upi" id="upi">
+  <div class="cs__head">
+    <span class="eyebrow eyebrow--light">10 &middot; The other question</span>
+    <h2 class="cs__h2 display" data-reveal-lines>
+      <span class="line"><span>UPI SOLVED A</span></span>
+      <span class="line"><span>DIFFERENT</span></span>
+      <span class="line"><span>PROBLEM.</span></span>
+    </h2>
+    <p class="cs__lede cs__lede--light" data-reveal>
+      UPI made account-to-account payments work. It was not built to put notes
+      in a hand, and it does not try to. The two end in different places, which
+      is the only reason there is anything here to work on.
+    </p>
+  </div>
+
+  <div class="two" data-reveal>
+    <div class="two__col">
+      <span class="two__tag">Digital money</span>
+      <b class="two__who">UPI</b>
+      <ol class="two__steps">
+        <li>You have money in an account</li>
+        <li>You send it</li>
+        <li>It arrives in another account</li>
+      </ol>
+      <p class="two__end">Ends as digital money.</p>
+    </div>
+
+    <div class="two__col two__col--us">
+      <span class="two__tag">Physical cash</span>
+      <b class="two__who">Grid.Pe</b>
+      <ol class="two__steps">
+        <li>You have money in an account</li>
+        <li>You pay for a delivery</li>
+        <li>Someone brings the notes</li>
+      </ol>
+      <p class="two__end">Ends as paper. That last line is the whole company.</p>
+    </div>
+  </div>
+
+  <p class="cs__caveat cs__caveat--light" data-reveal>
+    We are not predicting that cash grows or that UPI slows down, and this does
+    not depend on either. The position is coexistence: for as long as some
+    payments end in notes, there is a question about how those notes are
+    obtained. Whether that question is worth a company is the open part.
+  </p>
+</section>
+
+<!-- ============ 12 PRODUCT DESIGN DECISIONS ============ -->
+<section class="cs cs--dec" id="decisions">
+  <div class="cs__head">
+    <span class="eyebrow">11 &middot; Product design decisions <span class="tag tag--dec">Decisions</span></span>
+    <h2 class="cs__h2 display" data-reveal-lines>
+      <span class="line"><span>EVERY SCREEN</span></span>
+      <span class="line"><span>ANSWERS ONE</span></span>
+      <span class="line"><span>QUESTION.</span></span>
+    </h2>
+    <p class="cs__lede" data-reveal>
+      Paying upfront for cash you have not received yet creates a trust problem.
+      Most of the product decisions are about where that problem sits and what
+      reduces it. These are choices, not findings: none of them has been tested
+      against users at scale.
+    </p>
+  </div>
+
+  <div class="dec" data-reveal-stagger>
+    <article class="dec__item">
+      <span class="dec__q">"How complicated is this?"</span>
+      <h3>Keep the flow short</h3>
+      <p>Request, pay, receive. There is no balance to fund first and no
+      instrument to set up before the first order. The complexity in this
+      business belongs in operations, not in the customer's five taps.</p>
+      <span class="dec__where">Home screen</span>
+    </article>
+
+    <article class="dec__item">
+      <span class="dec__q">"What is this costing me?"</span>
+      <h3>Price the service, not the cash</h3>
+      <p>Fees and GST are charged on the service rather than deducted from the
+      amount delivered. Order two thousand, receive two thousand. The alternative
+      turns every order into a conversation at the door.</p>
+      <span class="dec__where">Request screen &middot; Receipt</span>
+    </article>
+
+    <article class="dec__item">
+      <span class="dec__q">"How much can I ask for?"</span>
+      <h3>Show the ceiling before the keypad</h3>
+      <p>Daily and monthly limits, and the tier they come from, sit on the home
+      screen under the amount field. A limit discovered at checkout reads as a
+      rejection; a limit shown upfront reads as a rule.</p>
+      <span class="dec__where">Home screen</span>
+    </article>
+
+    <article class="dec__item">
+      <span class="dec__q">"Who is about to knock?"</span>
+      <h3>Identity before arrival</h3>
+      <p>The partner's photo, name and KYC status appear while they are still on
+      the map. The Terms make checking that the customer's step, so the app puts
+      it where there is still time to act on it.</p>
+      <span class="dec__where">Tracking screen</span>
+    </article>
+
+    <article class="dec__item">
+      <span class="dec__q">"Who decides it is done?"</span>
+      <h3>The customer speaks the OTP</h3>
+      <p>Six digits, read out by the person receiving the cash. An order is
+      fulfilled when they say so, which puts the final word with the only party
+      who can see the notes.</p>
+      <span class="dec__where">Tracking screen</span>
+    </article>
+
+    <article class="dec__item">
+      <span class="dec__q">"What if I change my mind?"</span>
+      <h3>Keep the exit open as long as possible</h3>
+      <p>Cancellation is free within thirty seconds, or until a partner is
+      assigned, whichever comes first. The window closes when a real person
+      starts spending real time, and not before.</p>
+      <span class="dec__where">Order confirmation</span>
+    </article>
+  </div>
+</section>
+
+<!-- ============ 13 THE BIGGER IDEA ============ -->
+<section class="cs cs--ink cs--vision" id="vision">
+  <div class="cs__head cs__head--mid">
+    <span class="eyebrow eyebrow--light">12 &middot; The bigger idea</span>
+    <h2 class="cs__h2 cs__h2--big display" data-reveal-lines>
+      <span class="line"><span>PHYSICAL MONEY</span></span>
+      <span class="line"><span>SHOULD FEEL AS</span></span>
+      <span class="line"><span>CLOSE AS THE</span></span>
+      <span class="line"><span>DIGITAL KIND.</span></span>
+    </h2>
+  </div>
+
+  <div class="vision" data-reveal>
+    <p>
+      The question underneath cash delivery is why the physical side of finance
+      &mdash; notes, documents, verification, anything that has to be carried or
+      handed over &mdash; still assumes you will come to a branch, a counter or
+      a machine.
+    </p>
+    <p>
+      If verified physical handovers can become routine, transparent and easy to
+      orchestrate, the same infrastructure could eventually support more than
+      cash. That is a possible direction, not a plan we are announcing.
+    </p>
+    <p class="vision__end">
+      Cash is the first problem we are trying to solve, and the one that has to
+      work first.
+    </p>
+  </div>
+</section>
+
+<!-- ============ 14 CTA ============ -->
+<section class="cse" id="challenge">
+  <span class="eyebrow">Open invitation</span>
+  <h2 class="cse__title display" data-reveal-lines>
+    <span class="line"><span>THINK WE'RE</span></span>
+    <span class="line"><span>WRONG?</span></span>
+    <span class="line"><span>TELL US WHERE.</span></span>
+  </h2>
+  <p class="cse__sub" data-reveal>
+    The most useful thing you can do for an early company is attack the weakest
+    part of its thesis. If you have run cash operations, priced last-mile
+    delivery, worked on agent networks or payments compliance, or watched a
+    model like this fail before, we would rather hear it now than later.
+  </p>
+  <div class="cse__acts" data-reveal>
+    <a class="btn btn--go" href="mailto:hello@gridpe.app?subject=Challenging%20the%20Grid.Pe%20thesis">
+      Challenge the thesis
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+    <a class="cse__alt" href="/">Explore Grid.Pe</a>
+    <a class="cse__alt" href="terms.html">Read the Terms</a>
+  </div>
+  <p class="cse__fine">
+    Written by the Grid.Pe team. Everything here is either built, or stated as
+    a hypothesis we are still testing.
+  </p>
+</section>
+
+</main>
+
+<footer class="csf">
+  <div class="csf__in">
+    <p class="csf__say">Cash access,<br>street by street.</p>
+    <nav class="csf__menu" aria-label="Footer">
+      <a href="/">Home</a>
+      <a href="/#how-it-works">How it works</a>
+      <a href="/#trust">Trust &amp; safety</a>
+      <a href="terms.html">Terms of Use</a>
+      <a href="mailto:hello@gridpe.app">hello@gridpe.app</a>
+    </nav>
+    <p class="csf__legal">
+      Grid.Pe is a technology and cash-logistics platform, <b>not a bank</b> and
+      not a payment instrument issuer. We do not lend, invest, take deposits or
+      hold customer money; payments are processed by a licensed payment partner,
+      whose licence is theirs and not a regulatory approval of Grid.Pe. Fees and
+      delivery times shown in the app are indicative and vary by city, amount
+      and time of day.
+    </p>
+  </div>
+  <div class="csf__bar">
+    <span>Made in India</span>
+    <span class="csf__links"><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Use</a></span>
+    <span>&copy; 2026 Grid.Pe</span>
+  </div>
+</footer>
+
+<script src="case-study.js?v=1788886791" defer></script>
+<div class="pblur" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+<script src="consent.js?v=1788886791" defer></script>
+</body>
+</html>

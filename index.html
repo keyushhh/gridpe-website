@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Grid.Pe | Cash delivered to your door in Bengaluru</title>
-<meta name="description" content="Order cash on Grid.Pe and a KYC-verified rider brings real notes to your door. Pay once per order, track it live, confirm with an OTP. Live pilot in Bengaluru.">
+<title>Grid.Pe | Doorstep cash delivery, starting in Bengaluru</title>
+<meta name="description" content="Order cash on Grid.Pe and a KYC-verified rider brings real notes to your door. Pay once per order, track it live, confirm with an OTP. Bengaluru first.">
 <meta name="theme-color" content="#f2f2f2">
 <link rel="canonical" href="https://gridpe.app/">
 <meta name="robots" content="index,follow">
@@ -53,7 +53,7 @@
       "@id": "https://gridpe.app/#webpage",
       "url": "https://gridpe.app/",
       "name": "Grid.Pe | Cash delivered to your door in Bengaluru",
-      "description": "Order cash on Grid.Pe and a KYC-verified rider brings real notes to your door. Pay once per order, track it live, confirm with an OTP. Live pilot in Bengaluru.",
+      "description": "Order cash on Grid.Pe and a KYC-verified rider brings real notes to your door. Pay once per order, track it live, confirm with an OTP. Bengaluru first.",
       "inLanguage": "en-IN",
       "isPartOf": { "@id": "https://gridpe.app/#website" },
       "about": { "@id": "https://gridpe.app/#organization" },
@@ -61,7 +61,7 @@
         {
           "@type": "Question",
           "name": "Do you hold my money?",
-          "acceptedAnswer": { "@type": "Answer", "text": "No. You pay for a single cash delivery at the moment you order it, the same way you pay for anything else. There is no Grid.Pe balance sitting between you and us." }
+          "acceptedAnswer": { "@type": "Answer", "text": "No. Your money goes straight to an RBI-licensed payment processor when you pay, and sits in their regulated account, not ours, while your order is on its way. Grid.Pe is not a bank and does not keep a balance for you: there is nothing to top up and nothing to withdraw. We are paid for the delivery once it has happened and you have confirmed it with your OTP." }
         },
         {
           "@type": "Question",
@@ -76,17 +76,17 @@
         {
           "@type": "Question",
           "name": "Do I have to do KYC?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Yes, once, in the app. It is what sets your delivery limits, and it is the same reason we can be sure the cash reaches the right hands." }
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes, once, in the app. It is how we know the cash reaches the right hands. Your delivery limits come from your plan, not from the KYC check itself." }
         },
         {
           "@type": "Question",
           "name": "Are you a bank?",
-          "acceptedAnswer": { "@type": "Answer", "text": "No. Grid.Pe is not a bank. We do not lend, we do not invest, and we do not hold deposits. We move cash and currency, and we work with licensed partners for the regulated parts of that." }
+          "acceptedAnswer": { "@type": "Answer", "text": "No. Grid.Pe is a technology and logistics platform, not a bank, and not a payment instrument issuer. We do not lend, we do not invest, we do not take deposits and we do not hold your money. Payments are handled end to end by a licensed payment partner, and we work with licensed partners for the regulated parts of moving cash and currency." }
         },
         {
           "@type": "Question",
           "name": "What if something goes wrong?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Cancel any time before a partner is assigned, and free within 30 seconds of ordering. If a delivery fails, the payment is refunded in full, and support sits one tap away inside the order." }
+          "acceptedAnswer": { "@type": "Answer", "text": "Cancel any time before a partner is assigned, and free within 30 seconds of ordering. If a delivery fails, the payment is refunded in full through the same payment partner it came from, and support sits one tap away inside the order." }
         }
       ]
     }
@@ -139,6 +139,9 @@
       <a href="#what-it-costs">What it costs</a>
       <a href="#trust">Trust</a>
       <a href="#coverage">Coverage</a>
+      <!-- The only cross-page link in the pill: everything else is an in-page
+           anchor, so it carries a marker to read as a destination, not a jump. -->
+      <a class="nav__links-out" href="/case-study">Case study</a>
     </nav>
 
     <a class="nav__cta" href="#waitlist" aria-label="Join the waitlist">
@@ -167,6 +170,7 @@
   <a href="#trust">Trust</a>
   <a href="#coverage">Coverage</a>
   <a href="#founder">Founder note</a>
+  <a href="/case-study">Case study</a>
   <a href="#waitlist" class="drawer__cta">Join the waitlist</a>
 </div>
 
@@ -194,7 +198,7 @@
       <svg aria-hidden="true" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
     </a>
     <span class="hero__where">
-      <i aria-hidden="true"></i> Live pilot in Bengaluru · Guwahati next
+      <i aria-hidden="true"></i> Bengaluru first · Guwahati next
     </span>
   </div>
 
@@ -238,7 +242,7 @@
 <!-- Six equal boxes read as a spec table, which is the one thing this section
      must not be. Three money states get the space and the numbers; the six
      beats stay underneath as a spine. Same amount in all three on purpose -
-     one order, one payment, and no balance either side of it. -->
+     the fee is charged on the service, never taken out of the cash. -->
 <section class="flow" id="what-it-costs" data-tag="Every charge, before you pay. GST never touches the cash.">
   <div class="flow__inner">
     <span class="eyebrow eyebrow--light" data-reveal>What it costs</span>
@@ -418,12 +422,14 @@
   </div>
 
   <!-- Was a seven-item accordion with six answers collapsed. Hiding the trust
-       argument was the wrong instinct, so the answers are open and trimmed and
-       the duplicate "is there a balance" question is gone. -->
+       argument was the wrong instinct, so the answers are open and trimmed.
+       The first answer must stay in step with the Terms: payment is upfront,
+       it is held by the licensed payment processor and never by Grid.Pe, and
+       Grid.Pe is paid once the delivery is OTP-confirmed. -->
   <div class="trust__r" data-reveal>
     <div class="qa">
       <h3>Do you hold my money?</h3>
-      <p><em>No.</em> You pay for a single cash delivery at the moment you order it, the same way you pay for anything else. There is no Grid.Pe balance sitting between you and us.</p>
+      <p><em>No.</em> Your money goes straight to an RBI-licensed payment processor when you pay, and sits in their regulated account, not ours, while your order is on its way. Grid.Pe is not a bank and does not keep a balance for you: there is nothing to top up and nothing to withdraw. We are paid for the delivery once it has happened and you have confirmed it with your OTP.</p>
     </div>
     <div class="qa">
       <h3>Is it safe to open my door?</h3>
@@ -435,15 +441,15 @@
     </div>
     <div class="qa">
       <h3>Do I have to do KYC?</h3>
-      <p>Yes, once, in the app. It is what sets your delivery limits, and it is the same reason we can be sure the cash reaches the right hands.</p>
+      <p>Yes, once, in the app. It is how we know the cash reaches the right hands. Your delivery limits come from your plan, not from the KYC check itself.</p>
     </div>
     <div class="qa">
       <h3>Are you a bank?</h3>
-      <p>No. Grid.Pe is not a bank. We do not lend, we do not invest, and we do not hold deposits. We move cash and currency, and we work with licensed partners for the regulated parts of that.</p>
+      <p>No. Grid.Pe is a technology and logistics platform, not a bank, and not a payment instrument issuer. We do not lend, we do not invest, we do not take deposits and we do not hold your money. Payments are handled end to end by a licensed payment partner, and we work with licensed partners for the regulated parts of moving cash and currency.</p>
     </div>
     <div class="qa">
       <h3>What if something goes wrong?</h3>
-      <p>Cancel any time before a partner is assigned, and free within 30 seconds of ordering. If a delivery fails, the payment is refunded in full, and support sits one tap away inside the order.</p>
+      <p>Cancel any time before a partner is assigned, and free within 30 seconds of ordering. If a delivery fails, the payment is refunded in full through the same payment partner it came from, and support sits one tap away inside the order.</p>
     </div>
   </div>
 
@@ -493,9 +499,9 @@
       </div>
     </div>
 
-    <!-- The wallet row was removed with the wallet itself: no balance, no
-         top-up, no tiers, so there is no screen left to show. Rows keep their
-         b/c/d classes so their approved angles and grid slots do not shift. -->
+    <!-- This pinboard is for what the app does besides ordering cash. Rows
+         keep their b/c/d classes so their approved angles and grid slots do
+         not shift. -->
     <article class="pile__row pile__row--b">
       <div class="pile__copy" data-reveal-stagger>
         <span class="pile__no">[001]</span>
@@ -508,7 +514,7 @@
         <figure class="snap snap--tall"><img class="shot" src="assets/fx-exchange-640.webp"
                srcset="assets/fx-exchange-320.webp 320w, assets/fx-exchange-640.webp 640w"
                sizes="(max-width:820px) 56vw, 248px"
-               alt="Grid.Pe currency exchange screen showing the base rate, markup and fee itemised" loading="lazy" decoding="async" width="640" height="1316"></figure>
+               alt="Grid.Pe live rates screen converting US dollars to rupees, with a historical rate chart and an Exchange Currency button" loading="lazy" decoding="async" width="640" height="1316"></figure>
         <span class="pile__label">Currency</span>
       </div>
     </article>
@@ -518,7 +524,7 @@
         <figure class="snap snap--tall"><img class="shot" src="assets/kyc-640.webp"
                srcset="assets/kyc-320.webp 320w, assets/kyc-640.webp 640w"
                sizes="(max-width:820px) 56vw, 248px"
-               alt="Grid.Pe security screen showing delivery partner KYC verification and OTP handover" loading="lazy" decoding="async" width="640" height="1316"></figure>
+               alt="Grid.Pe order tracking screen showing the live map, the delivery partner's photo and verified KYC status, and the six-digit delivery OTP" loading="lazy" decoding="async" width="640" height="1316"></figure>
         <span class="pile__label">Trust &amp; KYC</span>
       </div>
       <div class="pile__copy" data-reveal-stagger>
@@ -529,21 +535,17 @@
       </div>
     </article>
 
-    <article class="pile__row pile__row--d">
+    <!-- Copy-only row: the receipt screenshot on file is from an older build and
+         showed wallet wording that no longer matches the product. Reinstate it
+         with a fresh capture of the current order-details screen. -->
+    <article class="pile__row pile__row--d pile__row--solo">
       <div class="pile__copy" data-reveal-stagger>
         <span class="pile__no">[003]</span>
         <h3>Proof, the second<br>the notes land.</h3>
         <p>Cancel before a partner is assigned and the payment comes straight back. Confirm the handover with your OTP and the receipt arrives the same second: number, time, mode, everything.</p>
         <ul class="pile__list"><li>Cancel before dispatch</li><li>Refunded if a delivery fails</li><li>Instant digital receipt</li></ul>
       </div>
-      <div class="pile__art" data-drift="-0.45">
-        <figure class="snap snap--tall"><img class="shot" src="assets/order-success-640.webp"
-               srcset="assets/order-success-320.webp 320w, assets/order-success-640.webp 640w"
-               sizes="(max-width:820px) 56vw, 248px"
-               alt="Grid.Pe order confirmed screen with the digital receipt for a cash delivery" loading="lazy" decoding="async" width="640" height="1316"></figure>
-        <span class="pile__label">Receipts</span>
-      </div>
-    </article>
+</article>
 
   </div>
 </section>
@@ -656,7 +658,7 @@
 </section>
 
 <!-- ============ COVERAGE ============ -->
-<section class="coverage" id="coverage" data-tag="Live pilot in Bengaluru. Guwahati next.">
+<section class="coverage" id="coverage" data-tag="Bengaluru first. Guwahati next.">
   <div class="coverage__copy">
     <h2 class="h2" data-reveal-lines>
       <span class="line line--logo"><span><img class="logo-in" src="assets/logo-full-760.webp" alt="Grid.Pe" width="760" height="246" loading="lazy" decoding="async"></span></span>
@@ -664,7 +666,7 @@
       <span class="line"><span>delivered street by street</span></span>
     </h2>
     <ul class="coverage__list" data-reveal>
-      <li><span>Bengaluru</span><i>Live pilot</i></li>
+      <li><span>Bengaluru</span><i>First city</i></li>
       <li><span>Guwahati</span><i>Next</i></li>
       <li><span>Shillong</span><i>Planned</i></li>
     </ul>
@@ -712,7 +714,7 @@
       <p class="foot__eyebrow"><i></i>Cash logistics &middot; India</p>
       <p class="foot__say">Real notes,<br>to your door.</p>
       <div class="foot__legal">
-        <p>Grid.Pe is a cash-logistics and currency-exchange platform, <b>not a bank</b>. We do not hold customer balances, take deposits or pay interest.</p>
+        <p>Grid.Pe is a cash-logistics and currency-exchange platform, <b>not a bank</b>. We do not hold customer money, take deposits or pay interest. Payments are processed by a licensed payment partner.</p>
         <p>Fees and delivery times shown in the app are indicative and vary by city, amount and time of day.</p>
       </div>
     </div>
@@ -725,7 +727,7 @@
         <div class="foot__helix">
           <i class="foot__cell" style="--i:0"><img class="foot__chip" src="assets/tiles/rates.webp" alt="" width="76" height="102" loading="lazy" decoding="async"></i>
           <i class="foot__cell" style="--i:1"><img class="foot__chip" src="assets/tiles/fx.webp" alt="" width="76" height="102" loading="lazy" decoding="async"></i>
-          <i class="foot__cell" style="--i:2"><img class="foot__chip" src="assets/tiles/wallet.webp" alt="" width="76" height="102" loading="lazy" decoding="async"></i>
+          <i class="foot__cell" style="--i:2"><img class="foot__chip" src="assets/tiles/home.webp" alt="" width="76" height="102" loading="lazy" decoding="async"></i>
           <i class="foot__cell" style="--i:3"><img class="foot__chip" src="assets/tiles/success.webp" alt="" width="76" height="102" loading="lazy" decoding="async"></i>
           <i class="foot__cell" style="--i:4"><img class="foot__chip" src="assets/tiles/tracking.webp" alt="" width="76" height="102" loading="lazy" decoding="async"></i>
           <i class="foot__cell" style="--i:5"><img class="foot__chip" src="assets/tiles/security.webp" alt="" width="76" height="102" loading="lazy" decoding="async"></i>
@@ -742,6 +744,7 @@
         <a href="#what-it-costs">What it costs</a>
         <a href="#coverage">Where we deliver</a>
         <a href="#trust">Trust &amp; safety</a>
+        <a href="/case-study">Case study</a>
         <a href="#waitlist">Join the waitlist</a>
       </nav>
       <div class="foot__block">
@@ -750,7 +753,7 @@
       </div>
       <div class="foot__block">
         <b>First cities</b>
-        <span>Bengaluru now, Guwahati next</span>
+        <span>Bengaluru first, Guwahati next</span>
       </div>
       <div class="foot__block">
         <a class="foot__top" href="#top" aria-label="Go to top of page">

@@ -1,0 +1,681 @@
+/* =====================================================================
+   GRID.PE — case study
+   Page-scoped styles only. Tokens, the grain, the nav pill, the drawer,
+   .btn--go, .eyebrow, .display and every [data-reveal*] transition come
+   from styles.css and are not redefined here.
+   ===================================================================== */
+
+.cs-body{
+  /* ONE grid for the whole page. --cs-gutter is the single left/right edge
+     every section aligns to; the ink sections are inset cards, so they take
+     the gutter minus their own inset and their content lands on the same
+     vertical line as the paper sections above and below. */
+  --cs-gutter: var(--shell);
+  --cs-inset: clamp(8px,1.4vw,18px);
+
+  /* ONE vertical rhythm. Sections, head-to-content, and every card grid gap
+     come from these three, so no section invents its own spacing. */
+  --cs-sec:  clamp(84px,9.5vw,150px);
+  --cs-head: clamp(40px,4.6vw,72px);
+  --cs-gap:  clamp(12px,1.3vw,18px);
+
+  background:var(--ground);
+}
+
+/* shared section shell ------------------------------------------------ */
+.cs{
+  position:relative;
+  padding:var(--cs-sec) var(--cs-gutter);
+}
+.cs > *{max-width:var(--maxw); margin-inline:auto}
+/* The narrow prose blocks opt out on the left so the column keeps a single
+   flush edge with the headings instead of floating in the middle. */
+.cs > .cs__head,
+.cs > .cs__lede,
+.cs > .cs__caveat,
+.cs > .pull{margin-inline:0 auto}
+
+/* the ink sections invert the scale rather than patching each rule */
+.cs--ink{
+  background:var(--ink); color:#f2f2f2;
+  border-radius:var(--r-lg);
+  margin-inline:var(--cs-inset);
+  padding-inline:calc(var(--cs-gutter) - var(--cs-inset));
+}
+.cs--ink .cs__lede{color:rgba(255,255,255,.66)}
+
+.cs__head{max-width:1000px; margin-bottom:var(--cs-head)}
+.cs__head--mid{margin-inline:auto; text-align:center}
+.cs__h2{font-size:clamp(38px,7.2vw,104px)}
+.cs__h2--big{font-size:clamp(38px,8.2vw,124px)}
+.cs__lede{
+  margin:clamp(20px,2.2vw,30px) 0 0; max-width:62ch;
+  font-size:clamp(16.5px,1.35vw,20px); line-height:1.55; color:#3a3a3a;
+}
+.cs__head--mid .cs__lede{margin-inline:auto}
+.cs__caveat{
+  margin-top:clamp(32px,3.6vw,54px); max-width:64ch;
+  padding-left:18px; border-left:2px solid var(--hair);
+  font-size:15px; line-height:1.7; color:var(--mute);
+}
+.cs--ink .cs__caveat,.cs__caveat--light{border-left-color:rgba(255,255,255,.22); color:rgba(255,255,255,.6)}
+
+/* Epistemic labels. Deliberately quiet: they mark whether a section states a
+   fact, a decision or a belief, and are never the loudest thing on screen. */
+.tag{
+  display:inline-block; vertical-align:2px; margin-left:10px;
+  padding:4px 9px; border-radius:999px;
+  border:1px solid currentColor;
+  font-family:"Fragment Mono",ui-monospace,monospace;
+  font-size:9px; letter-spacing:.14em; text-transform:uppercase; line-height:1;
+}
+.tag--built{color:var(--green)}
+.tag--hyp{color:var(--lime-d)}
+.tag--dec{color:var(--mute)}
+.cs--ink .tag--hyp{color:var(--lime)}
+/* inline inside a revenue list item, where it qualifies the line above it */
+.tag--sm{
+  margin-left:8px; padding:3px 7px; font-size:8.5px; vertical-align:1px;
+  border-color:rgba(255,255,255,.3); color:rgba(255,255,255,.6);
+}
+.econ__side--out .tag--sm{border-color:var(--hair); color:var(--mute)}
+/* .econ__side span{display:block} outranks .tag, so win it back here */
+.econ__side b .tag{display:inline-block; width:auto}
+
+.sr-only{
+  position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+  overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0;
+}
+
+/* =====================================================================
+   CHAPTER RAIL — desktop wayfinding
+   ===================================================================== */
+.rail{
+  position:fixed; z-index:820; left:clamp(14px,1.6vw,26px); top:50%;
+  transform:translateY(-50%);
+  display:none; flex-direction:column; gap:2px;
+  mix-blend-mode:difference;                 /* legible over ink and paper alike */
+}
+.rail a{
+  display:flex; align-items:center; gap:9px; padding:4px 0;
+  font-family:"Fragment Mono",ui-monospace,monospace; font-size:10px;
+  letter-spacing:.14em; text-transform:uppercase; color:#fff; opacity:.42;
+  transition:opacity .35s var(--ease);
+}
+.rail a i{width:14px; height:1.5px; background:currentColor; flex:none; transition:width .4s var(--ease)}
+.rail a b{font-weight:400}
+.rail a span{
+  max-width:0; overflow:hidden; white-space:nowrap;
+  opacity:0; transition:max-width .45s var(--ease), opacity .3s var(--ease);
+}
+.rail a:hover,.rail a:focus-visible,.rail a.is-here{opacity:1}
+.rail a.is-here i{width:26px}
+.rail:hover a span,.rail a:focus-visible span{max-width:140px; opacity:1}
+@media (min-width:1280px){.rail{display:flex}}
+
+/* =====================================================================
+   01 HERO
+   ===================================================================== */
+.csh{
+  padding:calc(var(--nav-h) + clamp(86px,11vw,150px)) var(--cs-gutter) clamp(70px,8vw,120px);
+}
+/* capped on the children, not the section, so the hero's left edge is the same
+   --cs-gutter every section below it uses rather than a centred 1400px block */
+.csh > *{max-width:var(--maxw); margin-inline:0 auto}
+.csh__tag{
+  display:inline-flex; align-items:center; gap:9px; margin:0 0 clamp(26px,3vw,40px);
+  padding:7px 15px 7px 11px; border-radius:999px;
+  border:1px solid var(--hair); background:rgba(255,255,255,.55);
+  font-family:"Fragment Mono",ui-monospace,monospace;
+  font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:#2b2b2b;
+}
+.csh__tag i{
+  width:7px; height:7px; border-radius:50%; background:var(--lime);
+  box-shadow:0 0 0 3px rgba(212,255,61,.3);
+}
+.csh__title{
+  font-family:Archivo,"Arial Narrow",system-ui,sans-serif;
+  font-variation-settings:"wdth" 72,"wght" 500;
+  font-weight:500; text-transform:uppercase;
+  font-size:clamp(44px,9.4vw,142px); line-height:.84; letter-spacing:-.03em;
+  margin:0;
+}
+.csh__sub{
+  margin:clamp(26px,3vw,40px) 0 0; max-width:30ch;
+  font-family:"Instrument Serif",Georgia,serif; font-style:italic;
+  font-size:clamp(20px,2.4vw,34px); line-height:1.25; color:#2c2c2c;
+}
+.csh__meta{
+  display:grid; gap:clamp(22px,2.4vw,34px);
+  grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+  margin-top:clamp(52px,6vw,88px); padding-top:26px; border-top:1px solid var(--hair);
+}
+.csh__meta b{
+  display:block; margin-bottom:7px;
+  font-family:"Fragment Mono",ui-monospace,monospace; font-weight:400;
+  font-size:10.5px; letter-spacing:.15em; text-transform:uppercase; color:var(--mute);
+}
+.csh__meta span{display:block; font-size:15px; line-height:1.55; color:#2b2b2b; max-width:34ch}
+.csh__scroll{
+  display:inline-flex; align-items:center; gap:9px; margin-top:clamp(40px,4vw,60px);
+  font-family:"Fragment Mono",ui-monospace,monospace; font-size:11px;
+  letter-spacing:.12em; text-transform:uppercase; color:var(--ink);
+  border-bottom:1px solid var(--hair); padding-bottom:6px;
+  transition:gap .35s var(--ease), border-color .35s var(--ease);
+}
+.csh__scroll:hover{gap:14px; border-bottom-color:var(--ink)}
+
+/* =====================================================================
+   02 PROBLEM — friction list
+   ===================================================================== */
+.frict{
+  list-style:none; margin:0; padding:0;
+  display:grid; gap:1px; background:var(--hair);
+  border:1px solid var(--hair); border-radius:var(--r-md); overflow:hidden;
+}
+.frict__item{
+  background:var(--paper); padding:clamp(26px,3vw,40px);
+  transition:background .4s var(--ease);
+}
+.frict__item:hover{background:var(--white)}
+.frict__n{
+  display:block; margin-bottom:16px;
+  font-family:"Fragment Mono",ui-monospace,monospace; font-size:10.5px;
+  letter-spacing:.16em; color:var(--mute);
+}
+.frict__item h3{
+  margin:0 0 10px; font-size:clamp(19px,1.7vw,24px); font-weight:600;
+  letter-spacing:-.02em; line-height:1.2;
+}
+.frict__item p{margin:0; font-size:15px; line-height:1.65; color:var(--mute); max-width:44ch}
+@media (min-width:760px){.frict{grid-template-columns:1fr 1fr}}
+
+/* =====================================================================
+   03 THESIS — three rails
+   ===================================================================== */
+.rails{display:grid; gap:var(--cs-gap)}
+.rails__row{display:grid; gap:12px}
+.rails__label{
+  font-family:"Fragment Mono",ui-monospace,monospace; font-size:10.5px;
+  letter-spacing:.16em; text-transform:uppercase; color:rgba(255,255,255,.5);
+}
+.rails__track{
+  position:relative; display:grid; gap:6px; grid-auto-flow:column;
+  grid-auto-columns:1fr; align-items:stretch;
+}
+.rails__seg{
+  display:grid; place-items:center; text-align:center;
+  padding:clamp(14px,1.8vw,22px) 10px; border-radius:var(--r-sm);
+  border:1px solid rgba(255,255,255,.16); background:rgba(255,255,255,.05);
+  font-size:clamp(12px,1.1vw,14.5px); font-weight:600; letter-spacing:-.01em;
+}
+/* the gap in the physical-cash rail: a dashed hole where the service is missing */
+.rails__seg--void{
+  border-style:dashed; border-color:rgba(255,255,255,.34);
+  background:transparent; color:rgba(255,255,255,.55);
+}
+.rails__seg--fill{
+  border-color:transparent; background:var(--lime); color:var(--ink);
+}
+.rails__track--done .rails__seg{background:rgba(255,255,255,.1)}
+.rails__verdict{font-size:13.5px; color:rgba(255,255,255,.55)}
+.rails__verdict--ok{color:var(--lime)}
+.rails__row--us .rails__label{color:var(--lime)}
+
+/* =====================================================================
+   04 WHY NOW
+   ===================================================================== */
+.stack{display:grid; gap:var(--cs-gap); grid-template-columns:repeat(auto-fit,minmax(248px,1fr))}
+.stack__card{
+  padding:clamp(24px,2.6vw,34px); border-radius:var(--r-md);
+  background:var(--paper); border:1px solid var(--hair);
+  transition:transform .5s var(--ease), box-shadow .5s var(--ease);
+}
+.stack__card:hover{transform:translateY(-4px); box-shadow:0 22px 44px -28px rgba(0,0,0,.4)}
+.stack__card b{display:block; margin-bottom:11px; font-size:17px; letter-spacing:-.02em}
+.stack__card p{margin:0; font-size:14.5px; line-height:1.65; color:var(--mute)}
+
+.pull{
+  margin:clamp(48px,5vw,78px) 0 0; padding:0 0 0 clamp(20px,3vw,40px);
+  border-left:3px solid var(--ink); max-width:24ch;
+  font-family:Archivo,"Arial Narrow",system-ui,sans-serif;
+  font-variation-settings:"wdth" 88,"wght" 500;
+  font-size:clamp(22px,2.8vw,40px); line-height:1.12; letter-spacing:-.025em;
+}
+.pull em{font-family:"Instrument Serif",Georgia,serif; font-style:italic; font-variation-settings:normal}
+@media (min-width:900px){.pull{max-width:34ch}}
+
+/* =====================================================================
+   05 FLOW — the stepper
+   ===================================================================== */
+.cyc__steps{
+  position:relative; display:grid; grid-auto-flow:column; grid-auto-columns:1fr;
+  gap:4px; padding-bottom:22px; overflow-x:auto; scrollbar-width:none;
+  /* the row scrolls once five steps stop fitting; fade the trailing edge so
+     that is visible rather than looking like a clipped layout */
+  -webkit-mask-image:linear-gradient(90deg,#000 0 88%,transparent);
+  mask-image:linear-gradient(90deg,#000 0 88%,transparent);
+}
+@media (min-width:900px){.cyc__steps{-webkit-mask-image:none; mask-image:none}}
+.cyc__steps::-webkit-scrollbar{display:none}
+.cyc__step{
+  display:grid; gap:4px; justify-items:start; text-align:left;
+  min-width:96px; padding:12px 14px; border:0; border-radius:var(--r-sm);
+  background:transparent; cursor:pointer; color:var(--mute);
+  transition:background .35s var(--ease), color .35s var(--ease);
+}
+.cyc__step b{
+  font-family:"Fragment Mono",ui-monospace,monospace; font-weight:400;
+  font-size:10.5px; letter-spacing:.14em;
+}
+.cyc__step span{font-size:15px; font-weight:600; letter-spacing:-.02em}
+.cyc__step:hover{background:rgba(0,0,0,.035); color:#333}
+.cyc__step.is-on{background:var(--ink); color:var(--white)}
+.cyc__step.is-on b{color:var(--lime)}
+.cyc__rail{
+  position:absolute; left:0; right:0; bottom:8px; height:2px;
+  background:var(--hair); border-radius:2px; overflow:hidden;
+}
+.cyc__rail i{
+  display:block; height:100%; width:16.6%; background:var(--ink);
+  transition:width .6s var(--ease-step);
+}
+
+.cyc__stage{
+  display:grid; gap:1px; margin-top:22px; background:var(--hair);
+  border:1px solid var(--hair); border-radius:var(--r-md); overflow:hidden;
+}
+@media (min-width:860px){.cyc__stage{grid-template-columns:minmax(0,340px) minmax(0,1fr)}}
+
+.cyc__money{background:var(--ink); color:#f2f2f2; padding:clamp(26px,3vw,36px)}
+.cyc__money-h{
+  display:block; margin-bottom:16px;
+  font-family:"Fragment Mono",ui-monospace,monospace; font-size:10.5px;
+  letter-spacing:.16em; text-transform:uppercase; color:rgba(255,255,255,.5);
+}
+/* Three parties, one lit at a time. Grid.Pe only lights at the final step,
+   and never as a holder of the customer's money - it is being paid a fee. */
+.cyc__party{list-style:none; margin:0; padding:0; display:grid; gap:8px}
+.cyc__p{
+  display:grid; grid-template-columns:auto 1fr; gap:2px 11px; align-items:start;
+  padding:13px 14px; border-radius:var(--r-sm);
+  border:1px solid rgba(255,255,255,.14); background:rgba(255,255,255,.04);
+  transition:border-color .4s var(--ease), background .4s var(--ease);
+}
+.cyc__p i{
+  grid-row:1 / span 2; align-self:center;
+  width:9px; height:9px; border-radius:50%; background:rgba(255,255,255,.28);
+  transition:background .4s var(--ease), box-shadow .4s var(--ease);
+}
+.cyc__p b{font-size:14.5px; letter-spacing:-.01em; color:rgba(255,255,255,.62); transition:color .4s var(--ease)}
+.cyc__p span{font-size:12.5px; line-height:1.45; color:rgba(255,255,255,.4)}
+.cyc__p.is-at{border-color:var(--lime); background:rgba(212,255,61,.07)}
+.cyc__p.is-at i{background:var(--lime); box-shadow:0 0 0 4px rgba(212,255,61,.18)}
+.cyc__p.is-at b{color:#fff}
+.cyc__state{
+  margin:20px 0 0; padding-top:16px; border-top:1px solid rgba(255,255,255,.14);
+  font-size:14.5px; line-height:1.5; color:#fff;
+}
+
+.cyc__panes{background:var(--paper); padding:clamp(28px,3.4vw,46px)}
+.cyc__pane[hidden]{display:none}
+.cyc__pane{animation:cycIn .26s var(--ease) both}
+@keyframes cycIn{from{opacity:0; transform:translateY(5px)}to{opacity:1; transform:none}}
+.cyc__pane h3{margin:0 0 12px; font-size:clamp(21px,2.2vw,30px); letter-spacing:-.025em; line-height:1.15}
+.cyc__pane p{margin:0; font-size:15.5px; line-height:1.68; color:var(--mute); max-width:52ch}
+.cyc__pane:focus-visible{outline:2px solid var(--hot); outline-offset:6px; border-radius:8px}
+.cyc__note{
+  display:inline-block; margin-top:22px; padding:7px 13px; border-radius:999px;
+  background:var(--ink); color:var(--lime);
+  font-family:"Fragment Mono",ui-monospace,monospace; font-size:10.5px;
+  letter-spacing:.13em; text-transform:uppercase;
+}
+
+/* =====================================================================
+   06 PRODUCT — screenshots
+   ===================================================================== */
+/* The three assets are raw app screen captures at slightly different aspect
+   ratios (402x874 and 600x1339). They are shown inside one CSS device frame:
+   the padding is the phone body, the image is the screen. object-fit:contain
+   means NOTHING is ever cropped - a ratio mismatch letterboxes against the
+   ink bezel instead, which is invisible on these dark screens. Never switch
+   this to cover: it silently eats the top and bottom of the UI. */
+.shots{
+  display:grid; gap:clamp(22px,2.6vw,38px);
+  grid-template-columns:1fr;
+}
+@media (min-width:620px){.shots{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (min-width:980px){.shots{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+.shot{margin:0}
+.shot__frame{
+  /* one ratio for all three, so the devices are the same height and their
+     tops and bottoms line up across the row */
+  aspect-ratio:402 / 874;
+  width:100%; max-width:310px; margin-inline:auto;
+  padding:9px;
+  border-radius:34px; background:var(--ink);
+  border:1px solid rgba(0,0,0,.2);
+  box-shadow:0 30px 60px -34px rgba(0,0,0,.55);
+  transition:transform .55s var(--ease), box-shadow .55s var(--ease);
+}
+.shot:hover .shot__frame{transform:translateY(-4px); box-shadow:0 40px 70px -32px rgba(0,0,0,.6)}
+.shot__frame img{
+  width:100%; height:100%; display:block;
+  object-fit:contain;              /* never crop the app UI */
+  border-radius:26px;              /* the screen mask, inside the bezel */
+  background:#07060f;              /* letterbox colour, matches the app ground */
+}
+.shot figcaption{
+  margin:16px auto 0; max-width:310px;
+  font-size:14px; line-height:1.6; color:var(--mute);
+}
+.shot figcaption b{
+  display:block; margin-bottom:5px; color:var(--ink); font-size:15px; letter-spacing:-.01em;
+}
+  display:block; margin-bottom:5px; color:var(--ink); font-size:15px; letter-spacing:-.01em;
+}
+
+/* =====================================================================
+   07 TRUST — chain + risks
+   ===================================================================== */
+.chain{display:grid; gap:var(--cs-gap); grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.chain__node{
+  position:relative; padding:clamp(20px,2.2vw,26px);
+  border-radius:var(--r-sm); border:1px solid rgba(255,255,255,.16);
+  background:rgba(255,255,255,.04);
+}
+.chain__node b{display:block; margin-bottom:8px; font-size:16px; letter-spacing:-.02em}
+.chain__node span{display:block; font-size:13.5px; line-height:1.6; color:rgba(255,255,255,.58)}
+.chain__node--end{border-color:var(--lime); background:rgba(212,255,61,.07)}
+.chain__node--end b{color:var(--lime)}
+
+.risks{
+  margin-top:clamp(48px,5vw,80px); padding-top:clamp(38px,4vw,56px);
+  border-top:1px solid rgba(255,255,255,.16);
+}
+.risks__h{margin:0 0 8px; font-size:clamp(21px,2.2vw,30px); letter-spacing:-.025em}
+.risks__lede{margin:0 0 clamp(26px,3vw,38px); font-size:15px; color:rgba(255,255,255,.55)}
+.risks__list{
+  list-style:none; margin:0; padding:0;
+  display:grid; gap:clamp(18px,2vw,26px); grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+}
+.risks__list li{padding-left:16px; border-left:1px solid rgba(255,255,255,.2)}
+.risks__list b{display:block; margin-bottom:6px; font-size:15.5px; letter-spacing:-.01em}
+.risks__list span{display:block; font-size:14px; line-height:1.65; color:rgba(255,255,255,.55)}
+.risks__foot{margin:clamp(30px,3vw,44px) 0 0; font-size:15px; color:rgba(255,255,255,.72); max-width:52ch}
+
+/* =====================================================================
+   08 BUSINESS MODEL
+   ===================================================================== */
+.econ{display:grid; gap:var(--cs-gap)}
+@media (min-width:820px){.econ{grid-template-columns:1fr 1fr}}
+.econ__side{padding:clamp(26px,3vw,38px); border-radius:var(--r-md); border:1px solid var(--hair)}
+.econ__side--in{background:var(--ink); color:#f2f2f2; border-color:transparent}
+.econ__side--out{background:var(--paper)}
+.econ__h{
+  display:block; margin-bottom:22px;
+  font-family:"Fragment Mono",ui-monospace,monospace; font-size:10.5px;
+  letter-spacing:.16em; text-transform:uppercase; color:var(--mute);
+}
+.econ__side--in .econ__h{color:var(--lime)}
+.econ__side ul{list-style:none; margin:0; padding:0; display:grid; gap:16px}
+.econ__side b{display:block; font-size:15.5px; letter-spacing:-.01em; margin-bottom:3px}
+.econ__side span{display:block; font-size:14px; line-height:1.6; color:var(--mute)}
+.econ__side--in span{color:rgba(255,255,255,.58)}
+
+.tbd{
+  margin-top:clamp(20px,2vw,26px); padding:clamp(24px,2.8vw,34px);
+  border-radius:var(--r-md); border:1.5px dashed rgba(0,0,0,.2); background:transparent;
+}
+.tbd__badge{
+  display:inline-block; margin-bottom:14px; padding:6px 12px; border-radius:999px;
+  background:var(--hot); color:#fff;
+  font-family:"Fragment Mono",ui-monospace,monospace; font-size:10px;
+  letter-spacing:.14em; text-transform:uppercase;
+}
+.tbd p{margin:0; font-size:15px; line-height:1.7; color:#333; max-width:64ch}
+
+/* the five-beat revenue strip ---------------------------------------- */
+.mflow{
+  list-style:none; margin:0 0 var(--cs-gap); padding:0;
+  display:grid; gap:var(--cs-gap); grid-template-columns:repeat(auto-fit,minmax(168px,1fr));
+  counter-reset:mf;
+}
+.mflow li{
+  position:relative; counter-increment:mf;
+  padding:clamp(20px,2.2vw,26px) clamp(18px,2vw,24px);
+  border-radius:var(--r-sm); border:1px solid var(--hair); background:var(--paper);
+}
+.mflow li::before{
+  content:"0" counter(mf);
+  display:block; margin-bottom:10px;
+  font-family:"Fragment Mono",ui-monospace,monospace; font-size:10px;
+  letter-spacing:.16em; color:var(--mute);
+}
+.mflow b{display:block; font-size:15.5px; letter-spacing:-.01em; margin-bottom:3px}
+.mflow span{display:block; font-size:13.5px; line-height:1.5; color:var(--mute)}
+.mflow__end{border-color:var(--ink); background:var(--ink)}
+.mflow__end::before{color:var(--lime)}
+.mflow__end b{color:#fff}
+.mflow__end span{color:rgba(255,255,255,.6)}
+
+/* =====================================================================
+   09 ATM COMPARISON
+   ===================================================================== */
+.vs{margin-top:clamp(40px,4.4vw,64px)}
+.vs__h{
+  margin:0 0 clamp(18px,2vw,26px);
+  font-size:clamp(19px,1.8vw,25px); letter-spacing:-.025em;
+}
+.vs__switch{display:none; gap:4px; padding:4px; margin-bottom:18px; border-radius:999px; background:rgba(0,0,0,.05)}
+.vs__tab{
+  flex:1; padding:10px 14px; border:0; border-radius:999px; background:transparent;
+  font-size:14px; font-weight:600; color:var(--mute); cursor:pointer;
+  transition:background .3s var(--ease), color .3s var(--ease);
+}
+.vs__tab.is-on{background:var(--ink); color:var(--white)}
+
+.vs__table{
+  width:100%; border-collapse:collapse; text-align:left;
+  border:1px solid var(--hair); border-radius:var(--r-md); overflow:hidden;
+}
+.vs__table th,.vs__table td{padding:clamp(14px,1.6vw,20px) clamp(14px,1.6vw,22px); vertical-align:top}
+.vs__table thead th{
+  font-family:"Fragment Mono",ui-monospace,monospace; font-weight:400;
+  font-size:10.5px; letter-spacing:.15em; text-transform:uppercase; color:var(--mute);
+  background:var(--paper); border-bottom:1px solid var(--hair);
+}
+.vs__table tbody tr{border-bottom:1px solid var(--hair)}
+.vs__table tbody tr:last-child{border-bottom:0}
+.vs__table tbody th{font-size:14.5px; font-weight:600; letter-spacing:-.01em; width:26%}
+.vs__table td{font-size:14.5px; line-height:1.55; color:var(--mute)}
+.vs__table .vs__c--gp{background:rgba(212,255,61,.12); color:#222}
+.vs__foot{margin:26px 0 0; font-size:15px; line-height:1.7; color:var(--mute); max-width:58ch}
+
+@media (max-width:720px){
+  .vs{margin-top:clamp(40px,4.4vw,64px)}
+.vs__h{
+  margin:0 0 clamp(18px,2vw,26px);
+  font-size:clamp(19px,1.8vw,25px); letter-spacing:-.025em;
+}
+.vs__switch{display:flex}
+  .vs__table thead{display:none}
+  .vs__table,.vs__table tbody,.vs__table tr{display:block}
+  .vs__table tbody th{display:block; width:auto; padding-bottom:4px}
+  .vs__table td{display:block; padding-top:0}
+  .vs[data-col="atm"] .vs__c--gp,.vs[data-col="gp"] .vs__c--atm{display:none}
+}
+
+/* =====================================================================
+   10 UPI — two tracks
+   ===================================================================== */
+.two{display:grid; gap:var(--cs-gap)}
+@media (min-width:820px){.two{grid-template-columns:1fr 1fr}}
+.two__col{
+  padding:clamp(28px,3vw,40px); border-radius:var(--r-md);
+  border:1px solid rgba(255,255,255,.16);
+}
+.two__col--us{border-color:var(--lime); background:rgba(212,255,61,.06)}
+.two__tag{
+  display:block; margin-bottom:10px;
+  font-family:"Fragment Mono",ui-monospace,monospace; font-size:10.5px;
+  letter-spacing:.16em; text-transform:uppercase; color:rgba(255,255,255,.5);
+}
+.two__col--us .two__tag{color:var(--lime)}
+.two__who{
+  display:block; margin-bottom:26px;
+  font-family:Archivo,"Arial Narrow",system-ui,sans-serif;
+  font-variation-settings:"wdth" 80,"wght" 500; text-transform:uppercase;
+  font-size:clamp(30px,3.6vw,52px); line-height:.9; letter-spacing:-.025em;
+}
+.two__steps{margin:0; padding:0 0 0 1.1em; display:grid; gap:12px}
+.two__steps li{font-size:15.5px; line-height:1.45; color:rgba(255,255,255,.8)}
+.two__steps li::marker{
+  color:rgba(255,255,255,.4);
+  font-family:"Fragment Mono",ui-monospace,monospace; font-size:12px;
+}
+.two__col--us .two__steps li:last-child{color:var(--lime); font-weight:600}
+.two__end{
+  margin:26px 0 0; padding-top:18px; border-top:1px solid rgba(255,255,255,.16);
+  font-size:14.5px; line-height:1.6; color:rgba(255,255,255,.58);
+}
+
+/* =====================================================================
+   11 DESIGN DECISIONS
+   ===================================================================== */
+.dec{display:grid; gap:var(--cs-gap); grid-template-columns:repeat(auto-fit,minmax(288px,1fr))}
+.dec__item{
+  padding:clamp(26px,3vw,36px); border-radius:var(--r-md);
+  background:var(--paper); border:1px solid var(--hair);
+  transition:background .4s var(--ease)
+}
+.dec__item:hover{background:var(--white)}
+.dec__q{
+  display:block; margin-bottom:16px;
+  font-family:"Instrument Serif",Georgia,serif; font-style:italic;
+  font-size:clamp(18px,1.7vw,23px); color:#2c2c2c;
+}
+.dec__item h3{margin:0 0 10px; font-size:17.5px; letter-spacing:-.02em; line-height:1.25}
+.dec__item p{margin:0; font-size:14.5px; line-height:1.65; color:var(--mute)}
+.dec__where{
+  display:block; margin-top:18px; padding-top:14px; border-top:1px solid var(--hair);
+  font-family:"Fragment Mono",ui-monospace,monospace; font-size:10px;
+  letter-spacing:.13em; text-transform:uppercase; color:var(--mute);
+}
+
+/* =====================================================================
+   12 WHAT EXISTS TODAY
+   ===================================================================== */
+.state{display:grid; gap:var(--cs-gap); grid-template-columns:repeat(auto-fit,minmax(272px,1fr))}
+.state__col{padding:clamp(26px,3vw,36px); border-radius:var(--r-md); border:1px solid var(--hair); background:var(--paper)}
+.state__h{
+  display:flex; align-items:center; gap:9px; margin-bottom:22px;
+  font-family:"Fragment Mono",ui-monospace,monospace; font-size:11px;
+  letter-spacing:.15em; text-transform:uppercase;
+}
+.state__h i{width:9px; height:9px; border-radius:50%; flex:none}
+.state__col--built .state__h i{background:var(--green); box-shadow:0 0 0 3px rgba(32,195,104,.2)}
+.state__col--val   .state__h i{background:var(--lime-d); box-shadow:0 0 0 3px rgba(212,255,61,.28)}
+.state__col--next  .state__h i{background:var(--mute); box-shadow:0 0 0 3px rgba(107,107,107,.18)}
+.state__col ul{list-style:none; margin:0; padding:0; display:grid; gap:12px}
+.state__col li{
+  position:relative; padding-left:18px; font-size:14.5px; line-height:1.55; color:var(--mute);
+}
+.state__col li::before{
+  content:""; position:absolute; left:0; top:.62em;
+  width:7px; height:1.5px; background:currentColor; opacity:.5;
+}
+.state__col--built li{color:#2b2b2b}
+.state__note{
+  margin:18px 0 0; padding-top:14px; border-top:1px solid var(--hair);
+  font-size:12.5px; line-height:1.55; color:var(--mute);
+}
+
+/* =====================================================================
+   13 VISION
+   ===================================================================== */
+.vision{max-width:70ch; margin-inline:auto; text-align:center; display:grid; gap:22px}
+.vision p{margin:0; font-size:clamp(16.5px,1.5vw,21px); line-height:1.62; color:rgba(255,255,255,.72)}
+.vision__end{color:#fff !important}
+
+/* =====================================================================
+   14 CTA
+   ===================================================================== */
+.cse{
+  padding:clamp(96px,12vw,180px) var(--cs-gutter);
+  text-align:center;
+}
+.cse > *{max-width:var(--maxw); margin-inline:auto}
+.cse .eyebrow{margin-bottom:22px}
+.cse__title{font-size:clamp(40px,8.4vw,128px)}
+.cse__sub{
+  margin:clamp(26px,3vw,40px) auto 0; max-width:56ch;
+  font-size:clamp(16px,1.35vw,19px); line-height:1.6; color:var(--mute);
+}
+.cse__acts{
+  display:flex; flex-wrap:wrap; align-items:center; justify-content:center;
+  gap:14px 26px; margin-top:clamp(34px,4vw,52px);
+}
+.cse__alt{
+  font-size:15px; font-weight:600; border-bottom:1px solid var(--hair); padding-bottom:4px;
+  transition:border-color .35s var(--ease);
+}
+.cse__alt:hover{border-bottom-color:var(--ink)}
+.cse__fine{
+  margin:clamp(44px,5vw,70px) auto 0; max-width:48ch;
+  font-family:"Fragment Mono",ui-monospace,monospace; font-size:10.5px;
+  line-height:1.9; letter-spacing:.06em; text-transform:uppercase; color:var(--mute);
+}
+
+/* =====================================================================
+   FOOTER
+   ===================================================================== */
+.csf{background:var(--ink); color:#f2f2f2; border-radius:var(--r-lg) var(--r-lg) 0 0; margin-inline:var(--cs-inset)}
+.csf__in{
+  max-width:var(--maxw); margin-inline:auto;
+  padding:clamp(56px,7vw,96px) calc(var(--cs-gutter) - var(--cs-inset)) clamp(34px,4vw,54px);
+  display:grid; gap:clamp(30px,4vw,54px);
+}
+@media (min-width:900px){.csf__in{grid-template-columns:1.1fr 1fr 1.2fr}}
+.csf__say{
+  margin:0;
+  font-family:Archivo,"Arial Narrow",system-ui,sans-serif;
+  font-variation-settings:"wdth" 78,"wght" 500; text-transform:uppercase;
+  font-size:clamp(30px,3.6vw,50px); line-height:.9; letter-spacing:-.026em;
+}
+.csf__menu{display:grid; gap:11px; align-content:start}
+.csf__menu a{
+  width:fit-content; font-size:14.5px; color:rgba(255,255,255,.66);
+  border-bottom:1px solid transparent; transition:color .3s, border-color .3s;
+}
+.csf__menu a:hover{color:#fff; border-bottom-color:rgba(255,255,255,.4)}
+.csf__legal{margin:0; font-size:12.5px; line-height:1.75; color:rgba(255,255,255,.45); max-width:46ch}
+.csf__legal b{color:rgba(255,255,255,.75)}
+.csf__bar{
+  max-width:var(--maxw); margin-inline:auto;
+  padding:20px calc(var(--cs-gutter) - var(--cs-inset)) clamp(26px,3vw,38px);
+  display:flex; flex-wrap:wrap; gap:10px 22px; justify-content:space-between;
+  border-top:1px solid rgba(255,255,255,.14);
+  font-family:"Fragment Mono",ui-monospace,monospace; font-size:10.5px;
+  letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,.45);
+}
+.csf__links{display:flex; gap:18px}
+.csf__links a:hover{color:#fff}
+
+/* =====================================================================
+   RAIL CLEARANCE
+   Last in the file on purpose: it has to beat the padding shorthands the
+   sections above set, at exactly the width the chapter rail appears.
+   ===================================================================== */
+@media (min-width:1280px){.cs-body{--cs-gutter:calc(var(--shell) + 62px)}}
+
+/* =====================================================================
+   REDUCED MOTION
+   styles.css already flattens every [data-reveal*] and kills animation
+   globally; this drops the two page-specific effects it cannot reach.
+   ===================================================================== */
+@media (prefers-reduced-motion: reduce){
+  .cyc__pane{animation:none}
+  .shot__frame,.stack__card{transition:none}
+}
