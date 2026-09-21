@@ -15,7 +15,7 @@
 
   /* ONE vertical rhythm. Sections, head-to-content, and every card grid gap
      come from these three, so no section invents its own spacing. */
-  --cs-sec:  clamp(84px,9.5vw,150px);
+  --cs-sec:  clamp(56px,5.9vw,96px);
   --cs-head: clamp(40px,4.6vw,72px);
   --cs-gap:  clamp(12px,1.3vw,18px);
 
@@ -59,7 +59,7 @@
 }
 .cs__head--mid .cs__lede{margin-inline:auto}
 .cs__caveat{
-  margin-top:clamp(32px,3.6vw,54px); max-width:64ch;
+  margin-top:clamp(26px,2.8vw,40px); max-width:64ch;
   padding-left:18px; border-left:2px solid var(--hair);
   font-size:15px; line-height:1.7; color:var(--mute);
 }
@@ -378,8 +378,6 @@
 .shot figcaption b{
   display:block; margin-bottom:5px; color:var(--ink); font-size:15px; letter-spacing:-.01em;
 }
-  display:block; margin-bottom:5px; color:var(--ink); font-size:15px; letter-spacing:-.01em;
-}
 
 /* =====================================================================
    07 TRUST — chain + risks
@@ -460,8 +458,8 @@
 }
 .mflow b{display:block; font-size:15.5px; letter-spacing:-.01em; margin-bottom:3px}
 .mflow span{display:block; font-size:13.5px; line-height:1.5; color:var(--mute)}
-.mflow__end{border-color:var(--ink); background:var(--ink)}
-.mflow__end::before{color:var(--lime)}
+.mflow li.mflow__end{border-color:var(--ink); background:var(--ink)}
+.mflow li.mflow__end::before{color:var(--lime)}
 .mflow__end b{color:#fff}
 .mflow__end span{color:rgba(255,255,255,.6)}
 
@@ -551,6 +549,7 @@
    ===================================================================== */
 .dec{display:grid; gap:var(--cs-gap); grid-template-columns:repeat(auto-fit,minmax(288px,1fr))}
 .dec__item{
+  display:flex; flex-direction:column;
   padding:clamp(26px,3vw,36px); border-radius:var(--r-md);
   background:var(--paper); border:1px solid var(--hair);
   transition:background .4s var(--ease)
@@ -562,9 +561,11 @@
   font-size:clamp(18px,1.7vw,23px); color:#2c2c2c;
 }
 .dec__item h3{margin:0 0 10px; font-size:17.5px; letter-spacing:-.02em; line-height:1.25}
-.dec__item p{margin:0; font-size:14.5px; line-height:1.65; color:var(--mute)}
+.dec__item p{margin:0 0 18px; font-size:14.5px; line-height:1.65; color:var(--mute)}
 .dec__where{
-  display:block; margin-top:18px; padding-top:14px; border-top:1px solid var(--hair);
+  /* auto, not a fixed gap: the cards are equal height but their copy is not,
+     so the source line only sits flush across the row if it is pushed down. */
+  display:block; margin-top:auto; padding-top:14px; border-top:1px solid var(--hair);
   font-family:"Fragment Mono",ui-monospace,monospace; font-size:10px;
   letter-spacing:.13em; text-transform:uppercase; color:var(--mute);
 }
@@ -572,7 +573,7 @@
 /* =====================================================================
    12 WHAT EXISTS TODAY
    ===================================================================== */
-.state{display:grid; gap:var(--cs-gap); grid-template-columns:repeat(auto-fit,minmax(272px,1fr))}
+.state{display:grid; gap:var(--cs-gap); align-items:start; grid-template-columns:repeat(auto-fit,minmax(272px,1fr))}
 .state__col{padding:clamp(26px,3vw,36px); border-radius:var(--r-md); border:1px solid var(--hair); background:var(--paper)}
 .state__h{
   display:flex; align-items:center; gap:9px; margin-bottom:22px;
@@ -608,7 +609,7 @@
    14 CTA
    ===================================================================== */
 .cse{
-  padding:clamp(96px,12vw,180px) var(--cs-gutter);
+  padding:clamp(72px,8vw,124px) var(--cs-gutter);
   text-align:center;
 }
 .cse > *{max-width:var(--maxw); margin-inline:auto}
