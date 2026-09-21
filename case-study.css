@@ -45,6 +45,11 @@
 .cs--ink .cs__lede{color:rgba(255,255,255,.66)}
 
 .cs__head{max-width:1000px; margin-bottom:var(--cs-head)}
+/* Beats the .cs > .cs__head flush-left rule above (same specificity, later in
+   the file). Without this the centred heading was centred inside a 1000px box
+   pinned to the left gutter, while the body below centred in the full column -
+   so the two had different centres. */
+.cs > .cs__head--mid,
 .cs__head--mid{margin-inline:auto; text-align:center}
 .cs__h2{font-size:clamp(38px,7.2vw,104px)}
 .cs__h2--big{font-size:clamp(38px,8.2vw,124px)}
