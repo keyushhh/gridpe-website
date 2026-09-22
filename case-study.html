@@ -26,8 +26,8 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..100,500..700&amp;family=Instrument+Serif:ital@0;1&amp;family=Manrope:wght@400..700&amp;family=Fragment+Mono&amp;display=swap" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..100,500..700&amp;display=swap&amp;text=%E2%82%B9%E2%86%92" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..100,500..700&amp;family=Instrument+Serif:ital@0;1&amp;family=Manrope:wght@400..700&amp;family=Fragment+Mono&amp;display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..100,500..700&amp;display=swap&amp;text=%E2%82%B9%E2%86%92"></noscript>
-<link rel="stylesheet" href="styles.css?v=1790049974">
-<link rel="stylesheet" href="case-study.css?v=1790049974">
+<link rel="stylesheet" href="styles.css?v=1790050845">
+<link rel="stylesheet" href="case-study.css?v=1790050845">
 <link rel="icon" href="assets/favicon/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
 <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-icon-180x180.png">
@@ -837,12 +837,21 @@
     delivery, worked on agent networks or payments compliance, or watched a
     model like this fail before, we would rather hear it now than later.
   </p>
+  <!-- A bare mailto: silently does nothing on a machine with no mail client
+       registered, which for the page's only action is a dead end. The button
+       still opens a client where one exists, but it also copies the address,
+       and the address is on screen either way so this can never be a mystery. -->
   <div class="cse__acts" data-reveal>
-    <a class="btn btn--go" href="mailto:hello@gridpe.app?subject=Challenging%20the%20Grid.Pe%20thesis">
+    <a class="btn btn--go" id="ctaMail" href="mailto:hello@gridpe.app?subject=Challenging%20the%20Grid.Pe%20thesis">
       Challenge the thesis
       <svg aria-hidden="true" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
     </a>
   </div>
+  <p class="cse__mail" data-reveal>
+    or write to
+    <button class="cse__copy" type="button" id="ctaCopy" data-email="hello@gridpe.app">hello@gridpe.app</button>
+    <span class="cse__copied" id="ctaCopied" role="status" aria-live="polite"></span>
+  </p>
   <p class="cse__fine">
     Written by the Grid.Pe team. Everything here is either built, or stated as
     a hypothesis we are still testing.
@@ -877,8 +886,8 @@
   </div>
 </footer>
 
-<script src="case-study.js?v=1790049974" defer></script>
+<script src="case-study.js?v=1790050845" defer></script>
 <div class="pblur" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-<script src="consent.js?v=1790049974" defer></script>
+<script src="consent.js?v=1790050845" defer></script>
 </body>
 </html>

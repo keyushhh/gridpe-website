@@ -109,6 +109,52 @@
     show(0);
   }
 
+  /* ---------- CTA: make the address reachable without a mail client -- */
+  /* A mailto: is silent when nothing is registered to handle it, so the page's
+     only action appeared to do nothing. The link still opens a client where
+     there is one; this copies the address as well and says so, and the address
+     is visible next to the button regardless. */
+  const copyBtn = $('#ctaCopy');
+  const copied  = $('#ctaCopied');
+  if (copyBtn && copied) {
+    let clearTimer;
+    const flash = msg => {
+      copied.textContent = msg;
+      copied.classList.add('is-on');
+      clearTimeout(clearTimer);
+      clearTimer = setTimeout(() => {
+        copied.classList.remove('is-on');
+        /* emptied after the fade so a screen reader is not re-announced */
+        setTimeout(() => { copied.textContent = ''; }, 300);
+      }, 2600);
+    };
+
+    const copy = async email => {
+      try {
+        await navigator.clipboard.writeText(email);
+        /* drop any selection a previous fallback left behind */
+        getSelection().removeAllRanges();
+        flash('Copied');
+      } catch (e) {
+        /* clipboard refused (insecure context, permissions): select it so the
+           reader can copy by hand rather than being told nothing happened */
+        const r = document.createRange();
+        r.selectNodeContents(copyBtn);
+        const sel = getSelection();
+        sel.removeAllRanges();
+        sel.addRange(r);
+        flash('Press ' + (/Mac|iP/.test(navigator.platform) ? '\u2318' : 'Ctrl') + '+C');
+      }
+    };
+
+    copyBtn.addEventListener('click', () => copy(copyBtn.dataset.email));
+
+    /* the main button keeps its mailto, but also copies - so if the client
+       never opens, something still visibly happened */
+    const mail = $('#ctaMail');
+    if (mail) mail.addEventListener('click', () => copy(copyBtn.dataset.email));
+  }
+
   /* ---------- 08: ATM / Grid.Pe column switch (narrow screens) ------ */
   const vs = $('.vs');
   if (vs) {
