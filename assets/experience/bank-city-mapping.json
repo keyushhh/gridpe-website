@@ -1,0 +1,27 @@
+[
+  {
+    "from": "Adobe",
+    "to": "Axis Bank",
+    "placement": "Existing small facade sign; restrained burgundy trim"
+  },
+  {
+    "from": "Oracle",
+    "to": "IDFC FIRST Bank",
+    "placement": "Small sign at original Oracle lettering location"
+  },
+  {
+    "from": "Netflix",
+    "to": "Kotak Mahindra Bank",
+    "placement": "Small sign near roof edge; reflective glass facade"
+  },
+  {
+    "from": "Microsoft",
+    "to": "SBI",
+    "placement": "One small sign on one cube only"
+  },
+  {
+    "from": "Google",
+    "to": "HDFC Bank",
+    "placement": "One small sign on existing facade strip"
+  }
+]

@@ -1,0 +1,479 @@
+{
+  "atlasScale": 1.5,
+  "slots": [
+    {
+      "id": "promise",
+      "rect": [
+        0,
+        0,
+        775.26,
+        371.64
+      ],
+      "original": "You Believed",
+      "preserve": true
+    },
+    {
+      "id": "atm",
+      "rect": [
+        1703.34,
+        0,
+        557.46,
+        341.94
+      ],
+      "rotate": true,
+      "original": "College would",
+      "lines": [
+        [
+          "ATMs",
+          0.61
+        ],
+        [
+          "would",
+          0.27
+        ]
+      ],
+      "tone": "light"
+    },
+    {
+      "id": "serve",
+      "rect": [
+        0,
+        558.45,
+        257.05,
+        185.82
+      ],
+      "original": "land You",
+      "lines": [
+        [
+          "serve",
+          0.28
+        ],
+        [
+          "You",
+          0.65
+        ]
+      ],
+      "tone": "light"
+    },
+    {
+      "id": "cash",
+      "rect": [
+        1388.64,
+        0,
+        557.46,
+        314.15
+      ],
+      "rotate": true,
+      "original": "JOB",
+      "lines": [
+        [
+          "CASH",
+          0.93
+        ]
+      ],
+      "family": "Supply",
+      "tone": "light"
+    },
+    {
+      "id": "but",
+      "rect": [
+        257.75,
+        558.45,
+        247.06,
+        165.84
+      ],
+      "original": "But,",
+      "preserve": true
+    },
+    {
+      "id": "detour",
+      "rect": [
+        1092.93,
+        558.45,
+        945.23,
+        371.64
+      ],
+      "original": "That's Bullsh*t",
+      "lines": [
+        [
+          "That’s",
+          0.22
+        ],
+        [
+          "A Detour",
+          0.72
+        ]
+      ],
+      "tone": "white",
+      "align": "left"
+    },
+    {
+      "id": "atms-did",
+      "rect": [
+        0,
+        371.64,
+        365.21,
+        186.82
+      ],
+      "original": "University did",
+      "lines": [
+        [
+          "ATMs mean",
+          0.33
+        ],
+        [
+          "a trip.",
+          0.54
+        ]
+      ],
+      "tone": "dark",
+      "fontScale": 0.85,
+      "wordSpacingEm": 0.14,
+      "compact": true,
+      "lineGapEm": 0.12
+    },
+    {
+      "id": "disconnect",
+      "rect": [
+        505.51,
+        604.41,
+        594.62,
+        355.65
+      ],
+      "original": "see the Disconnect",
+      "lines": [
+        [
+          "Why",
+          0.3
+        ],
+        [
+          "leave home?",
+          0.62
+        ]
+      ],
+      "tone": "dark",
+      "fontScale": 0.85,
+      "wordSpacingEm": 0.14,
+      "compact": true,
+      "lineGapEm": 0.12
+    },
+    {
+      "id": "door",
+      "rect": [
+        363.64,
+        371.64,
+        337.74,
+        186.82
+      ],
+      "original": "but Companies",
+      "lines": [
+        [
+          "Order",
+          0.35
+        ],
+        [
+          "your cash.",
+          0.58
+        ]
+      ],
+      "tone": "dark",
+      "align": "left",
+      "fontScale": 0.85,
+      "wordSpacingEm": 0.14,
+      "compact": true,
+      "lineGapEm": 0.12
+    },
+    {
+      "id": "where",
+      "rect": [
+        0,
+        1023,
+        482.83,
+        168.84
+      ],
+      "original": "where WORK",
+      "lines": [
+        [
+          "From",
+          0.3
+        ],
+        [
+          "home.",
+          0.65
+        ]
+      ],
+      "tone": "dark",
+      "fontScale": 0.85,
+      "wordSpacingEm": 0.14,
+      "compact": true,
+      "lineGapEm": 0.12
+    },
+    {
+      "id": "who",
+      "rect": [
+        0,
+        744.27,
+        472.68,
+        278.73
+      ],
+      "original": "who can do the",
+      "lines": [
+        [
+          "Track",
+          0.53
+        ],
+        [
+          "your rider.",
+          0.43
+        ]
+      ],
+      "tone": "dark",
+      "fontScale": 0.85,
+      "wordSpacingEm": 0.14,
+      "compact": true,
+      "lineGapEm": 0.12
+    },
+    {
+      "id": "someone",
+      "rect": [
+        775.24,
+        0,
+        521.92,
+        325.68
+      ],
+      "original": "want Someone",
+      "lines": [
+        [
+          "Confirm",
+          0.27
+        ],
+        [
+          "with your OTP.",
+          0.65
+        ]
+      ],
+      "tone": "dark",
+      "fontScale": 0.85,
+      "wordSpacingEm": 0.14,
+      "compact": true,
+      "lineGapEm": 0.12
+    },
+    {
+      "id": "introducing-tunnel",
+      "rect": [
+        771,
+        1542,
+        667,
+        221
+      ],
+      "original": "Introducing",
+      "lines": [
+        [
+          "Skip",
+          0.31
+        ],
+        [
+          "the ATM.",
+          0.6
+        ]
+      ],
+      "tone": "dark",
+      "fontScale": 0.85,
+      "wordSpacingEm": 0.14,
+      "compact": true,
+      "lineGapEm": 0.12
+    },
+    {
+      "id": "why",
+      "rect": [
+        700.32,
+        371.64,
+        331.52,
+        232.77
+      ],
+      "original": "and that's Why",
+      "lines": [
+        [
+          "That’s",
+          0.3
+        ],
+        [
+          "doorstep",
+          0.6
+        ]
+      ],
+      "tone": "dark",
+      "fontScale": 0.85,
+      "wordSpacingEm": 0.14,
+      "compact": true,
+      "lineGapEm": 0.12
+    },
+    {
+      "id": "exist",
+      "rect": [
+        1030.99,
+        325.68,
+        334.61,
+        232.77
+      ],
+      "original": "we had to Exist",
+      "lines": [
+        [
+          "cash",
+          0.33
+        ],
+        [
+          "delivery.",
+          0.59
+        ]
+      ],
+      "tone": "dark",
+      "fontScale": 0.85,
+      "wordSpacingEm": 0.14,
+      "compact": true,
+      "lineGapEm": 0.12
+    },
+    {
+      "id": "introducing",
+      "rect": [
+        483.53,
+        960.06,
+        622.09,
+        175.83
+      ],
+      "original": "Introducing",
+      "preserve": true
+    },
+    {
+      "id": "brand",
+      "rect": [
+        1083.94,
+        1769.27,
+        963.5,
+        278.73
+      ],
+      "original": "zero",
+      "tone": "light",
+      "image": "assets/logo-full.png"
+    },
+    {
+      "id": "real",
+      "rect": [
+        0,
+        1192.84,
+        579.84,
+        361.65
+      ],
+      "original": "where WORK gets Real",
+      "calligraphicLead": "Real"
+    },
+    {
+      "id": "riders",
+      "rect": [
+        1313.72,
+        1281.75,
+        734.56,
+        336.67
+      ],
+      "original": "Real projects from companies",
+      "lines": [
+        [
+          "riders",
+          0.28
+        ],
+        [
+          "KYC verified",
+          0.2
+        ]
+      ],
+      "tone": "light",
+      "calligraphicLead": "Real"
+    },
+    {
+      "id": "notes",
+      "rect": [
+        581.43,
+        1135.89,
+        732.38,
+        335.67
+      ],
+      "original": "Real tools that teams use everyday",
+      "lines": [
+        [
+          "notes that you",
+          0.29
+        ],
+        [
+          "use every day",
+          0.22
+        ]
+      ],
+      "tone": "light",
+      "calligraphicLead": "Real"
+    },
+    {
+      "id": "delivery",
+      "rect": [
+        1240.79,
+        930.09,
+        803.79,
+        351.66
+      ],
+      "original": "Real Skills that employers need",
+      "lines": [
+        [
+          "cash when",
+          0.3
+        ],
+        [
+          "you need it",
+          0.22
+        ]
+      ],
+      "tone": "light",
+      "calligraphicLead": "Real"
+    },
+    {
+      "id": "get-cash",
+      "rect": [
+        0,
+        1848.2,
+        750.18,
+        199.8
+      ],
+      "original": "GET Hired into",
+      "lines": [
+        [
+          "GET Cash to your",
+          0.85
+        ]
+      ],
+      "tone": "light"
+    },
+    {
+      "id": "doorstep",
+      "rect": [
+        0,
+        1555.48,
+        769.93,
+        292.71
+      ],
+      "original": "world's most in-demand Careers",
+      "lines": [
+        [
+          "your doorstep",
+          0.28
+        ],
+        [
+          "in exact",
+          0.27
+        ],
+        [
+          "Denominations",
+          0.4
+        ]
+      ],
+      "tone": "light"
+    }
+  ]
+}
